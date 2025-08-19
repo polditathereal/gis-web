@@ -67,37 +67,37 @@ export default function ProyectosPage() {
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-orange-100">
       <Header getHeaderClass={() => "fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-lg border-b border-orange-200/50"} />
 
-      <div className="pt-20 flex flex-col md:flex-row">
-        <aside className="w-full md:w-80 bg-white/80 backdrop-blur-sm border-orange-200 md:border-r p-6 md:h-screen md:sticky md:top-20 overflow-y-auto">
-          <div className="space-y-6">
+      <div className="pt-20 grid grid-cols-1 md:grid-cols-[20%_80%] min-h-[calc(100vh-80px)]">
+        <aside className="bg-white md:bg-white/80 md:backdrop-blur-sm border-orange-200 md:border-r p-4 md:p-6 h-full sticky top-20 w-full md:w-auto z-10">
+          <div className="space-y-4 md:space-y-6">
             <div>
-              <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                <Filter className="w-5 h-5 mr-2 text-orange-600" />
+              <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-4 flex items-center">
+                <Filter className="w-4 md:w-5 h-4 md:h-5 mr-2 text-orange-600" />
                 Filtros
               </h3>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Buscar</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">Buscar</label>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                <Search className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-3 md:w-4 h-3 md:h-4" />
                 <Input
                   type="text"
                   placeholder="Buscar proyectos..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-orange-200 focus:ring-orange-500 focus:border-orange-500"
+                  className="pl-8 md:pl-10 border-orange-200 focus:ring-orange-500 focus:border-orange-500 text-xs md:text-base"
                 />
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Categoría</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">Categoría</label>
               <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-              <SelectTrigger className="border-orange-200 focus:ring-orange-500 bg-white">
+                <SelectTrigger className="border-orange-200 focus:ring-orange-500 bg-white text-xs md:text-base">
                   <SelectValue placeholder="Seleccionar categoría" />
                 </SelectTrigger>
-                <SelectContent className="bg-white">
+                    <SelectContent className="bg-white text-xs md:text-base z-20">
                   <SelectItem value="all">Todas las categorías</SelectItem>
                   {categories.map((category: any) => (
                     <SelectItem key={category.id} value={category.id}>
@@ -109,27 +109,27 @@ export default function ProyectosPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Ordenar por</label>
+              <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">Ordenar por</label>
               <Select value={sortOrder} onValueChange={setSortOrder}>
-              <SelectTrigger className="border-orange-200 focus:ring-orange-500 bg-white">
+                <SelectTrigger className="border-orange-200 focus:ring-orange-500 bg-white text-xs md:text-base">
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent className="bg-white">
+                    <SelectContent className="bg-white text-xs md:text-base z-20">
                   <SelectItem value="newest">Más recientes</SelectItem>
                   <SelectItem value="oldest">Más antiguos</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="pt-4 border-t border-orange-200">
-              <p className="text-sm text-gray-600">
+            <div className="pt-2 md:pt-4 border-t border-orange-200">
+              <p className="text-xs md:text-sm text-gray-600">
                 Mostrando {filteredProjects.length} de {projects.length} proyectos
               </p>
             </div>
           </div>
         </aside>
 
-        <main className="flex-1 p-6">
+        <main className="p-6 w-full">
           <div className="max-w-6xl mx-auto">
             <div className="mb-8">
               <h1 className="text-4xl font-bold text-gray-800 mb-4">Nuestros Proyectos</h1>
@@ -138,7 +138,7 @@ export default function ProyectosPage() {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-4">
               {filteredProjects.map((project) => (
                 <a
                   key={project.id}

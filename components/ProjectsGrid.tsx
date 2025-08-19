@@ -3,6 +3,8 @@
 import Link from "next/link"
 import Image from "next/image"
 
+import ProjectCard from "./ProjectCard"
+
 interface Project {
   id: number;
   tipo?: string;
@@ -50,6 +52,26 @@ export default function ProjectsGrid({ allProjects, styles }: ProjectsGridProps)
   // Mostrar solo los 3 últimos proyectos
   const latestProjects = allProjects.slice(0, 3)
 
+  // Helper para obtener el color de la categoría
+  const getCategoryColorHex = (categoryId?: string) => {
+    if (!categoryId) return '#FF9D14';
+    // Puedes mapear aquí tus colores personalizados
+    const map: Record<string, string> = {
+      orange: '#FF9D14',
+      red: '#EF4444',
+      blue: '#3B82F6',
+      green: '#22C55E',
+      gray: '#6B7280',
+      purple: '#A78BFA',
+      yellow: '#FACC15',
+      pink: '#EC4899',
+      indigo: '#6366F1',
+      teal: '#14B8A6',
+      emerald: '#10B981',
+    };
+    return map[categoryId] || '#FF9D14';
+  };
+
   return (
     <section id="proyectos" className="py-20 bg-transparent">
       <div className="container mx-auto px-4">
@@ -61,56 +83,19 @@ export default function ProjectsGrid({ allProjects, styles }: ProjectsGridProps)
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {latestProjects.map((project, index) => (
             <Link key={index} href={`/proyectos/${project.id}`} className="block">
-              <div className={`${styles.cardStyle} bg-white/70 backdrop-blur-sm border-orange-200 hover:shadow-xl hover:-translate-y-2 hover:bg-white/90 transition-all duration-300 cursor-pointer group overflow-hidden flex flex-col rounded-lg`}>
-                {/* Main Image */}
-                <div className="w-full h-48 relative">
-                  <Image
-                    src={project.imagenPrincipal && project.imagenPrincipal.startsWith('/images/')
-                      ? `http://localhost:4000${project.imagenPrincipal}`
-                      : '/placeholder.jpg'}
-                    alt={project.title || "Proyecto"}
-                    fill
-                    className="object-cover rounded-t-lg"
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    priority={true}
-                  />
-                </div>
-                {/* Orange Section */}
-                <div className="bg-orange-600 px-4 py-4 flex flex-col gap-2 rounded-b-lg">
-                  {/* CardHeader */}
-                  <div>
-                    <div className="text-xl font-bold text-white group-hover:text-orange-200 transition-colors line-clamp-2">
-                      {project.title}
-                    </div>
-                    <div className="text-sm text-orange-100">
-                      {project.fechaInicial
-                        ? new Date(project.fechaInicial).toLocaleDateString("es-ES", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })
-                        : "Sin fecha inicial"}
-                      {" - "}
-                      {project.fechaFinal
-                        ? new Date(project.fechaFinal).toLocaleDateString("es-ES", {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                          })
-                        : "Sin fecha final"}
-                    </div>
-                  </div>
-                  {/* CardContent */}
-                  <div>
-                    <div className="text-gray-50 leading-relaxed line-clamp-3">
-                      {project.descripcion}
-                    </div>
-                  </div>
-                  <div className="pt-2">
-                    <span className={`text-xs px-2 py-1 rounded-full font-medium ${getCategoryColor(project.category)}`}>{project.category}</span>
-                  </div>
-                </div>
-              </div>
+              <ProjectCard
+                project={{
+                  id: project.id,
+                  title: project.title ?? '',
+                  descripcion: project.descripcion ?? '',
+                  fechaInicial: project.fechaInicial ?? '',
+                  fechaFinal: project.fechaFinal ?? '',
+                  image1: project.imagenPrincipal && project.imagenPrincipal.startsWith('/images/')
+                    ? `/images/${project.imagenPrincipal.split('/images/')[1]}`
+                    : '/placeholder.jpg',
+                  categoriaColor: getCategoryColorHex(project.category),
+                }}
+              />
             </Link>
           ))}
         </div>

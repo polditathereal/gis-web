@@ -156,8 +156,13 @@ export default function GISColombiaPage() {
       </div>
 
       <Header getHeaderClass={getHeaderClass} />
-      <HeroSection headerSticky={headerSticky} styles={styles} />
-      <AboutSection styles={styles} />
+      <HeroSection
+        title="GIS Colombia"
+        description={
+          "Construimos el futuro de Bogotá: proyectos de infraestructura y vivienda con calidad, cumplimiento y transparencia.\nEspecialistas en licitaciones públicas y privadas."
+        }
+        height={480}
+      />
       <NewsCarousel
         featuredNews={featuredNews}
         currentSlide={currentSlide}
