@@ -68,7 +68,7 @@ export default function ProyectosPage() {
       <Header getHeaderClass={() => "fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md shadow-lg border-b border-orange-200/50"} />
 
       <div className="pt-20 grid grid-cols-1 md:grid-cols-[20%_80%] min-h-[calc(100vh-80px)]">
-        <aside className="bg-white md:bg-white/80 md:backdrop-blur-sm border-orange-200 md:border-r p-4 md:p-6 h-full sticky top-20 w-full md:w-auto z-10">
+        <aside className="bg-white md:bg-white/80 md:backdrop-blur-sm border-orange-200 md:border-r p-4 md:p-6 h-full sticky top-20 w-full md:w-auto z-10 max-w-full overflow-x-hidden">
           <div className="space-y-4 md:space-y-6">
             <div>
               <h3 className="text-base md:text-lg font-semibold text-gray-800 mb-2 md:mb-4 flex items-center">
@@ -93,32 +93,30 @@ export default function ProyectosPage() {
 
             <div>
               <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">Categoría</label>
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                <SelectTrigger className="border-orange-200 focus:ring-orange-500 bg-white text-xs md:text-base">
-                  <SelectValue placeholder="Seleccionar categoría" />
-                </SelectTrigger>
-                    <SelectContent className="bg-white text-xs md:text-base z-20">
-                  <SelectItem value="all">Todas las categorías</SelectItem>
-                  {categories.map((category: any) => (
-                    <SelectItem key={category.id} value={category.id}>
-                      {category.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <select
+                value={selectedCategory}
+                onChange={e => setSelectedCategory(e.target.value)}
+                className="border border-orange-200 bg-white text-xs md:text-base rounded px-2 py-1 w-full focus:ring-orange-500 focus:border-orange-500"
+              >
+                <option value="all">Todas las categorías</option>
+                {categories.map((category: any) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div>
               <label className="block text-xs md:text-sm font-medium text-gray-700 mb-1 md:mb-2">Ordenar por</label>
-              <Select value={sortOrder} onValueChange={setSortOrder}>
-                <SelectTrigger className="border-orange-200 focus:ring-orange-500 bg-white text-xs md:text-base">
-                  <SelectValue />
-                </SelectTrigger>
-                    <SelectContent className="bg-white text-xs md:text-base z-20">
-                  <SelectItem value="newest">Más recientes</SelectItem>
-                  <SelectItem value="oldest">Más antiguos</SelectItem>
-                </SelectContent>
-              </Select>
+              <select
+                value={sortOrder}
+                onChange={e => setSortOrder(e.target.value)}
+                className="border border-orange-200 bg-white text-xs md:text-base rounded px-2 py-1 w-full focus:ring-orange-500 focus:border-orange-500"
+              >
+                <option value="newest">Más recientes</option>
+                <option value="oldest">Más antiguos</option>
+              </select>
             </div>
 
             <div className="pt-2 md:pt-4 border-t border-orange-200">
@@ -138,22 +136,23 @@ export default function ProyectosPage() {
               </p>
             </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 pb-4">
-              {filteredProjects.map((project) => (
-                <a
-                  key={project.id}
-                  href={`/proyectos/${project.id}`}
-                  className="block"
-                >
-                  <ProjectCard
-                    project={{
-                      ...project,
-                      descripcion: project.descripcion ?? ""
-                    }}
-                  />
-                </a>
-              ))}
-            </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-auto-fit gap-x-6 gap-y-6 pb-4"
+                  style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))' }}>
+                  {filteredProjects.map((project) => (
+                    <a
+                      key={project.id}
+                      href={`/proyectos/${project.id}`}
+                      className="block"
+                    >
+                      <ProjectCard
+                        project={{
+                          ...project,
+                          descripcion: project.descripcion ?? ""
+                        }}
+                      />
+                    </a>
+                  ))}
+                </div>
 
             {filteredProjects.length === 0 && (
               <div className="text-center py-12">

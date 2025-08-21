@@ -36,6 +36,7 @@ const CreateNewsForm: React.FC<CreateNewsFormProps> = ({ formData, setFormData, 
     }
   };
 
+
   return (
     <div className="mb-8 p-4 border rounded bg-white">
       <h2 className="text-xl font-semibold mb-2">Crear Noticia</h2>
@@ -45,8 +46,9 @@ const CreateNewsForm: React.FC<CreateNewsFormProps> = ({ formData, setFormData, 
           <label className="block text-sm font-medium text-gray-700">{key}</label>
           <input
             className="border rounded px-2 py-1 w-full"
-            value={formData[key] ?? ''}
+            value={formData?.[key] ?? ''}
             onChange={e => setFormData({ ...formData, [key]: e.target.value })}
+            name={key}
           />
         </div>
       ))}
@@ -56,6 +58,7 @@ const CreateNewsForm: React.FC<CreateNewsFormProps> = ({ formData, setFormData, 
           className="border rounded px-2 py-1 w-full"
           value={formData.category ?? ''}
           onChange={e => setFormData({ ...formData, category: e.target.value })}
+          name="category"
         >
           <option value="">Selecciona una categoría</option>
           {categories.map(cat => (
@@ -80,6 +83,7 @@ const CreateNewsForm: React.FC<CreateNewsFormProps> = ({ formData, setFormData, 
           ref={fileInputRef}
           style={{ display: 'none' }}
           onChange={handleImageChange}
+          name="image"
         />
       </div>
       <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={handleCreate}>Crear Noticia</button>

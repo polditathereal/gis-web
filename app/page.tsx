@@ -38,12 +38,20 @@ export default function GISColombiaPage() {
 
 
   const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % featuredNews.length)
-  }
+    setCurrentSlide((prev) =>
+      featuredNews.length > 0
+        ? (prev + 1) % featuredNews.length
+        : 0
+    );
+  };
 
   const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + featuredNews.length) % featuredNews.length)
-  }
+    setCurrentSlide((prev) =>
+      featuredNews.length > 0
+        ? (prev - 1 + featuredNews.length) % featuredNews.length
+        : 0
+    );
+  };
 
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000)

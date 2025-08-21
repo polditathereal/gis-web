@@ -29,7 +29,7 @@ export default function AdminPage() {
   const [categoryEdit, setCategoryEdit] = useState<any | null>(null);
   const [newCategory, setNewCategory] = useState<any>({ name: '', color: '#888888' });
   const [loading, setLoading] = useState(false);
-  const [backendMessage, setBackendMessage] = useState<string>("");
+  const [backendMessage, setBackendMessage] = useState<{ type: string; status?: number; text: string } | null>(null);
 
   useEffect(() => {
     setLoading(true);
@@ -54,15 +54,26 @@ export default function AdminPage() {
     try {
       const res = await fetch(`${API_URL}/${view}/${selected.id}`, { method: 'DELETE' });
       let backendText = '';
+      let backendType = res.ok ? 'success' : 'error';
+      let backendStatus = res.status;
+      let backendDetails = '';
       try {
         const data = await res.json();
-        backendText = data.message || JSON.stringify(data);
+        if (data.error) {
+          backendType = 'error';
+          backendText = data.error;
+          if (data.details) backendDetails = data.details;
+        } else {
+          backendText = data.message || JSON.stringify(data);
+        }
       } catch {
         backendText = await res.text();
       }
-      setBackendMessage(backendText || 'Eliminado correctamente');
-    } catch (err) {
-      setBackendMessage('Error al eliminar');
+      let fullMessage = backendText;
+      if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+      setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
+    } catch (err: any) {
+      setBackendMessage({ type: 'error', text: err?.message || 'Error al eliminar' });
     }
     if (view === 'projects') {
       setProjects(projects.filter(item => item.id !== selected.id));
@@ -93,15 +104,26 @@ export default function AdminPage() {
           body: JSON.stringify(payload)
         });
       }
+      let backendType = res.ok ? 'success' : 'error';
+      let backendStatus = res.status;
+      let backendDetails = '';
       try {
         const data = await res.json();
-        backendText = data.message || JSON.stringify(data);
+        if (data.error) {
+          backendType = 'error';
+          backendText = data.error;
+          if (data.details) backendDetails = data.details;
+        } else {
+          backendText = data.message || JSON.stringify(data);
+        }
       } catch {
         backendText = await res.text();
       }
-      setBackendMessage(backendText || 'Editado correctamente');
-    } catch (err) {
-      setBackendMessage('Error al editar');
+      let fullMessage = backendText;
+      if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+      setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
+    } catch (err: any) {
+      setBackendMessage({ type: 'error', text: err?.message || 'Error al editar' });
     }
     setEditMode(false);
     setEditData(null);
@@ -132,9 +154,26 @@ export default function AdminPage() {
       } catch {
         backendText = await res.text();
       }
-      setBackendMessage(backendText || 'Categoría editada correctamente');
-    } catch (err) {
-      setBackendMessage('Error al editar categoría');
+      let backendType = res.ok ? 'success' : 'error';
+      let backendStatus = res.status;
+      let backendDetails = '';
+      try {
+        const data = await res.json();
+        if (data.error) {
+          backendType = 'error';
+          backendText = data.error;
+          if (data.details) backendDetails = data.details;
+        } else {
+          backendText = data.message || JSON.stringify(data);
+        }
+      } catch {
+        backendText = await res.text();
+      }
+      let fullMessage = backendText;
+      if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+      setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
+    } catch (err: any) {
+      setBackendMessage({ type: 'error', text: err?.message || 'Error al editar categoría' });
     }
     setCategoryEdit(null);
     setLoading(true);
@@ -158,9 +197,26 @@ export default function AdminPage() {
       } catch {
         backendText = await res.text();
       }
-      setBackendMessage(backendText || 'Categoría eliminada correctamente');
-    } catch (err) {
-      setBackendMessage('Error al eliminar categoría');
+      let backendType = res.ok ? 'success' : 'error';
+      let backendStatus = res.status;
+      let backendDetails = '';
+      try {
+        const data = await res.json();
+        if (data.error) {
+          backendType = 'error';
+          backendText = data.error;
+          if (data.details) backendDetails = data.details;
+        } else {
+          backendText = data.message || JSON.stringify(data);
+        }
+      } catch {
+        backendText = await res.text();
+      }
+      let fullMessage = backendText;
+      if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+      setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
+    } catch (err: any) {
+      setBackendMessage({ type: 'error', text: err?.message || 'Error al eliminar categoría' });
     }
     setLoading(true);
     const res = await fetch(`${API_URL}/${view}`);
@@ -188,9 +244,26 @@ export default function AdminPage() {
       } catch {
         backendText = await res.text();
       }
-      setBackendMessage(backendText || 'Categoría creada correctamente');
-    } catch (err) {
-      setBackendMessage('Error al crear categoría');
+      let backendType = res.ok ? 'success' : 'error';
+      let backendStatus = res.status;
+      let backendDetails = '';
+      try {
+        const data = await res.json();
+        if (data.error) {
+          backendType = 'error';
+          backendText = data.error;
+          if (data.details) backendDetails = data.details;
+        } else {
+          backendText = data.message || JSON.stringify(data);
+        }
+      } catch {
+        backendText = await res.text();
+      }
+      let fullMessage = backendText;
+      if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+      setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
+    } catch (err: any) {
+      setBackendMessage({ type: 'error', text: err?.message || 'Error al crear categoría' });
     }
     setNewCategory({ name: '', color: '#888888' });
     setLoading(true);
@@ -206,11 +279,18 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-orange-50 p-8 relative">
-      <div className="w-full max-w-xl mx-auto mb-4 p-4 rounded bg-orange-100 border border-orange-300 text-orange-800 text-center shadow">
-        {backendMessage ? backendMessage : 'Sin respuesta del backend aún.'}
-        {backendMessage && (
-          <button className="ml-4 text-xs text-orange-600 underline" onClick={() => setBackendMessage("")}>Cerrar</button>
-        )}
+      <div className="w-full max-w-xl mx-auto mb-4 p-4 rounded text-center shadow border"
+        style={{ background: backendMessage?.type === 'error' ? '#fee2e2' : '#fef9c3', borderColor: backendMessage?.type === 'error' ? '#f87171' : '#fbbf24', color: backendMessage?.type === 'error' ? '#b91c1c' : '#92400e' }}>
+        {backendMessage ? (
+          <div>
+            <div className="font-bold mb-1">
+              {backendMessage.type === 'error' ? 'Error' : 'Éxito'}
+              {backendMessage.status ? ` (status ${backendMessage.status})` : ''}
+            </div>
+            <div className="whitespace-pre-wrap text-sm">{backendMessage.text}</div>
+            <button className="mt-2 text-xs underline" onClick={() => setBackendMessage(null)}>Cerrar</button>
+          </div>
+        ) : 'Sin respuesta del backend aún.'}
       </div>
       <h1 className="text-3xl font-bold mb-6">Panel de Administración</h1>
       <div className="mb-4 flex gap-4">
@@ -322,8 +402,11 @@ export default function AdminPage() {
             handleCreate={async () => {
               const endpoint = `${API_URL}/projects`;
               let payload = { ...formData };
-              let backendText = '';
               let res;
+              let backendText = '';
+              let backendType = 'success';
+              let backendStatus = undefined;
+              let backendDetails = '';
               // Si hay alguna imagen como File, usar FormData
               if (
                 formData.imagenPrincipal instanceof File ||
@@ -359,15 +442,21 @@ export default function AdminPage() {
               }
               try {
                 const data = await res.json();
-                backendText = data.message || JSON.stringify(data);
+                backendStatus = res.status;
+                if (data.error) {
+                  backendType = 'error';
+                  backendText = data.error;
+                  if (data.details) backendDetails = data.details;
+                } else {
+                  backendText = data.message || JSON.stringify(data);
+                }
               } catch {
+                backendType = 'error';
                 backendText = await res.text();
               }
-              setBackendMessage(backendText || 'Proyecto creado correctamente');
-              // NO limpiar los datos ni el preview, para que el usuario pueda revisar/corregir
-              // setCreateMode(false);
-              // setFormData({});
-              // setImagePreview("");
+              let fullMessage = backendText;
+              if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+              setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
               setLoading(true);
               const resList = await fetch(endpoint);
               const dataList = await resList.json();
@@ -385,12 +474,15 @@ export default function AdminPage() {
             handleCreate={async () => {
               const endpoint = `${API_URL}/news`;
               let payload = { ...formData };
-              let backendText = '';
               let res;
+              let backendText = '';
+              let backendType = 'success';
+              let backendStatus = undefined;
+              let backendDetails = '';
               if (formData.image instanceof File) {
                 const fd = new FormData();
                 Object.entries(payload).forEach(([k, v]) => {
-                  if (v !== undefined && v !== null) fd.append(k, v as any);
+                  if (v !== undefined && v !== null && k !== 'image') fd.append(k, v as any);
                 });
                 fd.append('image', formData.image);
                 res = await fetch(endpoint, { method: 'POST', body: fd });
@@ -403,15 +495,21 @@ export default function AdminPage() {
               }
               try {
                 const data = await res.json();
-                backendText = data.message || JSON.stringify(data);
+                backendStatus = res.status;
+                if (data.error) {
+                  backendType = 'error';
+                  backendText = data.error;
+                  if (data.details) backendDetails = data.details;
+                } else {
+                  backendText = data.message || JSON.stringify(data);
+                }
               } catch {
+                backendType = 'error';
                 backendText = await res.text();
               }
-              setBackendMessage(backendText || 'Noticia creada correctamente');
-              // NO limpiar los datos ni el preview, para que el usuario pueda revisar/corregir
-              // setCreateMode(false);
-              // setFormData({});
-              // setImagePreview("");
+              let fullMessage = backendText;
+              if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+              setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
               setLoading(true);
               const resList = await fetch(endpoint);
               const dataList = await resList.json();
@@ -434,8 +532,11 @@ export default function AdminPage() {
               if (!editData) return;
               const endpoint = `${API_URL}/projects/${editData.id}`;
               let payload = { ...editData };
-              let backendText = '';
               let res;
+              let backendText = '';
+              let backendType = 'success';
+              let backendStatus = undefined;
+              let backendDetails = '';
               // Si hay alguna imagen como File, usar FormData
               if (
                 editData.imagenPrincipal instanceof File ||
@@ -470,15 +571,21 @@ export default function AdminPage() {
               }
               try {
                 const data = await res.json();
-                backendText = data.message || JSON.stringify(data);
+                backendStatus = res.status;
+                if (data.error) {
+                  backendType = 'error';
+                  backendText = data.error;
+                  if (data.details) backendDetails = data.details;
+                } else {
+                  backendText = data.message || JSON.stringify(data);
+                }
               } catch {
+                backendType = 'error';
                 backendText = await res.text();
               }
-              setBackendMessage(backendText || 'Proyecto editado correctamente');
-              // NO limpiar los datos ni el preview, para que el usuario pueda revisar/corregir
-              // setEditMode(false);
-              // setEditData(null);
-              // setSelected(null);
+              let fullMessage = backendText;
+              if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+              setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
               setLoading(true);
               const resList = await fetch(`${API_URL}/projects`);
               const dataList = await resList.json();
@@ -496,8 +603,11 @@ export default function AdminPage() {
               if (!editData) return;
               const endpoint = `${API_URL}/news/${editData.id}`;
               let payload = { ...editData };
-              let backendText = '';
               let res;
+              let backendText = '';
+              let backendType = 'success';
+              let backendStatus = undefined;
+              let backendDetails = '';
               if (editData.image instanceof File) {
                 const fd = new FormData();
                 Object.entries(payload).forEach(([k, v]) => {
@@ -514,15 +624,21 @@ export default function AdminPage() {
               }
               try {
                 const data = await res.json();
-                backendText = data.message || JSON.stringify(data);
+                backendStatus = res.status;
+                if (data.error) {
+                  backendType = 'error';
+                  backendText = data.error;
+                  if (data.details) backendDetails = data.details;
+                } else {
+                  backendText = data.message || JSON.stringify(data);
+                }
               } catch {
+                backendType = 'error';
                 backendText = await res.text();
               }
-              setBackendMessage(backendText || 'Noticia editada correctamente');
-              // NO limpiar los datos ni el preview, para que el usuario pueda revisar/corregir
-              // setEditMode(false);
-              // setEditData(null);
-              // setSelected(null);
+              let fullMessage = backendText;
+              if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+              setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
               setLoading(true);
               const resList = await fetch(`${API_URL}/news`);
               const dataList = await resList.json();

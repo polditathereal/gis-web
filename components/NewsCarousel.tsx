@@ -1,13 +1,14 @@
+import React from "react"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 
 interface NewsCarouselProps {
-featuredNews: { title: string; image?: string; description?: string; [key: string]: any }[]
-  currentSlide: number
-  nextSlide: () => void
-  prevSlide: () => void
-  setCurrentSlide: (index: number) => void
-  styles: { sectionTitle: string }
+  featuredNews: { title: string; image?: string; description?: string; [key: string]: any }[];
+  currentSlide: number;
+  nextSlide: () => void;
+  prevSlide: () => void;
+  setCurrentSlide: (index: number) => void;
+  styles: { sectionTitle: string };
 }
 
 export default function NewsCarousel({
@@ -34,9 +35,9 @@ export default function NewsCarousel({
                 <div key={index} className="w-full flex-shrink-0">
                   <div className="w-full h-96 relative cursor-pointer hover:scale-[1.02] transition-transform flex flex-col justify-end">
                     <img
-                      src={news.image1 && news.image1.startsWith('/images/')
-                        ? `http://localhost:4000${news.image1}`
-                        : (news.image1 || '/placeholder.svg')}
+                      src={news.image && news.image.startsWith('/images/')
+                        ? `http://localhost:4000${news.image}`
+                        : (news.image || '/placeholder.svg')}
                       alt={news.title}
                       className="absolute inset-0 w-full h-full object-cover rounded-lg"
                     />
