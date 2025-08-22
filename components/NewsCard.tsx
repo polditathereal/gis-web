@@ -1,33 +1,41 @@
 import Image from "next/image"
 
-interface ProjectCardProps {
-  project: {
-    id: number
+interface NewsCardProps {
+  news: {
+    id: string
     title: string
-    descripcion: string
-    fechaInicial: string | number
-    fechaFinal: string | number
-    image1?: string
+    description: string
+    date: string | number
+    image?: string
+    category?: string
+    author?: string
+    readTime?: string
     categoriaColor?: string // hex o tailwind
+    featured?: boolean
   }
 }
 
-export default function ProjectCard({ project }: ProjectCardProps) {
-  const color = project.categoriaColor || '#FF9D14';
+export default function NewsCard({ news }: NewsCardProps) {
+  const color = news.categoriaColor || '#FF9D14';
   return (
     <div className="bg-white/70 backdrop-blur-sm border-orange-200 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group overflow-hidden flex flex-col rounded-lg">
       {/* Main Image */}
       <div className="w-full h-48 relative">
         <Image
-          src={project.image1 && project.image1.startsWith('/images/')
-            ? `http://localhost:4000${project.image1}`
+          src={news.image && news.image.startsWith('/images/')
+            ? `http://localhost:4000${news.image}`
             : '/placeholder.jpg'}
-          alt={project.title}
+          alt={news.title}
           fill
           className="object-cover rounded-t-lg"
           sizes="(max-width: 768px) 100vw, 33vw"
           priority={true}
         />
+        {news.featured && (
+          <div className="absolute top-4 left-4 bg-orange-600 text-white text-xs px-2 py-1 rounded-full font-medium z-10">
+            Destacada
+          </div>
+        )}
       </div>
       {/* Orange Section */}
       <div className="bg-orange-600 px-4 py-4 flex flex-col gap-2 rounded-b-lg relative">
@@ -47,15 +55,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <div className="flex items-center justify-between relative z-10">
           <div className="flex-1">
             <div className="text-xl font-bold text-white group-hover:text-orange-200 transition-colors line-clamp-2">
-              {project.title}
+              {news.title}
             </div>
             <div className="text-sm text-orange-100">
-              {new Date(project.fechaInicial).toLocaleDateString("es-ES", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })} {" - "}
-              {new Date(project.fechaFinal).toLocaleDateString("es-ES", {
+              {new Date(news.date).toLocaleDateString("es-ES", {
                 year: "numeric",
                 month: "long",
                 day: "numeric",
@@ -78,7 +81,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         {/* CardContent */}
         <div>
           <div className="text-gray-50 leading-relaxed line-clamp-3">
-            {project.descripcion}
+            {news.description}
           </div>
         </div>
       </div>

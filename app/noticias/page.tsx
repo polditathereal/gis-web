@@ -7,11 +7,10 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 // ...eliminado: Link no usado...
 import { Search, Clock, User, Calendar } from "lucide-react"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 const API_URL = "http://localhost:4000/news"
-import Image from "next/image"
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select"
+import NewsCard from "@/components/NewsCard"
 
 export default function NoticiasPage() {
   const [news, setNews] = useState<any[]>([])
@@ -109,61 +108,18 @@ export default function NoticiasPage() {
           {featuredNews.length > 0 && (
             <div className="mb-12">
               <h2 className="text-2xl font-bold text-gray-800 mb-6">Noticias Destacadas</h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 {featuredNews.map((item) => (
-                  <Card
+                  <NewsCard
                     key={item.id}
-                    className="bg-white/80 backdrop-blur-sm border-orange-200 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group overflow-hidden"
-                  >
-                    <div className="relative h-48 overflow-hidden">
-                      <Image
-                        src={item.image1 && item.image1.startsWith('/images/')
-                          ? `http://localhost:4000${item.image1}`
-                          : (item.image1 || '/placeholder.svg')}
-                        alt={item.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute top-4 right-4">
-                        <span
-                          className={`${getCategoryColor(item.category)} text-white text-xs px-2 py-1 rounded-full font-medium`}
-                        >
-                          {item.category}
-                        </span>
-                      </div>
-                      <div className="absolute top-4 left-4 bg-orange-600 text-white text-xs px-2 py-1 rounded-full font-medium">
-                        Destacada
-                      </div>
-                    </div>
-                    <CardHeader>
-                      <CardTitle className="text-xl text-gray-800 group-hover:text-orange-600 transition-colors line-clamp-2">
-                        {item.title}
-                      </CardTitle>
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
-                          {new Date(item.date).toLocaleDateString("es-ES", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <User className="w-4 h-4" />
-                          {item.author}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
-                          {item.readTime}
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-gray-700 leading-relaxed line-clamp-3">
-                        {item.description}
-                      </CardDescription>
-                    </CardContent>
-                  </Card>
+                    news={{
+                      ...item,
+                      image: item.image && item.image.startsWith('/images/')
+                        ? item.image
+                        : '/placeholder.jpg',
+                      categoriaColor: getCategoryColor(item.category),
+                    }}
+                  />
                 ))}
               </div>
             </div>
@@ -172,58 +128,22 @@ export default function NoticiasPage() {
           {regularNews.length > 0 && (
             <div>
               <h2 className="text-2xl font-bold text-gray-800 mb-6">Todas las Noticias</h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
                 {regularNews.map((item) => (
                   <a
                     key={item.id}
                     href={`/noticias/${item.id}`}
-                    className="bg-white/80 backdrop-blur-sm border-orange-200 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group overflow-hidden block"
+                    className="block"
                   >
-                    <div className="relative h-48 overflow-hidden">
-                      <Image
-                        src={item.image1 && item.image1.startsWith('/images/')
-                          ? `http://localhost:4000${item.image1}`
-                          : (item.image1 || '/placeholder.svg')}
-                        alt={item.title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-300"
-                      />
-                      <div className="absolute top-4 right-4">
-                        <span
-                          className={`${getCategoryColor(item.category)} text-white text-xs px-2 py-1 rounded-full font-medium`}
-                        >
-                          {item.category}
-                        </span>
-                      </div>
-                    </div>
-                    <CardHeader>
-                      <CardTitle className="text-xl text-gray-800 group-hover:text-orange-600 transition-colors line-clamp-2">
-                        {item.title}
-                      </CardTitle>
-                      <div className="flex items-center gap-4 text-sm text-gray-500">
-                        <div className="flex items-center gap-1">
-                          <Calendar className="w-4 h-4" />
-                          {new Date(item.date).toLocaleDateString("es-ES", {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          })}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <User className="w-4 h-4" />
-                          {item.author}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <Clock className="w-4 h-4" />
-                          {item.readTime}
-                        </div>
-                      </div>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-gray-700 leading-relaxed line-clamp-3">
-                        {item.description}
-                      </CardDescription>
-                    </CardContent>
+                    <NewsCard
+                      news={{
+                        ...item,
+                        image: item.image && item.image.startsWith('/images/')
+                          ? item.image
+                          : '/placeholder.jpg',
+                        categoriaColor: getCategoryColor(item.category),
+                      }}
+                    />
                   </a>
                 ))}
               </div>

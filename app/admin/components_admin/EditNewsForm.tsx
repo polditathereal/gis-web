@@ -74,7 +74,7 @@ const EditNewsForm: React.FC<EditNewsFormProps> = ({ editData, setEditData, cate
         >
           <option value="">Selecciona una categoría</option>
           {categories.map(cat => (
-            <option key={cat.id} value={cat.name}>{cat.name}</option>
+            <option key={cat.id} value={cat.id}>{cat.name}</option>
           ))}
         </select>
       </div>
@@ -84,7 +84,22 @@ const EditNewsForm: React.FC<EditNewsFormProps> = ({ editData, setEditData, cate
         onDrop={handleImageDrop}
         onClick={() => fileInputRef.current?.click()}
       >
-        <img src={imagePreviewLocal || PLACEHOLDER} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+        {imagePreviewLocal ? (
+          <>
+            <img src={imagePreviewLocal} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+            <button
+              type="button"
+              className="bg-red-500 text-white px-3 py-1 rounded mb-2"
+              onClick={e => {
+                e.stopPropagation();
+                setEditData({ ...editData, image: null });
+                setImagePreviewLocal("");
+              }}
+            >Quitar imagen</button>
+          </>
+        ) : (
+          <span>Arrastra una imagen aquí o haz click para seleccionar</span>
+        )}
         <input
           type="file"
           accept="image/*"

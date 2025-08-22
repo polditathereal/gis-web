@@ -116,7 +116,7 @@ const EditProjectForm: React.FC<EditProjectFormProps> = ({ editData, setEditData
         >
           <option value="">Selecciona una categoría</option>
           {categories.map(cat => (
-            <option key={cat.id} value={cat.name}>{cat.name}</option>
+            <option key={cat.id} value={cat.id}>{cat.name}</option>
           ))}
         </select>
       </div>
@@ -127,7 +127,22 @@ const EditProjectForm: React.FC<EditProjectFormProps> = ({ editData, setEditData
         onDrop={handleImageDrop}
         onClick={() => fileInputRef.current?.click()}
       >
-        <img src={imagePreviewLocal.startsWith('http') ? imagePreviewLocal : PLACEHOLDER} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+        {imagePreviewLocal ? (
+          <>
+            <img src={imagePreviewLocal} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+            <button
+              type="button"
+              className="bg-red-500 text-white px-3 py-1 rounded mb-2"
+              onClick={e => {
+                e.stopPropagation();
+                setEditData({ ...editData, imagenPrincipal: null });
+                setImagePreviewLocal("");
+              }}
+            >Quitar imagen</button>
+          </>
+        ) : (
+          <span>Arrastra una imagen principal aquí o haz click para seleccionar</span>
+        )}
         <input
           type="file"
           accept="image/*"
@@ -143,7 +158,22 @@ const EditProjectForm: React.FC<EditProjectFormProps> = ({ editData, setEditData
         onDrop={handleImageDrop1}
         onClick={() => fileInputRef1.current?.click()}
       >
-        <img src={imagePreview1.startsWith('http') ? imagePreview1 : PLACEHOLDER} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+        {imagePreview1 ? (
+          <>
+            <img src={imagePreview1} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+            <button
+              type="button"
+              className="bg-red-500 text-white px-3 py-1 rounded mb-2"
+              onClick={e => {
+                e.stopPropagation();
+                setEditData({ ...editData, image1: null });
+                setImagePreview1("");
+              }}
+            >Quitar imagen</button>
+          </>
+        ) : (
+          <span>Arrastra la imagen 1 aquí o haz click para seleccionar</span>
+        )}
         <input
           type="file"
           accept="image/*"
@@ -159,7 +189,22 @@ const EditProjectForm: React.FC<EditProjectFormProps> = ({ editData, setEditData
         onDrop={handleImageDrop2}
         onClick={() => fileInputRef2.current?.click()}
       >
-        <img src={imagePreview2.startsWith('http') ? imagePreview2 : PLACEHOLDER} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+        {imagePreview2 ? (
+          <>
+            <img src={imagePreview2} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+            <button
+              type="button"
+              className="bg-red-500 text-white px-3 py-1 rounded mb-2"
+              onClick={e => {
+                e.stopPropagation();
+                setEditData({ ...editData, image2: null });
+                setImagePreview2("");
+              }}
+            >Quitar imagen</button>
+          </>
+        ) : (
+          <span>Arrastra la imagen 2 aquí o haz click para seleccionar</span>
+        )}
         <input
           type="file"
           accept="image/*"

@@ -73,7 +73,18 @@ const CreateNewsForm: React.FC<CreateNewsFormProps> = ({ formData, setFormData, 
         onClick={() => fileInputRef.current?.click()}
       >
         {imagePreview ? (
-          <img src={imagePreview} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+          <>
+            <img src={imagePreview} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+            <button
+              type="button"
+              className="bg-red-500 text-white px-3 py-1 rounded mb-2"
+              onClick={e => {
+                e.stopPropagation();
+                setFormData({ ...formData, image: null });
+                setImagePreview("");
+              }}
+            >Quitar imagen</button>
+          </>
         ) : (
           <span>Arrastra una imagen aquí o haz click para seleccionar</span>
         )}

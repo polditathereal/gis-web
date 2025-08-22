@@ -7,7 +7,6 @@ interface Category {
   color: string;
 }
 
-
 interface CreateProjectFormProps {
   formData: any;
   setFormData: (data: any) => void;
@@ -17,7 +16,14 @@ interface CreateProjectFormProps {
   setImagePreview: React.Dispatch<React.SetStateAction<string>>;
 }
 
-const CreateProjectForm: React.FC<CreateProjectFormProps> = ({ formData, setFormData, categories, handleCreate, imagePreview, setImagePreview }) => {
+const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
+  formData,
+  setFormData,
+  categories,
+  handleCreate,
+  imagePreview,
+  setImagePreview,
+}) => {
   // Imagen principal
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const handleImageDrop = (e: React.DragEvent<HTMLDivElement>) => {
@@ -78,13 +84,26 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({ formData, setForm
     <div className="mb-8 p-4 border rounded bg-white">
       <h2 className="text-xl font-semibold mb-2">Crear Proyecto</h2>
       {/* Campos específicos de proyecto */}
-      {["title", "tipo", "tema", "entidadContratante", "paisOrigen", "tipo2", "objeto", "fechaInicial", "fechaFinal", "consorcio", "integrantes", "descripcion"].map(key => (
+      {[
+        "title",
+        "tipo",
+        "tema",
+        "entidadContratante",
+        "paisOrigen",
+        "tipo2",
+        "objeto",
+        "fechaInicial",
+        "fechaFinal",
+        "consorcio",
+        "integrantes",
+        "descripcion",
+      ].map((key) => (
         <div key={key} className="mb-2">
           <label className="block text-sm font-medium text-gray-700">{key}</label>
           <input
             className="border rounded px-2 py-1 w-full"
-            value={formData[key] ?? ''}
-            onChange={e => setFormData({ ...formData, [key]: e.target.value })}
+            value={formData[key] ?? ""}
+            onChange={(e) => setFormData({ ...formData, [key]: e.target.value })}
           />
         </div>
       ))}
@@ -92,24 +111,43 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({ formData, setForm
         <label className="block text-sm font-medium text-gray-700">Categoría</label>
         <select
           className="border rounded px-2 py-1 w-full"
-          value={formData.category ?? ''}
-          onChange={e => setFormData({ ...formData, category: e.target.value })}
+          value={formData.category ?? ""}
+          onChange={(e) => setFormData({ ...formData, category: e.target.value })}
         >
           <option value="">Selecciona una categoría</option>
-          {categories.map(cat => (
-            <option key={cat.id} value={cat.name}>{cat.name}</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.id}>
+              {cat.name}
+            </option>
           ))}
         </select>
       </div>
       {/* Imagen principal */}
       <div
         className="mb-2 border-dashed border-2 border-gray-300 rounded p-4 text-center cursor-pointer"
-        onDragOver={e => e.preventDefault()}
+        onDragOver={(e) => e.preventDefault()}
         onDrop={handleImageDrop}
         onClick={() => fileInputRef.current?.click()}
       >
         {imagePreview ? (
-          <img src={imagePreview} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+          <>
+            <img
+              src={imagePreview}
+              alt="Preview"
+              className="mx-auto max-h-32 mb-2 rounded"
+            />
+            <button
+              type="button"
+              className="bg-red-500 text-white px-3 py-1 rounded mb-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                setFormData({ ...formData, imagenPrincipal: null });
+                setImagePreview("");
+              }}
+            >
+              Quitar imagen
+            </button>
+          </>
         ) : (
           <span>Arrastra una imagen principal aquí o haz click para seleccionar</span>
         )}
@@ -117,19 +155,36 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({ formData, setForm
           type="file"
           accept="image/*"
           ref={fileInputRef}
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           onChange={handleImageChange}
         />
       </div>
       {/* Imagen 1 */}
       <div
         className="mb-2 border-dashed border-2 border-gray-300 rounded p-4 text-center cursor-pointer"
-        onDragOver={e => e.preventDefault()}
+        onDragOver={(e) => e.preventDefault()}
         onDrop={handleImageDrop1}
         onClick={() => fileInputRef1.current?.click()}
       >
         {imagePreview1 ? (
-          <img src={imagePreview1} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+          <>
+            <img
+              src={imagePreview1}
+              alt="Preview"
+              className="mx-auto max-h-32 mb-2 rounded"
+            />
+            <button
+              type="button"
+              className="bg-red-500 text-white px-3 py-1 rounded mb-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                setFormData({ ...formData, image1: null });
+                setImagePreview1("");
+              }}
+            >
+              Quitar imagen
+            </button>
+          </>
         ) : (
           <span>Arrastra la imagen 1 aquí o haz click para seleccionar</span>
         )}
@@ -137,19 +192,36 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({ formData, setForm
           type="file"
           accept="image/*"
           ref={fileInputRef1}
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           onChange={handleImageChange1}
         />
       </div>
       {/* Imagen 2 */}
       <div
         className="mb-2 border-dashed border-2 border-gray-300 rounded p-4 text-center cursor-pointer"
-        onDragOver={e => e.preventDefault()}
+        onDragOver={(e) => e.preventDefault()}
         onDrop={handleImageDrop2}
         onClick={() => fileInputRef2.current?.click()}
       >
         {imagePreview2 ? (
-          <img src={imagePreview2} alt="Preview" className="mx-auto max-h-32 mb-2 rounded" />
+          <>
+            <img
+              src={imagePreview2}
+              alt="Preview"
+              className="mx-auto max-h-32 mb-2 rounded"
+            />
+            <button
+              type="button"
+              className="bg-red-500 text-white px-3 py-1 rounded mb-2"
+              onClick={(e) => {
+                e.stopPropagation();
+                setFormData({ ...formData, image2: null });
+                setImagePreview2("");
+              }}
+            >
+              Quitar imagen
+            </button>
+          </>
         ) : (
           <span>Arrastra la imagen 2 aquí o haz click para seleccionar</span>
         )}
@@ -157,11 +229,16 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({ formData, setForm
           type="file"
           accept="image/*"
           ref={fileInputRef2}
-          style={{ display: 'none' }}
+          style={{ display: "none" }}
           onChange={handleImageChange2}
         />
       </div>
-      <button className="bg-green-500 text-white px-4 py-2 rounded" onClick={handleCreate}>Crear Proyecto</button>
+      <button
+        className="bg-green-500 text-white px-4 py-2 rounded"
+        onClick={handleCreate}
+      >
+        Crear Proyecto
+      </button>
     </div>
   );
 };
