@@ -97,7 +97,7 @@ const EditProjectForm: React.FC<EditProjectFormProps> = ({ editData, setEditData
   return (
     <div className="mb-8 p-4 border rounded bg-white">
       <h2 className="text-xl font-semibold mb-2">Editar Proyecto</h2>
-      {["title", "tipo", "tema", "entidadContratante", "paisOrigen", "tipo2", "objeto", "fechaInicial", "fechaFinal", "consorcio", "integrantes", "descripcion"].map(key => (
+      {["title", "tipo", "tema", "entidadContratante", "paisOrigen", "tipo2", "objeto", "consorcio", "integrantes", "descripcion"].map(key => (
         <div key={key} className="mb-2">
           <label className="block text-sm font-medium text-gray-700">{key}</label>
           <input
@@ -107,6 +107,26 @@ const EditProjectForm: React.FC<EditProjectFormProps> = ({ editData, setEditData
           />
         </div>
       ))}
+      {/* Fecha Inicial */}
+      <div className="mb-2">
+        <label className="block text-sm font-medium text-gray-700">fechaInicial</label>
+        <input
+          type="date"
+          className="border rounded px-2 py-1 w-full"
+          value={editData.fechaInicial ? (() => { try { const d = new Date(editData.fechaInicial); return !isNaN(d.getTime()) ? d.toISOString().slice(0,10) : ''; } catch { return ''; } })() : ''}
+          onChange={e => setEditData({ ...editData, fechaInicial: e.target.value })}
+        />
+      </div>
+      {/* Fecha Final */}
+      <div className="mb-2">
+        <label className="block text-sm font-medium text-gray-700">fechaFinal</label>
+        <input
+          type="date"
+          className="border rounded px-2 py-1 w-full"
+          value={editData.fechaFinal ? (() => { try { const d = new Date(editData.fechaFinal); return !isNaN(d.getTime()) ? d.toISOString().slice(0,10) : ''; } catch { return ''; } })() : ''}
+          onChange={e => setEditData({ ...editData, fechaFinal: e.target.value })}
+        />
+      </div>
       <div className="mb-2">
         <label className="block text-sm font-medium text-gray-700">Categoría</label>
         <select

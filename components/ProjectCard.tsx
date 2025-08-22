@@ -14,6 +14,26 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   const color = project.categoriaColor || '#FF9D14';
+  // Normaliza las fechas para evitar 'Invalid Date'
+  let fechaInicial = '';
+  let fechaFinal = '';
+  try {
+    const dateIni = typeof project.fechaInicial === 'string' || typeof project.fechaInicial === 'number'
+      ? new Date(project.fechaInicial)
+      : null;
+    fechaInicial = dateIni && !isNaN(dateIni.getTime())
+      ? `${String(dateIni.getDate()).padStart(2,'0')}/${String(dateIni.getMonth()+1).padStart(2,'0')}/${dateIni.getFullYear()}`
+      : '';
+    const dateFin = typeof project.fechaFinal === 'string' || typeof project.fechaFinal === 'number'
+      ? new Date(project.fechaFinal)
+      : null;
+    fechaFinal = dateFin && !isNaN(dateFin.getTime())
+      ? `${String(dateFin.getDate()).padStart(2,'0')}/${String(dateFin.getMonth()+1).padStart(2,'0')}/${dateFin.getFullYear()}`
+      : '';
+  } catch {
+    fechaInicial = '';
+    fechaFinal = '';
+  }
   return (
     <div className="bg-white/70 backdrop-blur-sm border-orange-200 hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group overflow-hidden flex flex-col rounded-lg">
       {/* Main Image */}
@@ -31,18 +51,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       </div>
       {/* Orange Section */}
       <div className="bg-orange-600 px-4 py-4 flex flex-col gap-2 rounded-b-lg relative">
-        {/* Sombra de la categoría detrás */}
-        <div className="absolute top-4 right-4 z-0">
-          <div style={{
-            width: 44,
-            height: 44,
-            background: color,
-            opacity: 0.18,
-            borderRadius: 12,
-            boxShadow: `0 0 16px 0 ${color}`,
-            transform: 'rotate(45deg)'
-          }} />
-        </div>
+        {/* Sombra/fondo de la categoría detrás eliminado, solo queda el rombo */}
         {/* CardHeader */}
         <div className="flex items-center justify-between relative z-10">
           <div className="flex-1">
@@ -50,16 +59,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               {project.title}
             </div>
             <div className="text-sm text-orange-100">
-              {new Date(project.fechaInicial).toLocaleDateString("es-ES", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })} {" - "}
-              {new Date(project.fechaFinal).toLocaleDateString("es-ES", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
+              {fechaInicial} {fechaInicial && fechaFinal ? ' - ' : ''} {fechaFinal}
             </div>
           </div>
           {/* Rombo color categoría */}

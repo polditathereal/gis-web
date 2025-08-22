@@ -84,20 +84,7 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
     <div className="mb-8 p-4 border rounded bg-white">
       <h2 className="text-xl font-semibold mb-2">Crear Proyecto</h2>
       {/* Campos específicos de proyecto */}
-      {[
-        "title",
-        "tipo",
-        "tema",
-        "entidadContratante",
-        "paisOrigen",
-        "tipo2",
-        "objeto",
-        "fechaInicial",
-        "fechaFinal",
-        "consorcio",
-        "integrantes",
-        "descripcion",
-      ].map((key) => (
+      {["title", "tipo", "tema", "entidadContratante", "paisOrigen", "tipo2", "objeto", "consorcio", "integrantes", "descripcion"].map((key) => (
         <div key={key} className="mb-2">
           <label className="block text-sm font-medium text-gray-700">{key}</label>
           <input
@@ -107,6 +94,26 @@ const CreateProjectForm: React.FC<CreateProjectFormProps> = ({
           />
         </div>
       ))}
+      {/* Fecha Inicial */}
+      <div className="mb-2">
+        <label className="block text-sm font-medium text-gray-700">fechaInicial</label>
+        <input
+          type="date"
+          className="border rounded px-2 py-1 w-full"
+          value={formData.fechaInicial ? (() => { try { const d = new Date(formData.fechaInicial); return !isNaN(d.getTime()) ? d.toISOString().slice(0,10) : ''; } catch { return ''; } })() : ''}
+          onChange={e => setFormData({ ...formData, fechaInicial: e.target.value })}
+        />
+      </div>
+      {/* Fecha Final */}
+      <div className="mb-2">
+        <label className="block text-sm font-medium text-gray-700">fechaFinal</label>
+        <input
+          type="date"
+          className="border rounded px-2 py-1 w-full"
+          value={formData.fechaFinal ? (() => { try { const d = new Date(formData.fechaFinal); return !isNaN(d.getTime()) ? d.toISOString().slice(0,10) : ''; } catch { return ''; } })() : ''}
+          onChange={e => setFormData({ ...formData, fechaFinal: e.target.value })}
+        />
+      </div>
       <div className="mb-2">
         <label className="block text-sm font-medium text-gray-700">Categoría</label>
         <select

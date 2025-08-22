@@ -44,12 +44,22 @@ const CreateNewsForm: React.FC<CreateNewsFormProps> = ({ formData, setFormData, 
       {["title", "description", "date", "featured", "author", "readTime"].map(key => (
         <div key={key} className="mb-2">
           <label className="block text-sm font-medium text-gray-700">{key}</label>
-          <input
-            className="border rounded px-2 py-1 w-full"
-            value={formData?.[key] ?? ''}
-            onChange={e => setFormData({ ...formData, [key]: e.target.value })}
-            name={key}
-          />
+          {key === 'date' ? (
+            <input
+              type="date"
+              className="border rounded px-2 py-1 w-full"
+              value={formData?.date ? new Date(formData.date).toISOString().slice(0,10) : ''}
+              onChange={e => setFormData({ ...formData, date: e.target.value })}
+              name="date"
+            />
+          ) : (
+            <input
+              className="border rounded px-2 py-1 w-full"
+              value={formData?.[key] ?? ''}
+              onChange={e => setFormData({ ...formData, [key]: e.target.value })}
+              name={key}
+            />
+          )}
         </div>
       ))}
       <div className="mb-2">

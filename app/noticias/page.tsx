@@ -54,8 +54,7 @@ export default function NoticiasPage() {
     return category ? category.color : "bg-gray-500"
   }
 
-  const featuredNews = filteredNews.filter((item) => item.featured)
-  const regularNews = filteredNews.filter((item) => !item.featured)
+  const regularNews = filteredNews
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-orange-100">
@@ -105,25 +104,7 @@ export default function NoticiasPage() {
             </div>
           </div>
 
-          {featuredNews.length > 0 && (
-            <div className="mb-12">
-              <h2 className="text-2xl font-bold text-gray-800 mb-6">Noticias Destacadas</h2>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                {featuredNews.map((item) => (
-                  <NewsCard
-                    key={item.id}
-                    news={{
-                      ...item,
-                      image: item.image && item.image.startsWith('/images/')
-                        ? item.image
-                        : '/placeholder.jpg',
-                      categoriaColor: getCategoryColor(item.category),
-                    }}
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+          {/* Noticias destacadas eliminadas, solo se muestra el grid de todas las noticias */}
 
           {regularNews.length > 0 && (
             <div>
