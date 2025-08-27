@@ -1,99 +1,203 @@
+// HeroSection.tsx
+"use client"
 
-import React, { useEffect, useState } from "react";
+import type React from "react"
 
-const heroImages = [
-  "/images/hero/11.jpg",
-  "/images/hero/FondoDeAdaptaciónAtlantico_7.jpg",
-  "/images/hero/IMG_0600.JPG",
-  "/images/hero/IMG_20190829_112035831_HDR.jpg",
-  "/images/hero/IMG_20190829_142523673_HDR-1.jpg"
-];
+import Image from "next/image"
+import { useEffect, useState } from "react"
+import { Building2, HardHat, Ruler, ArrowRight, Sparkles } from "lucide-react"
+import { IsoBadge } from "@/components/IsoBadge"
 
 type Props = {
-  title?: string;
-  description?: string;
-  height?: number; // px
-};
+  title?: string
+  subtitle?: string
+  images?: string[]
+}
 
-export default function BannerPoligono({
-  title = "GIS Colombia",
-  description = "Construimos el futuro de Bogotá: proyectos de infraestructura y vivienda con calidad, cumplimiento y transparencia.\nEspecialistas en licitaciones públicas y privadas.",
-  height = 480,
+const DEFAULT_IMAGES = [
+  "/images/hero/11.jpg",
+  "/images/hero/img_0600.jpg",
+  "/images/hero/IMG_20190829_112035831_HDR.jpg",
+  "/images/hero/IMG_20190829_142523673_HDR-1.jpg",
+]
+
+export default function HeroConstructora({
+  title = "Construimos espacios que transforman ciudades",
+  subtitle = "Infraestructura y vivienda con calidad, cumplimiento y transparencia. Especialistas en licitaciones públicas y privadas.",
+  images = DEFAULT_IMAGES,
 }: Props) {
-  const [current, setCurrent] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % heroImages.length);
-    }, 3500);
-    return () => clearInterval(interval);
-  }, []);
+  const [idx, setIdx] = useState(0)
+  const [counts, setCounts] = useState({ exp: 0, proyectos: 0, clientes: 0 })
 
-  const imageUrl = heroImages[current];
-
-  // Contadores animados
-  const counters = [
-    { end: 10, label: 'Años de experiencia', suffix: '+' },
-    { end: 100, label: 'Proyectos completados', suffix: '+' },
-    { end: 50, label: 'Clientes satisfechos', suffix: '+' },
-    { end: 24, label: 'Soporte técnico', suffix: '/7', animated: false },
-  ];
-  const [counts, setCounts] = useState([0, 0, 0]);
   useEffect(() => {
-    const duration = 700; // ms
-    const steps = Math.round(duration / 30);
-    const increments = counters.slice(0, 3).map(c => c.end / steps);
-    let frame = 0;
-    const interval = setInterval(() => {
-      frame++;
-      setCounts(prev => prev.map((v, i) => {
-        const next = v + increments[i];
-        if (next >= counters[i].end) return counters[i].end;
-        return next;
-      }));
-      if (frame >= steps) clearInterval(interval);
-    }, 30);
-    return () => clearInterval(interval);
-  }, []);
+    const id = setInterval(() => setIdx((i) => (i + 1) % images.length), 4500)
+    return () => clearInterval(id)
+  }, [images.length])
+
+  useEffect(() => {
+    const target = { exp: 12, proyectos: 140, clientes: 80 }
+    const duration = 900
+    const steps = Math.round(duration / 30)
+    let frame = 0
+    const inc = {
+      exp: target.exp / steps,
+      proyectos: target.proyectos / steps,
+      clientes: target.clientes / steps,
+    }
+    const id = setInterval(() => {
+      frame++
+      setCounts((p) => ({
+        exp: Math.min(target.exp, p.exp + inc.exp),
+        proyectos: Math.min(target.proyectos, p.proyectos + inc.proyectos),
+        clientes: Math.min(target.clientes, p.clientes + inc.clientes),
+      }))
+      if (frame >= steps) clearInterval(id)
+    }, 30)
+    return () => clearInterval(id)
+  }, [])
 
   return (
-    <section
-      className="relative w-screen h-screen min-h-[600px] overflow-hidden flex items-center justify-center bg-gradient-to-br from-[#f6ebe3] via-[#fff7e6] to-[#f6ebe3]"
-      style={{ paddingTop: '88px' }}
-    >
-      {/* Imagen de fondo */}
-      <div className="absolute inset-0 w-full h-full z-0">
-        <img
-          src={imageUrl}
-          alt="Banner"
-          className="w-full h-full object-cover object-center"
-        />
-        <div className="absolute inset-0" />
+    <section className="relative isolate w-full h-[calc(100dvh-80px)] overflow-hidden text-white">
+      {/* Background slideshow */}
+      <div className="absolute inset-0 z-0">
+        {images.map((src, i) => (
+          <Image
+            key={src}
+            src={src || "/placeholder.svg"}
+            alt="Proyecto de construcción"
+            fill
+            priority={i === idx}
+            sizes="100vw"
+            className={`object-cover object-center transition-all duration-1000 ease-out ${
+              i === idx ? "opacity-100 scale-100" : "opacity-0 scale-105"
+            }`}
+          />
+        ))}
+        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
       </div>
 
-      {/* Recuadro de texto más pequeño, más transparente, desplazado a la izquierda, contadores animados y título bicolor */}
-      <div className="relative z-10 flex flex-col items-start justify-center w-full h-full">
-        <div className="ml-8 mt-8 px-4 py-4 max-w-sm bg-white/40 border-2 border-[#FF9D14] rounded-xl shadow-lg backdrop-blur-md">
-          <h1 className="text-3xl md:text-4xl font-extrabold mb-4 drop-shadow text-left flex items-center gap-2">
-            <span className="text-[#F4731F]">GIS</span>
-            <span className="text-[#1A1A1A]">Colombia</span>
-          </h1>
-          <p className="text-base md:text-lg font-semibold text-[#1A1A1A] text-left drop-shadow opacity-90 mb-6">
-            {description}
-          </p>
-          <div className="grid grid-cols-2 gap-x-6 gap-y-4 mt-2">
-            {counters.map((counter, i) => (
-              <div key={counter.label} className="flex flex-col items-center">
-                <span className="text-3xl md:text-4xl font-extrabold text-[#F4731F]">
-                  {counter.animated === false
-                    ? `24/7`
-                    : `${Math.round(counts[i])}${counter.suffix}`}
-                </span>
-                <span className="text-sm md:text-base text-[#2C2C2C] mt-2 text-center">{counter.label}</span>
+      {/* Animated particles */}
+      <div className="absolute inset-0 z-5">
+        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-[#F4731F]/30 rounded-full animate-pulse" />
+        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-orange-300/40 rounded-full animate-ping" />
+        <div className="absolute bottom-1/3 left-1/5 w-1.5 h-1.5 bg-[#F4731F]/20 rounded-full animate-pulse delay-1000" />
+      </div>
+
+      {/* Content */}
+      <div className="absolute inset-0 z-10 flex items-center justify-start">
+        <div className="container mx-auto px-6">
+          <div className="grid lg:grid-cols-12 gap-16 items-center">
+            <div className="lg:col-span-8 space-y-12">
+              <div className="space-y-6">
+                <div className="hidden lg:flex items-center gap-4 mb-4">
+                  <Sparkles className="w-6 h-6 text-[#F4731F] animate-pulse" />
+                  <span className="text-sm uppercase tracking-[0.2em] text-orange-200/80 font-medium">
+                    Ingeniería • Consultoría • Estudios • Diseño
+                  </span>
+                </div>
+
+                <h1 className="space-y-2">
+                  <div className="flex items-center gap-3 md:gap-6">
+                    <span className="font-opti-edgar text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-[#F4731F] drop-shadow-2xl tracking-tight leading-none">
+                      GIS
+                    </span>
+                    <div className="flex flex-col">
+                      <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white drop-shadow-lg leading-tight">
+                        Colombia
+                      </span>
+                      <div className="w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-[#F4731F] to-orange-400 mt-2" />
+                    </div>
+                  </div>
+                </h1>
+
               </div>
-            ))}
+
+              <div className="hidden lg:grid sm:grid-cols-3 gap-4 max-w-4xl">
+                <ModernBullet
+                  icon={<HardHat className="w-6 h-6" />}
+                  text="Seguridad y cumplimiento"
+                  gradient="from-blue-500 to-blue-600"
+                />
+                <ModernBullet
+                  icon={<Ruler className="w-6 h-6" />}
+                  text="Diseño y control de calidad"
+                  gradient="from-green-500 to-green-600"
+                />
+                <ModernBullet
+                  icon={<Building2 className="w-6 h-6" />}
+                  text="Infraestructura y vivienda"
+                  gradient="from-purple-500 to-purple-600"
+                />
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+                <button className="group relative inline-flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#F4731F] to-orange-500 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-bold text-white hover:from-orange-500 hover:to-[#F4731F] transition-all duration-300 text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105 w-full sm:w-auto">
+                  <span>Ver proyectos</span>
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
+                  <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
+                </button>
+              </div>
+
+              <div className="hidden lg:grid grid-cols-3 max-w-2xl gap-8">
+                <ModernStat number={`${Math.round(counts.exp)}+`} label="Años de experiencia" />
+                <ModernStat number={`${Math.round(counts.proyectos)}+`} label="Proyectos" />
+                <ModernStat number={`${Math.round(counts.clientes)}+`} label="Clientes" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 right-4 sm:right-6 lg:right-8 z-20">
+          <div className="bg-black/20 rounded-2xl sm:rounded-3xl border border-white/20 p-3 sm:p-4 lg:p-6 backdrop-blur-xl shadow-2xl">
+            <div className="flex flex-col gap-2 sm:gap-3">
+              <IsoBadge code="9001" size="sm" className="sm:hidden" />
+              <IsoBadge code="14001" size="sm" className="sm:hidden" />
+              <IsoBadge code="45001" size="sm" className="sm:hidden" />
+            </div>
+            <div className="hidden sm:flex flex-col gap-3">
+              <IsoBadge code="9001" size="md" />
+              <IsoBadge code="14001" size="md" />
+              <IsoBadge code="45001" size="md" />
+            </div>
           </div>
         </div>
       </div>
     </section>
-  );
+  )
+}
+
+function ModernBullet({ icon, text, gradient }: { icon: React.ReactNode; text: string; gradient: string }) {
+  return (
+    <div className="group relative overflow-hidden rounded-2xl bg-white/10 border border-white/20 p-6 backdrop-blur-md hover:bg-white/15 transition-all duration-300 hover:scale-105">
+      <div className="flex items-center gap-4">
+        <div
+          className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow`}
+        >
+          <span className="text-white">{icon}</span>
+        </div>
+        <span className="text-base font-medium text-white/95 leading-tight">{text}</span>
+      </div>
+      <div
+        className={`absolute inset-0 bg-gradient-to-br ${gradient} opacity-0 group-hover:opacity-5 transition-opacity`}
+      />
+    </div>
+  )
+}
+
+function ModernStat({ number, label }: { number: string; label: string }) {
+  return (
+    <div className="text-center group">
+      <div className="relative">
+        <div className="text-5xl md:text-6xl font-black bg-gradient-to-br from-[#F4731F] to-orange-400 bg-clip-text text-transparent leading-none mb-2 group-hover:scale-110 transition-transform">
+          {number}
+        </div>
+        <div className="absolute inset-0 text-5xl md:text-6xl font-black text-[#F4731F]/20 blur-sm leading-none">
+          {number}
+        </div>
+      </div>
+      <div className="text-sm font-medium text-gray-300 uppercase tracking-wider">{label}</div>
+    </div>
+  )
 }

@@ -5,12 +5,15 @@ const API_URL = "http://localhost:4000/projects"
 
 export default function FetchProjectsGrid({ styles }: { styles: any }) {
   const [projects, setProjects] = useState<any[]>([])
+  const [categories, setCategories] = useState<any[]>([])
 
   useEffect(() => {
     fetch(API_URL)
       .then(res => res.json())
       .then(async data => {
         const projectsRaw = data.projects || [];
+        const categoriesRaw = data.categories || [];
+        setCategories(categoriesRaw);
         // Para cada proyecto, obtener la imagen principal desde la API
         const projectsWithImage = await Promise.all(projectsRaw.map(async (project: any) => {
           try {
@@ -25,5 +28,5 @@ export default function FetchProjectsGrid({ styles }: { styles: any }) {
       })
   }, [])
 
-  return <ProjectsGrid allProjects={projects} styles={styles} />
+  return <ProjectsGrid allProjects={projects} styles={styles} categories={categories} />
 }

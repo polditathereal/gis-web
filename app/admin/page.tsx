@@ -11,11 +11,18 @@ import ProjectCategoryForm from "./components_admin/ProjectCategoryForm";
 import NewsCategoryForm from "./components_admin/NewsCategoryForm";
 import ProjectCategoryEditForm from "./components_admin/ProjectCategoryEditForm";
 import NewsCategoryEditForm from "./components_admin/NewsCategoryEditForm";
+import JobList from "./components_admin/JobList";
+import CreateJobForm from "./components_admin/CreateJobForm";
+import EditJobForm from "./components_admin/EditJobForm";
+import JobCategoryForm from "./components_admin/JobCategoryForm";
+import JobCategoryEditForm from "./components_admin/JobCategoryEditForm";
 
 const API_URL = "http://localhost:4000";
 
 export default function AdminPage() {
-  const [view, setView] = useState<'projects' | 'news'>('projects');
+  const [view, setView] = useState<'projects' | 'news' | 'jobs'>('projects');
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [jobCategories, setJobCategories] = useState<any[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
   const [news, setNews] = useState<any[]>([]);
   const [projectCategories, setProjectCategories] = useState<any[]>([]);
@@ -44,6 +51,12 @@ export default function AdminPage() {
       .then(data => {
         setNews(data.news || []);
         setNewsCategories(data.categories || []);
+      });
+    fetch(`${API_URL}/jobs`)
+      .then(res => res.json())
+      .then(data => {
+        setJobs(data.jobs || []);
+        setJobCategories(data.categories || []);
       });
     setLoading(false);
   }, [view]);
@@ -77,8 +90,10 @@ export default function AdminPage() {
     }
     if (view === 'projects') {
       setProjects(projects.filter(item => item.id !== selected.id));
-    } else {
+    } else if (view === 'news') {
       setNews(news.filter(item => item.id !== selected.id));
+    } else {
+      setJobs(jobs.filter(item => item.id !== selected.id));
     }
     setSelected(null);
     setEditData(null);
@@ -133,8 +148,10 @@ export default function AdminPage() {
     const data = await res.json();
     if (view === 'projects') {
       setProjects(data.projects || []);
-    } else {
+    } else if (view === 'news') {
       setNews(data.news || []);
+    } else {
+      setJobs(data.jobs || []);
     }
     setLoading(false);
   };
@@ -181,8 +198,10 @@ export default function AdminPage() {
     const data = await res.json();
     if (view === 'projects') {
       setProjectCategories(data.categories || []);
-    } else {
+    } else if (view === 'news') {
       setNewsCategories(data.categories || []);
+    } else {
+      setJobCategories(data.categories || []);
     }
     setLoading(false);
   };
@@ -223,8 +242,10 @@ export default function AdminPage() {
     const data = await res.json();
     if (view === 'projects') {
       setProjectCategories(data.categories || []);
-    } else {
+    } else if (view === 'news') {
       setNewsCategories(data.categories || []);
+    } else {
+      setJobCategories(data.categories || []);
     }
     setLoading(false);
   };
@@ -303,45 +324,73 @@ export default function AdminPage() {
           onClick={() => { setView('news'); setSelected(null); setEditData(null); setEditMode(false); setCreateMode(false); setFormData({}); setImagePreview("") }}
         >Noticias</button>
         <button
+          className={`px-4 py-2 rounded ${view === 'jobs' ? 'bg-orange-500 text-white' : 'bg-white border'}`}
+          onClick={() => { setView('jobs'); setSelected(null); setEditData(null); setEditMode(false); setCreateMode(false); setFormData({}); setImagePreview("") }}
+        >Empleos</button>
+        <button
           className="px-4 py-2 rounded bg-green-500 text-white"
           onClick={() => { setCreateMode(true); setSelected(null); setEditData(null); setEditMode(false); setFormData({}); setImagePreview("") }}
-        >Crear {view === 'projects' ? 'Proyecto' : 'Noticia'}</button>
+        >Crear {view === 'projects' ? 'Proyecto' : view === 'news' ? 'Noticia' : 'Empleo'}</button>
       </div>
       {/* Listado de proyectos/noticias */}
       <div className="mb-6">
-        <ul className="divide-y divide-orange-200 bg-white rounded shadow">
-          {(view === 'projects' ? projects : news).map((item: any) => (
-            <li
-              key={item.id}
-              className={`p-4 cursor-pointer hover:bg-orange-100 ${selected?.id === item.id ? 'bg-orange-200' : ''}`}
-              onClick={() => {
-                setSelected(item);
-                setEditData(item);
-                setEditMode(true);
-                setCreateMode(false);
-                setFormData({});
-                setImagePreview(item.imagenPrincipal || item.image || "");
-              }}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-semibold">{item.titulo || item.title || item.nombre || item.name}</span>
-                <span className="text-xs text-gray-500">{item.categoria || item.category}</span>
-              </div>
-            </li>
-          ))}
-        </ul>
+        {view === 'projects' ? (
+          <ul className="divide-y divide-orange-200 bg-white rounded shadow">
+            {projects.map((item: any) => (
+              <li
+                key={item.id}
+                className={`p-4 cursor-pointer hover:bg-orange-100 ${selected?.id === item.id ? 'bg-orange-200' : ''}`}
+                onClick={() => {
+                  setSelected(item);
+                  setEditData(item);
+                  setEditMode(true);
+                  setCreateMode(false);
+                  setFormData({});
+                  setImagePreview(item.imagenPrincipal || item.image || "");
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold">{item.titulo || item.title || item.nombre || item.name}</span>
+                  <span className="text-xs text-gray-500">{item.categoria || item.category}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : view === 'news' ? (
+          <ul className="divide-y divide-orange-200 bg-white rounded shadow">
+            {news.map((item: any) => (
+              <li
+                key={item.id}
+                className={`p-4 cursor-pointer hover:bg-orange-100 ${selected?.id === item.id ? 'bg-orange-200' : ''}`}
+                onClick={() => {
+                  setSelected(item);
+                  setEditData(item);
+                  setEditMode(true);
+                  setCreateMode(false);
+                  setFormData({});
+                  setImagePreview(item.image || "");
+                }}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-semibold">{item.titulo || item.title || item.nombre || item.name}</span>
+                  <span className="text-xs text-gray-500">{item.categoria || item.category}</span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <JobList jobs={jobs} categories={jobCategories} onEdit={job => { setSelected(job); setEditData(job); setEditMode(true); setCreateMode(false); setFormData({}); }} />
+        )}
       </div>
       {/* Listado y edición de categorías */}
-      <h2 className="text-lg font-semibold mb-2">Categorías de {view === 'projects' ? 'Proyectos' : 'Noticias'}</h2>
+      <h2 className="text-lg font-semibold mb-2">Categorías de {view === 'projects' ? 'Proyectos' : view === 'news' ? 'Noticias' : 'Empleos'}</h2>
       {view === 'projects' ? (
         <>
-          {/* Formulario para crear categoría de proyecto */}
           <ProjectCategoryForm
             newCategory={newCategory}
             setNewCategory={setNewCategory}
             handleCreate={handleCategoryCreate}
           />
-          {/* Listado de categorías de proyecto */}
           <div className="mt-4 flex flex-wrap gap-2">
             {projectCategories.map((cat: any) => (
               <button
@@ -354,7 +403,6 @@ export default function AdminPage() {
               </button>
             ))}
           </div>
-          {/* Formulario para editar/eliminar categoría seleccionada */}
           <ProjectCategoryEditForm
             categoryEdit={categoryEdit}
             setCategoryEdit={setCategoryEdit}
@@ -362,15 +410,13 @@ export default function AdminPage() {
             handleDelete={handleCategoryDelete}
           />
         </>
-      ) : (
+      ) : view === 'news' ? (
         <>
-          {/* Formulario para crear categoría de noticia */}
           <NewsCategoryForm
             newCategory={newCategory}
             setNewCategory={setNewCategory}
             handleCreate={handleCategoryCreate}
           />
-          {/* Listado de categorías de noticia */}
           <div className="mt-4 flex flex-wrap gap-2">
             {newsCategories.map((cat: any) => (
               <button
@@ -383,8 +429,33 @@ export default function AdminPage() {
               </button>
             ))}
           </div>
-          {/* Formulario para editar/eliminar categoría seleccionada */}
           <NewsCategoryEditForm
+            categoryEdit={categoryEdit}
+            setCategoryEdit={setCategoryEdit}
+            handleEdit={handleCategoryEdit}
+            handleDelete={handleCategoryDelete}
+          />
+        </>
+      ) : (
+        <>
+          <JobCategoryForm
+            newCategory={newCategory}
+            setNewCategory={setNewCategory}
+            handleCreate={handleCategoryCreate}
+          />
+          <div className="mt-4 flex flex-wrap gap-2">
+            {jobCategories.map((cat: any) => (
+              <button
+                key={cat.id}
+                className={`px-3 py-1 rounded border flex items-center gap-2 ${categoryEdit?.id === cat.id ? 'bg-orange-200' : 'bg-white'}`}
+                onClick={() => setCategoryEdit(cat)}
+              >
+                <span className="inline-block w-4 h-4 rounded" style={{ background: cat.color }}></span>
+                <span>{cat.name}</span>
+              </button>
+            ))}
+          </div>
+          <JobCategoryEditForm
             categoryEdit={categoryEdit}
             setCategoryEdit={setCategoryEdit}
             handleEdit={handleCategoryEdit}
@@ -466,7 +537,7 @@ export default function AdminPage() {
             imagePreview={imagePreview}
             setImagePreview={setImagePreview}
           />
-        ) : (
+        ) : view === 'news' ? (
           <CreateNewsForm
             formData={formData}
             setFormData={setFormData}
@@ -519,137 +590,183 @@ export default function AdminPage() {
             imagePreview={imagePreview}
             setImagePreview={setImagePreview}
           />
+        ) : (
+          <CreateJobForm
+            formData={formData}
+            setFormData={setFormData}
+            categories={jobCategories}
+            handleCreate={async () => {
+              const endpoint = `${API_URL}/jobs`;
+              let payload = { ...formData };
+              let res;
+              let backendText = '';
+              let backendType = 'success';
+              let backendStatus = undefined;
+              let backendDetails = '';
+              res = await fetch(endpoint, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+              });
+              try {
+                const data = await res.json();
+                backendStatus = res.status;
+                if (data.error) {
+                  backendType = 'error';
+                  backendText = data.error;
+                  if (data.details) backendDetails = data.details;
+                } else {
+                  backendText = data.message || JSON.stringify(data);
+                }
+              } catch {
+                backendType = 'error';
+                backendText = await res.text();
+              }
+              let fullMessage = backendText;
+              if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+              setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
+              setLoading(true);
+              const resList = await fetch(endpoint);
+              const dataList = await resList.json();
+              setJobs(dataList.jobs);
+              setLoading(false);
+            }}
+          />
         )
       )}
       {/* Formulario de edición */}
+      {/* Formulario de edición */}
       {editMode && selected && (
-        view === 'projects' ? (
-          <EditProjectForm
-            editData={editData}
-            setEditData={setEditData}
-            categories={projectCategories}
-            handleEdit={async () => {
-              if (!editData) return;
-              const endpoint = `${API_URL}/projects/${editData.id}`;
-              let payload = { ...editData };
-              let res;
-              let backendText = '';
-              let backendType = 'success';
-              let backendStatus = undefined;
-              let backendDetails = '';
-              // Si hay alguna imagen como File, usar FormData
-              if (
-                editData.imagenPrincipal instanceof File ||
-                editData.image1 instanceof File ||
-                editData.image2 instanceof File
-              ) {
-                const fd = new FormData();
-                Object.entries(payload).forEach(([k, v]) => {
-                  if (
-                    v !== undefined && v !== null &&
-                    !(k === 'imagenPrincipal' || k === 'image1' || k === 'image2')
-                  ) {
-                    fd.append(k, v as any);
+        <>
+          {view === 'projects' && (
+            <EditProjectForm
+              editData={editData}
+              setEditData={setEditData}
+              categories={projectCategories}
+              handleEdit={async () => {
+                if (!editData) return;
+                const endpoint = `${API_URL}/projects/${editData.id}`;
+                let payload = { ...editData };
+                let res;
+                let backendText = '';
+                let backendType = 'success';
+                let backendStatus = undefined;
+                let backendDetails = '';
+                // Si hay alguna imagen como File, usar FormData
+                if (
+                  editData.imagenPrincipal instanceof File ||
+                  editData.image1 instanceof File ||
+                  editData.image2 instanceof File
+                ) {
+                  const fd = new FormData();
+                  Object.entries(payload).forEach(([k, v]) => {
+                    if (
+                      v !== undefined && v !== null &&
+                      !(k === 'imagenPrincipal' || k === 'image1' || k === 'image2')
+                    ) {
+                      fd.append(k, v as any);
+                    }
+                  });
+                  if (editData.imagenPrincipal instanceof File) {
+                    fd.append('imagenPrincipal', editData.imagenPrincipal);
                   }
-                });
-                if (editData.imagenPrincipal instanceof File) {
-                  fd.append('imagenPrincipal', editData.imagenPrincipal);
+                  if (editData.image1 instanceof File) {
+                    fd.append('image1', editData.image1);
+                  }
+                  if (editData.image2 instanceof File) {
+                    fd.append('image2', editData.image2);
+                  }
+                  res = await fetch(endpoint, { method: 'PUT', body: fd });
+                } else {
+                  res = await fetch(endpoint, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                  });
                 }
-                if (editData.image1 instanceof File) {
-                  fd.append('image1', editData.image1);
+                try {
+                  const data = await res.json();
+                  backendStatus = res.status;
+                  if (data.error) {
+                    backendType = 'error';
+                    backendText = data.error;
+                    if (data.details) backendDetails = data.details;
+                  } else {
+                    backendText = data.message || JSON.stringify(data);
+                  }
+                } catch {
+                  backendType = 'error';
+                  backendText = await res.text();
                 }
-                if (editData.image2 instanceof File) {
-                  fd.append('image2', editData.image2);
-                }
-                res = await fetch(endpoint, { method: 'PUT', body: fd });
-              } else {
+                let fullMessage = backendText;
+                if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+                setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
+                setLoading(true);
+                const resList = await fetch(`${API_URL}/projects`);
+                const dataList = await resList.json();
+                setProjects(dataList.projects);
+                setLoading(false);
+              }}
+              handleDelete={handleDelete}
+            />
+          )}
+          {view === 'news' && (
+            <EditNewsForm
+              editData={editData}
+              setEditData={setEditData}
+              categories={newsCategories}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+              imagePreview={imagePreview}
+              setImagePreview={setImagePreview}
+            />
+          )}
+          {view === 'jobs' && (
+            <EditJobForm
+              editData={editData}
+              setEditData={setEditData}
+              categories={jobCategories}
+              handleEdit={async () => {
+                if (!editData) return;
+                const endpoint = `${API_URL}/jobs/${editData.id}`;
+                let payload = { ...editData };
+                let res;
+                let backendText = '';
+                let backendType = 'success';
+                let backendStatus = undefined;
+                let backendDetails = '';
                 res = await fetch(endpoint, {
                   method: 'PUT',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify(payload)
                 });
-              }
-              try {
-                const data = await res.json();
-                backendStatus = res.status;
-                if (data.error) {
+                try {
+                  const data = await res.json();
+                  backendStatus = res.status;
+                  if (data.error) {
+                    backendType = 'error';
+                    backendText = data.error;
+                    if (data.details) backendDetails = data.details;
+                  } else {
+                    backendText = data.message || JSON.stringify(data);
+                  }
+                } catch {
                   backendType = 'error';
-                  backendText = data.error;
-                  if (data.details) backendDetails = data.details;
-                } else {
-                  backendText = data.message || JSON.stringify(data);
+                  backendText = await res.text();
                 }
-              } catch {
-                backendType = 'error';
-                backendText = await res.text();
-              }
-              let fullMessage = backendText;
-              if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
-              setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
-              setLoading(true);
-              const resList = await fetch(`${API_URL}/projects`);
-              const dataList = await resList.json();
-              setProjects(dataList.projects);
-              setLoading(false);
-            }}
-            handleDelete={handleDelete}
-          />
-        ) : (
-          <EditNewsForm
-            editData={editData}
-            setEditData={setEditData}
-            categories={newsCategories}
-            handleEdit={async () => {
-              if (!editData) return;
-              const endpoint = `${API_URL}/news/${editData.id}`;
-              let payload = { ...editData };
-              let res;
-              let backendText = '';
-              let backendType = 'success';
-              let backendStatus = undefined;
-              let backendDetails = '';
-              if (editData.image instanceof File) {
-                const fd = new FormData();
-                Object.entries(payload).forEach(([k, v]) => {
-                  if (v !== undefined && v !== null) fd.append(k, v as any);
-                });
-                fd.append('image', editData.image);
-                res = await fetch(endpoint, { method: 'PUT', body: fd });
-              } else {
-                res = await fetch(endpoint, {
-                  method: 'PUT',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(payload)
-                });
-              }
-              try {
-                const data = await res.json();
-                backendStatus = res.status;
-                if (data.error) {
-                  backendType = 'error';
-                  backendText = data.error;
-                  if (data.details) backendDetails = data.details;
-                } else {
-                  backendText = data.message || JSON.stringify(data);
-                }
-              } catch {
-                backendType = 'error';
-                backendText = await res.text();
-              }
-              let fullMessage = backendText;
-              if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
-              setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
-              setLoading(true);
-              const resList = await fetch(`${API_URL}/news`);
-              const dataList = await resList.json();
-              setNews(dataList.news);
-              setLoading(false);
-            }}
-            handleDelete={handleDelete}
-            imagePreview={imagePreview}
-            setImagePreview={setImagePreview}
-          />
-        )
+                let fullMessage = backendText;
+                if (backendDetails) fullMessage += `\nDetalles: ${backendDetails}`;
+                setBackendMessage({ type: backendType, status: backendStatus, text: fullMessage });
+                setLoading(true);
+                const resList = await fetch(`${API_URL}/jobs`);
+                const dataList = await resList.json();
+                setJobs(dataList.jobs);
+                setLoading(false);
+              }}
+              handleDelete={handleDelete}
+            />
+          )}
+        </>
       )}
     </div>
   );

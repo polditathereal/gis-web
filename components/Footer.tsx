@@ -9,11 +9,12 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
           <div>
             <img
-              src="/images/gis-logo.svg"
+              src="/Logo.png"
               alt="GIS Colombia Logo"
-              width={150}
-              height={50}
-              className="h-12 w-auto mb-6 brightness-0 invert"
+              width={400}
+              height={80}
+              className="h-16 w-auto mb-6"
+              style={{ objectFit: 'contain' }}
             />
             <p className="text-gray-300 mb-6">
               Soluciones tecnológicas innovadoras para el sector textil y empresarial.
@@ -36,23 +37,12 @@ export default function Footer() {
             </div>
           </div>
           <div>
-            <h3 className="text-xl font-semibold mb-6">Enlaces Rápidos</h3>
-            <div className="space-y-3">
-              <a href="#inicio" className="block text-gray-300 hover:text-orange-400 transition-colors">
-                Inicio
-              </a>
-              <a href="#nosotros" className="block text-gray-300 hover:text-orange-400 transition-colors">
-                Nosotros
-              </a>
-              <Link href="/proyectos" className="block text-gray-300 hover:text-orange-400 transition-colors">
-                Proyectos
-              </Link>
-              <Link href="/noticias" className="block text-gray-300 hover:text-orange-400 transition-colors">
-                Noticias
-              </Link>
-              <a href="#socios" className="block text-gray-300 hover:text-orange-400 transition-colors">
-                Socios
-              </a>
+            <h3 className="text-xl font-semibold mb-6">Grupo</h3>
+            <div className="flex flex-wrap gap-6 items-center justify-center">
+              <img src="/images/grupo/Imagen1.png" alt="Logo Grupo 1" className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto bg-white rounded shadow p-3 transition-all" />
+              <img src="/images/grupo/Imagen2.png" alt="Logo Grupo 2" className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto bg-white rounded shadow p-3 transition-all" />
+              <img src="/images/grupo/LOGO OMC.JPG" alt="Logo OMC" className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto bg-white rounded shadow p-3 transition-all" />
+              <img src="/images/grupo/logo Ciesa .jpg" alt="Logo Ciesa" className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto bg-white rounded shadow p-3 transition-all" />
             </div>
           </div>
           <div>
