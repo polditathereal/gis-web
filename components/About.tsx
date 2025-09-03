@@ -1,4 +1,4 @@
-import { Building2, HardHat, Ruler, ArrowRight, Sparkles, Construction } from "lucide-react"
+import { Building2, HardHat, Ruler, ArrowRight, Sparkles } from "lucide-react"
 import { IsoStack } from "@/components/IsoBadge"
 
 interface AboutSectionProps {
@@ -18,10 +18,10 @@ export default function AboutSection({ styles }: AboutSectionProps) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto text-center bg-white/90 backdrop-blur-xl p-6 sm:p-8 md:p-10 lg:p-12 rounded-2xl border border-[#F4731F]/20 shadow-2xl space-y-6 sm:space-y-8 lg:space-y-10 hover:shadow-3xl transition-all duration-500">
           <div className="relative">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold">
-              <span className="font-OPTIEdgar-Extended text-[#F4731F] drop-shadow-lg relative">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold font-opti-edgar">
+              <span className="text-[#F4731F] drop-shadow-lg relative">
                 GIS
-                <Construction className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 w-3 h-3 sm:w-4 sm:h-4 text-orange-400 animate-pulse" />
+                <Sparkles className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 w-3 h-3 sm:w-4 sm:h-4 text-orange-400 animate-pulse" />
               </span>
               <span className="text-black drop-shadow-lg ml-2 sm:ml-3">Colombia</span>
             </h2>
@@ -54,7 +54,7 @@ export default function AboutSection({ styles }: AboutSectionProps) {
 
           <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3 sm:gap-4 justify-center">
             <a
-              href="/proyectos"
+              href="#proyectos"
               className="group inline-flex items-center gap-2 sm:gap-3 rounded-xl bg-gradient-to-r from-[#F4731F] to-orange-500 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-white hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 text-base sm:text-lg relative overflow-hidden w-full sm:w-auto justify-center"
             >
               <span className="relative z-10">Ver proyectos</span>
@@ -62,11 +62,10 @@ export default function AboutSection({ styles }: AboutSectionProps) {
               <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </a>
             <a
-              href="#footer"
-              className="group inline-flex items-center gap-2 sm:gap-3 rounded-xl bg-white/10 border-2 border-white/30 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-white hover:bg-white/20 hover:border-white/50 transition-all duration-300 text-base sm:text-lg backdrop-blur-md"
+              href="#contacto"
+              className="inline-flex items-center gap-2 sm:gap-3 rounded-xl border-2 border-[#F4731F]/30 bg-white/80 backdrop-blur-sm px-6 sm:px-8 py-3 sm:py-4 font-semibold text-[#1A1A1A] hover:bg-[#F4731F] hover:text-white hover:border-[#F4731F] hover:shadow-lg hover:scale-105 transition-all duration-300 text-base sm:text-lg w-full sm:w-auto justify-center"
             >
-              <span>Contactar</span>
-              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              Contactar
             </a>
           </div>
 

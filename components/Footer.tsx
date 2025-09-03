@@ -1,67 +1,93 @@
-import Image from "next/image"
-import Link from "next/link"
 import { Mail, Phone, Linkedin, MapPin } from "lucide-react"
 
 export default function Footer() {
   return (
-    <footer id="contacto" className="bg-gray-800/95 backdrop-blur-sm text-white py-16">
-      <div className="container mx-auto px-4">
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
-          <div>
-            <img
-              src="/Logo.png"
-              alt="GIS Colombia Logo"
-              width={400}
-              height={80}
-              className="h-16 w-auto mb-6"
-              style={{ objectFit: 'contain' }}
-            />
-            <p className="text-gray-300 mb-6">
-              Soluciones tecnológicas innovadoras para el sector textil y empresarial.
+    <footer
+      id="contacto"
+      className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-20 relative overflow-hidden"
+    >
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-[#F4731F]/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-orange-500/10 rounded-full blur-3xl"></div>
+      </div>
+
+      <div className="container mx-auto px-4 relative z-10">
+        <div className="grid md:grid-cols-2 gap-12">
+          <div className="space-y-6">
+            <div className="flex items-center space-x-3">
+              <img
+                src="/Logo.png"
+                alt="GIS Colombia Logo"
+                width={400}
+                height={80}
+                className="h-16 w-auto hover:scale-105 transition-transform duration-300"
+                style={{ objectFit: "contain" }}
+              />
+            </div>
+
+            <p className="text-gray-300 leading-relaxed">
+              Con una herencia que se remonta a 1978, GRUPO GIS COLOMBIA consolida en 2007 el expertise y la trayectoria de firmas pioneras: OMICRÓN, CIESA, AMEPRO y GESTIÓN INTEGRAL DEL SUELO. Esta fusión de capacidades y consultoría nos posiciona como un referente integral en servicios de ingeniería y ambiental.
             </p>
-            <div className="space-y-3">
-              <div className="flex items-center space-x-3">
-                <Mail className="w-5 h-5 text-orange-400" />
-                <span>contacto@giscolombia.com</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Phone className="w-5 h-5 text-orange-400" />
-                <span>+57 1 234 5678</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Linkedin className="w-5 h-5 text-orange-400" />
-                <a href="#" className="hover:text-orange-400 transition-colors">
-                  LinkedIn
+
+            <div className="space-y-4">
+              {[
+                { icon: Mail, text: "contacto@giscolombia.com", href: "mailto:contacto@giscolombia.com" },
+                { icon: Phone, text: "+57 1 234 5678", href: "tel:+5712345678" },
+                { icon: Linkedin, text: "LinkedIn", href: "#" },
+              ].map((contact, index) => (
+                <a
+                  key={index}
+                  href={contact.href}
+                  className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-[#F4731F]/30 transition-all duration-300 group"
+                >
+                  <contact.icon className="w-5 h-5 text-[#F4731F] group-hover:scale-110 transition-transform duration-300" />
+                  <span className="group-hover:text-[#F4731F] transition-colors duration-300">{contact.text}</span>
                 </a>
+              ))}
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <h3 className="text-2xl font-semibold text-[#F4731F] flex items-center gap-2">
+              <MapPin className="w-6 h-6" />
+              Nuestra Oficina
+            </h3>
+
+            <div className="space-y-4">
+              <div className="flex items-start space-x-3 p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
+                <MapPin className="w-5 h-5 text-[#F4731F] mt-1" />
+                <div>
+                  <span className="text-white font-medium">Bogotá, Colombia</span>
+                  <p className="text-gray-400 text-sm mt-1">Sede principal</p>
+                </div>
               </div>
-            </div>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-6">Grupo</h3>
-            <div className="flex flex-wrap gap-6 items-center justify-center">
-              <img src="/images/grupo/Imagen1.png" alt="Logo Grupo 1" className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto bg-white rounded shadow p-3 transition-all" />
-              <img src="/images/grupo/Imagen2.png" alt="Logo Grupo 2" className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto bg-white rounded shadow p-3 transition-all" />
-              <img src="/images/grupo/LOGO OMC.JPG" alt="Logo OMC" className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto bg-white rounded shadow p-3 transition-all" />
-              <img src="/images/grupo/logo Ciesa .jpg" alt="Logo Ciesa" className="h-16 sm:h-20 md:h-24 lg:h-28 w-auto bg-white rounded shadow p-3 transition-all" />
-            </div>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold mb-6">Nuestra Oficina</h3>
-            <div className="flex items-start space-x-3 mb-4">
-              <MapPin className="w-5 h-5 text-orange-400 mt-1" />
-              <span className="text-gray-300">Bogotá, Colombia</span>
-            </div>
-            <div className="bg-gray-700/80 backdrop-blur-sm rounded-lg p-4 h-48 flex items-center justify-center border border-orange-200/20">
-              <div className="text-center">
-                <MapPin className="w-12 h-12 text-orange-400 mx-auto mb-2" />
-                <p className="text-gray-300">Mapa de Bogotá</p>
-                <p className="text-sm text-gray-400">Ubicación de nuestra oficina</p>
+
+              <div className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl p-6 h-48 flex items-center justify-center border border-[#F4731F]/20 hover:border-[#F4731F]/40 transition-all duration-300">
+                <div className="text-center">
+                  <div className="w-16 h-16 bg-[#F4731F]/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MapPin className="w-8 h-8 text-[#F4731F]" />
+                  </div>
+                  <p className="text-gray-300 font-medium">Mapa de Bogotá</p>
+                  <p className="text-sm text-gray-400 mt-1">Ubicación de nuestra oficina</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div className="border-t border-gray-700 mt-12 pt-8 text-center">
-          <p className="text-gray-400">© 2024 GIS Colombia. Todos los derechos reservados.</p>
+
+        <div className="border-t border-gray-700/50 mt-16 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <p className="text-gray-400">© 2024 GIS Colombia. Todos los derechos reservados.</p>
+            <div className="flex items-center space-x-4 text-sm text-gray-400">
+              <span>Ingeniería</span>
+              <span>•</span>
+              <span>Consultoría</span>
+              <span>•</span>
+              <span>Estudios</span>
+              <span>•</span>
+              <span>Diseño</span>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

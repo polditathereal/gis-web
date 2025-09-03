@@ -17,7 +17,7 @@ export default function Header({ getHeaderClass }: HeaderProps) {
           <div className="flex items-center space-x-3">
             <Link href="/">
               <img
-                src="/Logo.png"
+                src="/images/gis-colombia-logo.png"
                 alt="GIS Colombia Logo"
                 width={70}
                 height={40}

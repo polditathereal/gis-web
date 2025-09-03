@@ -1,3 +1,4 @@
+import Image from "next/image"
 import { Shield, CheckCircle2, Award } from "lucide-react"
 
 type IsoBadgeProps = {
@@ -10,21 +11,18 @@ type IsoBadgeProps = {
 const BADGE_CONFIG = {
   "9001": {
     title: "Gestión de Calidad",
-    icon: Award,
-    gradient: "from-blue-500 to-blue-600",
-    bgGradient: "from-blue-50 to-blue-100",
-    borderColor: "border-blue-200",
+    gradient: "from-yellow-400 to-amber-500",
+    bgGradient: "from-yellow-50 to-amber-100",
+    borderColor: "border-yellow-300",
   },
   "14001": {
     title: "Gestión Ambiental",
-    icon: Shield,
     gradient: "from-green-500 to-green-600",
     bgGradient: "from-green-50 to-green-100",
     borderColor: "border-green-200",
   },
   "45001": {
     title: "Seguridad y Salud",
-    icon: CheckCircle2,
     gradient: "from-orange-500 to-orange-600",
     bgGradient: "from-orange-50 to-orange-100",
     borderColor: "border-orange-200",
@@ -40,31 +38,29 @@ export function IsoBadge({ code, year, size = "md", className }: IsoBadgeProps) 
     return null
   }
 
-  const IconComponent = config.icon
-
   const scale = {
     sm: {
-      container: "h-16 px-4",
-      icon: "w-8 h-8",
-      iconSize: 18,
+      container: "h-20 px-6", // más grande
+      icon: "w-12 h-12",      // más grande
+      iconSize: 40,           // más grande
       title: "text-xs",
       code: "text-lg",
       year: "text-xs",
       radius: "rounded-xl",
     },
     md: {
-      container: "h-20 px-5",
-      icon: "w-10 h-10",
-      iconSize: 22,
+      container: "h-28 px-8", // más grande
+      icon: "w-16 h-16",      // más grande
+      iconSize: 56,           // más grande
       title: "text-sm",
       code: "text-xl",
       year: "text-sm",
       radius: "rounded-2xl",
     },
     lg: {
-      container: "h-24 px-6",
-      icon: "w-12 h-12",
-      iconSize: 26,
+      container: "h-36 px-10", // más grande
+      icon: "w-20 h-20",       // más grande
+      iconSize: 72,            // más grande
       title: "text-base",
       code: "text-2xl",
       year: "text-base",
@@ -91,8 +87,8 @@ export function IsoBadge({ code, year, size = "md", className }: IsoBadgeProps) 
       />
 
       {/* Content */}
-      <div className="relative flex items-center gap-4 h-full">
-        {/* Icon with gradient background */}
+      <div className="relative flex items-center gap-6 h-full">
+        {/* Imagen en vez de icono */}
         <div
           className={`
           ${scale.icon} ${scale.radius}
@@ -101,7 +97,13 @@ export function IsoBadge({ code, year, size = "md", className }: IsoBadgeProps) 
           shadow-md group-hover:shadow-lg transition-shadow
         `}
         >
-          <IconComponent size={scale.iconSize} className="text-white drop-shadow-sm" strokeWidth={2.5} />
+          <Image
+            src="/images/isos/iso-logo.png"
+            alt={`ISO ${code} logo`}
+            width={scale.iconSize}
+            height={scale.iconSize}
+            className="object-contain"
+          />
         </div>
 
         {/* Text content */}
@@ -114,9 +116,9 @@ export function IsoBadge({ code, year, size = "md", className }: IsoBadgeProps) 
         </div>
 
         {/* Decorative element */}
-        <div className="absolute top-0 right-0 w-8 h-8 opacity-10">
+        <div className="absolute top-0 right-0 w-12 h-12 opacity-10">
           <div
-            className={`w-full h-full bg-gradient-to-br ${config.gradient} transform rotate-45 translate-x-4 -translate-y-4`}
+            className={`w-full h-full bg-gradient-to-br ${config.gradient} transform rotate-45 translate-x-6 -translate-y-6`}
           />
         </div>
       </div>

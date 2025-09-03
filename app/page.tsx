@@ -6,6 +6,7 @@ import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import HeroSection from "@/components/HeroSection"
 import AboutSection from "@/components/AboutSection"
+import GroupSection from "@/components/GroupSection"
 import NewsCarousel from "@/components/NewsCarousel"
 import FetchProjectsGrid from "@/components/FetchProjectsGrid"
 const API_URL = "http://localhost:4000/projects"
@@ -112,6 +113,7 @@ export default function GISColombiaPage() {
         }
       />
       <AboutSection styles={styles} />
+      <GroupSection styles={styles} />
       <NewsCarousel
         featuredNews={featuredNews}
         currentSlide={currentSlide}

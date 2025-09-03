@@ -9,12 +9,12 @@ const partners = [
   { name: "ANI", logo: "/images/clients/ANI.png" },
   { name: "Alcaldía Usaquén", logo: "/images/clients/Alcaldia Usaquen.jpg" },
   { name: "Findeter", logo: "/images/clients/Findeter.jpg" },
-  { name: "Fondo de Adaptación", logo: "/images/clients/Fondo de adaptación.jfif" },
   { name: "INVÍAS", logo: "/images/clients/INVÍAS_Colombia_logo.png" },
   { name: "EAAB", logo: "/images/clients/Logo_EAAB.png" },
   { name: "EPC", logo: "/images/clients/epc.jpg" },
   { name: "IDU", logo: "/images/clients/idu.png" },
   { name: "SDM", logo: "/images/clients/logo-sdm.png" },
+  { name: "Fondo Adaptación", logo: "/images/clients/fondo_adaptacin_logo.jpeg" }, // logo agregado
 ]
 
 export default function PartnersSection({ styles }: PartnersSectionProps) {

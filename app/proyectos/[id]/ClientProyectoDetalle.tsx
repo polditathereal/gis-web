@@ -76,9 +76,10 @@ export default function ClientProyectoDetalle() {
           </div>
 
           <article className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-orange-200/50 overflow-hidden">
-            <div className="bg-gradient-to-r from-[#F4731F]/10 to-orange-200/20 p-8 border-b border-orange-200/30">
-              <div className="grid lg:grid-cols-2 gap-8 items-start">
-                <div className="space-y-6">
+            <div className="bg-gradient-to-r from-[#F4731F]/10 to-orange-200/20 p-6 border-b border-orange-200/30">
+              <div className="space-y-4">
+                {/* Title section - full width */}
+                <div className="space-y-4">
                   <div className="flex flex-wrap items-center gap-3 mb-4">
                     <span
                       className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-white text-sm font-semibold shadow-lg"
@@ -96,37 +97,55 @@ export default function ClientProyectoDetalle() {
                   <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight text-balance">
                     {project.title}
                   </h1>
+                </div>
+
+                {/* Image and Object section - sharing width */}
+                <div className="grid lg:grid-cols-2 gap-6 items-start">
+                  <div className="relative group">
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#F4731F]/20 to-orange-300/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
+                    <div className="relative bg-white rounded-2xl p-4 shadow-lg">
+                      <Image
+                        src={mainImage || "/placeholder.svg"}
+                        alt={project.title || "Proyecto"}
+                        width={600}
+                        height={400}
+                        className="rounded-xl object-cover w-full h-auto max-h-[400px] shadow-md"
+                      />
+                    </div>
+                  </div>
 
                   {project.objeto && (
-                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
-                      <h2 className="text-lg font-semibold text-gray-800 mb-2 flex items-center gap-2">
+                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 border border-orange-200/50 flex flex-col h-full">
+                      <h2 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
                         <Building2 className="w-5 h-5 text-[#F4731F]" />
                         Objeto del proyecto
                       </h2>
-                      <p className="text-gray-700">{project.objeto}</p>
+                      <p className="text-gray-800 leading-relaxed flex-1 text-xl">{project.objeto}</p>
+                    </div>
+                  )}
+                </div>
+
+                {/* Dates and Consortium section - sharing width */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {project.fechaInicial && (
+                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
+                      <div className="flex items-center gap-2 text-[#F4731F] mb-2">
+                        <Calendar className="w-4 h-4" />
+                        <span className="font-semibold text-sm">Fecha de inicio</span>
+                      </div>
+                      <p className="text-gray-800 font-medium text-xl">{project.fechaInicial}</p>
                     </div>
                   )}
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {project.fechaInicial && (
-                      <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
-                        <div className="flex items-center gap-2 text-[#F4731F] mb-2">
-                          <Calendar className="w-4 h-4" />
-                          <span className="font-semibold text-sm">Fecha de inicio</span>
-                        </div>
-                        <p className="text-gray-800 font-medium">{project.fechaInicial}</p>
+                  {project.fechaFinal && (
+                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
+                      <div className="flex items-center gap-2 text-[#F4731F] mb-2">
+                        <Clock className="w-4 h-4" />
+                        <span className="font-semibold text-sm">Fecha de finalización</span>
                       </div>
-                    )}
-                    {project.fechaFinal && (
-                      <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
-                        <div className="flex items-center gap-2 text-[#F4731F] mb-2">
-                          <Clock className="w-4 h-4" />
-                          <span className="font-semibold text-sm">Fecha de finalización</span>
-                        </div>
-                        <p className="text-gray-800 font-medium">{project.fechaFinal}</p>
-                      </div>
-                    )}
-                  </div>
+                      <p className="text-gray-800 font-medium text-xl">{project.fechaFinal}</p>
+                    </div>
+                  )}
 
                   {project.consorcio && (
                     <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
@@ -134,44 +153,29 @@ export default function ClientProyectoDetalle() {
                         <Users className="w-4 h-4" />
                         <span className="font-semibold text-sm">Consorcio</span>
                       </div>
-                      <p className="text-gray-800 font-medium">{project.consorcio}</p>
+                      <p className="text-gray-800 font-medium text-xl">{project.consorcio}</p>
                     </div>
                   )}
                 </div>
 
-                <div className="relative group">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#F4731F]/20 to-orange-300/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
-                  <div className="relative bg-white rounded-2xl p-4 shadow-lg">
-                    <Image
-                      src={mainImage || "/placeholder.svg"}
-                      alt={project.title || "Proyecto"}
-                      width={600}
-                      height={400}
-                      className="rounded-xl object-cover w-full h-auto max-h-[400px] shadow-md"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="p-8">
-              <div className="space-y-8">
+                {/* Description section */}
                 <div className="prose prose-lg max-w-none">
                   <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                     <Building2 className="w-6 h-6 text-[#F4731F]" />
                     Descripción del proyecto
                   </h2>
                   <div className="bg-gray-50/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
-                    <div className="text-lg text-gray-700 leading-relaxed whitespace-pre-line">
+                    <div className="text-xl text-gray-700 leading-relaxed whitespace-pre-line">
                       {project.descripcion || "Sin descripción"}
                     </div>
                   </div>
                 </div>
 
+                {/* Gallery section */}
                 {secondaryImages.length > 0 && (
                   <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                      <Building2 className="w-6 h-6 text-[#F4731F]" />
+                      <Image className="w-6 h-6 text-[#F4731F]" />
                       Galería del proyecto
                     </h2>
 
@@ -179,19 +183,17 @@ export default function ClientProyectoDetalle() {
                       <div className="relative group">
                         <div className="absolute inset-0 bg-gradient-to-r from-[#F4731F]/10 to-orange-300/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                         <div className="relative bg-white rounded-2xl p-4 shadow-lg">
-                          {secondaryImages[0] ? (
-                            <Image
-                              src={
-                                secondaryImages[0] && secondaryImages[0].startsWith("/images/")
-                                  ? `http://localhost:4000${secondaryImages[0]}`
-                                  : secondaryImages[0]
-                              }
-                              alt={`Imagen del proyecto`}
-                              width={800}
-                              height={400}
-                              className="rounded-xl object-cover w-full h-auto max-h-[400px] shadow-md"
-                            />
-                          ) : null}
+                          <Image
+                            src={
+                              secondaryImages[0] && secondaryImages[0].startsWith("/images/")
+                                ? `http://localhost:4000${secondaryImages[0]}`
+                                : secondaryImages[0] || "/placeholder.jpg"
+                            }
+                            alt={`Imagen del proyecto`}
+                            width={800}
+                            height={400}
+                            className="rounded-xl object-cover w-full h-auto max-h-[400px] shadow-md"
+                          />
                         </div>
                       </div>
                     )}
@@ -202,19 +204,17 @@ export default function ClientProyectoDetalle() {
                           <div key={idx} className="relative group">
                             <div className="absolute inset-0 bg-gradient-to-r from-[#F4731F]/10 to-orange-300/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                             <div className="relative bg-white rounded-2xl p-4 shadow-lg">
-                              {img ? (
-                                <Image
-                                  src={
-                                    img && img.startsWith("/images/")
-                                      ? `http://localhost:4000${img}`
-                                      : img
-                                  }
-                                  alt={`Imagen del proyecto ${idx + 1}`}
-                                  width={400}
-                                  height={300}
-                                  className="rounded-xl object-cover w-full h-auto max-h-[300px] shadow-md"
-                                />
-                              ) : null}
+                              <Image
+                                src={
+                                  img && img.startsWith("/images/")
+                                    ? `http://localhost:4000${img}`
+                                    : img || "/placeholder.jpg"
+                                }
+                                alt={`Imagen del proyecto ${idx + 1}`}
+                                width={400}
+                                height={300}
+                                className="rounded-xl object-cover w-full h-auto max-h-[300px] shadow-md"
+                              />
                             </div>
                           </div>
                         ))}

@@ -53,3 +53,14 @@ html {
 .animate-slide-down {
   animation: slideDownFast 0.15s cubic-bezier(0.4,0,0.2,1);
 }
+
+@font-face {
+  font-family: 'OPTIEdgar-Extended';
+  src: url('/fonts/OPTIEdgar-Extended.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.font-OPTIEdgar-Extended {
+  font-family: 'OPTIEdgar-Extended', sans-serif;
+}

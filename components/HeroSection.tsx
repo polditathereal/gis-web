@@ -5,7 +5,7 @@ import type React from "react"
 
 import Image from "next/image"
 import { useEffect, useState } from "react"
-import { Building2, HardHat, Ruler, ArrowRight, Sparkles } from "lucide-react"
+import { Building2, HardHat, Ruler, ArrowRight, Construction } from "lucide-react"
 import { IsoBadge } from "@/components/IsoBadge"
 
 type Props = {
@@ -78,40 +78,47 @@ export default function HeroConstructora({
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
       </div>
 
-      {/* Animated particles */}
-      <div className="absolute inset-0 z-5">
-        <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-[#F4731F]/30 rounded-full animate-pulse" />
-        <div className="absolute top-1/3 right-1/3 w-1 h-1 bg-orange-300/40 rounded-full animate-ping" />
-        <div className="absolute bottom-1/3 left-1/5 w-1.5 h-1.5 bg-[#F4731F]/20 rounded-full animate-pulse delay-1000" />
-      </div>
-
       {/* Content */}
       <div className="absolute inset-0 z-10 flex items-center justify-start">
         <div className="container mx-auto px-6">
           <div className="grid lg:grid-cols-12 gap-16 items-center">
             <div className="lg:col-span-8 space-y-12">
               <div className="space-y-6">
-                <div className="hidden lg:flex items-center gap-4 mb-4">
-                  <Sparkles className="w-6 h-6 text-[#F4731F] animate-pulse" />
-                  <span className="text-sm uppercase tracking-[0.2em] text-orange-200/80 font-medium">
-                    Ingeniería • Consultoría • Estudios • Diseño
-                  </span>
-                </div>
-
-                <h1 className="space-y-2">
-                  <div className="flex items-center gap-3 md:gap-6">
-                    <span className="font-opti-edgar text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-[#F4731F] drop-shadow-2xl tracking-tight leading-none">
-                      GIS
+                {/* Partículas arriba a la izquierda de GIS */}
+                <div className="relative">
+                  
+                  {/* Título GIS */}
+                  <div className="hidden lg:flex items-center gap-4 mb-4">
+                    
+                    <span className="text-sm uppercase tracking-[0.2em] text-orange-200/80 font-medium">
+                      Ingeniería • Consultoría • Estudios • Diseño
                     </span>
-                    <div className="flex flex-col">
-                      <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white drop-shadow-lg leading-tight">
-                        Colombia
-                      </span>
-                      <div className="w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-[#F4731F] to-orange-400 mt-2" />
+                  </div>
+                  <h1 className="space-y-2">
+                    <div className="flex items-center gap-3 md:gap-6">
+                      
+                      <span className="font-OPTIEdgar-Extended text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-black text-[#F4731F] drop-shadow-2xl tracking-tight leading-none">
+                        <div className="absolute -top-6 -left-6 z-20">
+                    <div className="relative w-16 h-16">
+                      <div className="absolute top-8 left-2">
+                        <Construction className="w-5 h-5 text-[#F4731F]/60 animate-pulse delay-500" />
+                      </div>
                     </div>
                   </div>
-                </h1>
+                        
+                        GIS
+                      </span>
+                      <div className="flex flex-col">
+                        <span className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl font-bold text-white drop-shadow-lg leading-tight">
+                          Colombia
+                        </span>
+                        <div className="w-16 sm:w-20 md:w-24 h-1 bg-gradient-to-r from-[#F4731F] to-orange-400 mt-2" />
+                      </div>
+                    </div>
+                  </h1>
+                </div>
 
+              
               </div>
 
               <div className="hidden lg:grid sm:grid-cols-3 gap-4 max-w-4xl">
@@ -133,11 +140,22 @@ export default function HeroConstructora({
               </div>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-                <button className="group relative inline-flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#F4731F] to-orange-500 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-bold text-white hover:from-orange-500 hover:to-[#F4731F] transition-all duration-300 text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105 w-full sm:w-auto">
+                <a
+                  href="/proyectos"
+                  className="group relative inline-flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#F4731F] to-orange-500 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-bold text-white hover:from-orange-500 hover:to-[#F4731F] transition-all duration-300 text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105 w-full sm:w-auto"
+                >
                   <span>Ver proyectos</span>
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                   <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </button>
+                </a>
+
+                <a
+                  href="#contacto"
+                  className="hidden sm:inline-flex group items-center gap-3 rounded-2xl border-2 border-white/30 bg-white/10 px-8 lg:px-10 py-4 lg:py-5 font-semibold text-white hover:bg-white/20 hover:border-white/50 transition-all duration-300 text-base sm:text-lg backdrop-blur-md"
+                >
+                  <span>Contactar</span>
+                  <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+                </a>
               </div>
 
               <div className="hidden lg:grid grid-cols-3 max-w-2xl gap-8">

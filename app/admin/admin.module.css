@@ -1,0 +1,194 @@
+.admin-container {
+  background: #f7f7f7;
+  min-height: 100vh;
+  padding: 32px 0;
+  font-family: 'Inter', Arial, sans-serif;
+}
+
+.admin-title {
+  text-align: center;
+  color: #ff6600;
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 32px;
+  letter-spacing: 1px;
+}
+
+.admin-sections {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.admin-section {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+  padding: 24px 20px;
+  width: 100%;
+  max-width: none;
+  margin-bottom: 32px;
+  border: 1px solid #ececec;
+}
+
+.admin-section-header {
+  color: #ff6600;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.admin-section-title {
+  color: #888;
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin-bottom: 8px;
+}
+
+.admin-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+}
+
+.admin-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 0;
+  border-bottom: 1px solid #ececec;
+}
+
+.admin-category-badge {
+  display: inline-block;
+  color: #fff;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 2px 12px;
+  margin-right: 8px;
+}
+
+.admin-item-title {
+  flex: 1;
+  color: #333;
+  font-weight: 500;
+}
+
+.admin-btn {
+  border: none;
+  outline: none;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-left: 4px;
+}
+
+.admin-btn-primary {
+  background: #ff6600;
+  color: #fff;
+  font-weight: 600;
+}
+
+.admin-btn-secondary {
+  background: #ececec;
+  color: #ff6600;
+  font-weight: 600;
+}
+
+.admin-btn-edit {
+  background: #fff3e0;
+  color: #ff6600;
+  border: 1px solid #ff6600;
+}
+
+.admin-btn-delete {
+  background: #f7f7f7;
+  color: #b71c1c;
+  border: 1px solid #b71c1c;
+}
+
+.admin-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 16px 0;
+}
+
+.admin-input {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ececec;
+  font-size: 1rem;
+  background: #fafafa;
+  color: #333;
+}
+
+.admin-form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.admin-image-drop {
+  border: 2px dashed #ff6600;
+  background: #fff8f1;
+  padding: 18px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.admin-image-hint {
+  color: #ff6600;
+  font-size: 0.95rem;
+  margin-top: 6px;
+  display: block;
+}
+
+.admin-image-name {
+  color: #333;
+  font-size: 0.95rem;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.admin-access-denied {
+  color: #b71c1c;
+  background: #fff3e0;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  font-size: 1.3rem;
+  margin: 48px auto;
+  max-width: 400px;
+}
+
+.adminContainer { composes: admin-container; }
+.adminTitle { composes: admin-title; }
+.adminSections { composes: admin-sections; }
+.adminSection { composes: admin-section; }
+.adminSectionHeader { composes: admin-section-header; }
+.adminSectionTitle { composes: admin-section-title; }
+.adminList { composes: admin-list; }
+.adminListItem { composes: admin-list-item; }
+.adminCategoryBadge { composes: admin-category-badge; }
+.adminItemTitle { composes: admin-item-title; }
+.adminBtn { composes: admin-btn; }
+.adminBtnPrimary { composes: admin-btn-primary; }
+.adminBtnSecondary { composes: admin-btn-secondary; }
+.adminBtnEdit { composes: admin-btn-edit; }
+.adminBtnDelete { composes: admin-btn-delete; }
+.adminForm { composes: admin-form; }
+.adminInput { composes: admin-input; }
+.adminFormActions { composes: admin-form-actions; }
+.adminImageDrop { composes: admin-image-drop; }
+.adminImageHint { composes: admin-image-hint; }
+.adminImageName { composes: admin-image-name; }
+.adminAccessDenied { composes: admin-access-denied; }
+.adminAccessDenied { composes: admin-access-denied; }

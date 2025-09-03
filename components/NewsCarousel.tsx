@@ -62,7 +62,7 @@ export default function NewsCarousel({
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
 
                       <div className="absolute bottom-0 left-0 right-0 p-8">
-                        <div className="bg-gradient-to-r from-[#F4731F] to-orange-600 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-2xl">
+                        <div className="bg-orange-500/40 backdrop-blur-sm rounded-2xl p-6 border border-white/20 shadow-2xl">
                           <h3 className="text-2xl md:text-3xl font-bold text-white mb-3 group-hover:text-orange-100 transition-colors">
                             {news.title}
                           </h3>
