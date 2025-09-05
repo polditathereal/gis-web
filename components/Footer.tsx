@@ -1,4 +1,5 @@
 import { Mail, Phone, Linkedin, MapPin } from "lucide-react"
+import Image from "next/image"
 
 export default function Footer() {
   return (
@@ -15,7 +16,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 gap-12">
           <div className="space-y-6">
             <div className="flex items-center space-x-3">
-              <img
+              <Image
                 src="/Logo.png"
                 alt="GIS Colombia Logo"
                 width={400}
@@ -23,6 +24,7 @@ export default function Footer() {
                 className="h-16 w-auto hover:scale-105 transition-transform duration-300"
                 style={{ objectFit: "contain" }}
               />
+
             </div>
 
             <p className="text-gray-300 leading-relaxed">

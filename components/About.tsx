@@ -1,11 +1,7 @@
 import { Building2, HardHat, Ruler, ArrowRight, Sparkles } from "lucide-react"
 import { IsoStack } from "@/components/IsoBadge"
 
-interface AboutSectionProps {
-  styles: { sectionTitle: string }
-}
-
-export default function AboutSection({ styles }: AboutSectionProps) {
+export default function AboutSection() {
   return (
     <section id="aboutsection" className="py-12 md:py-16 lg:hidden relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
@@ -84,3 +80,4 @@ export default function AboutSection({ styles }: AboutSectionProps) {
     </section>
   )
 }
+ 

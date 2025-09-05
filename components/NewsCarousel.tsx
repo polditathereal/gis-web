@@ -13,13 +13,23 @@ function constructImageUrl(imagePath: string | undefined | null): string {
   return "/placeholder.jpg"
 }
 
-interface NewsCarouselProps {
-  featuredNews: { title: string; image?: string; description?: string; [key: string]: any }[]
+type NewsItem = {
+  id: string
+  title: string
+  image?: string
+  description?: string
+}
+
+type NewsCarouselProps = {
+  featuredNews: NewsItem[]
   currentSlide: number
   nextSlide: () => void
   prevSlide: () => void
-  setCurrentSlide: (index: number) => void
-  styles: { sectionTitle: string }
+  setCurrentSlide: (n: number) => void
+  styles?: {
+    cardStyle?: string
+    sectionTitle?: string
+  }
 }
 
 export default function NewsCarousel({
@@ -42,7 +52,7 @@ export default function NewsCarousel({
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className={`${styles.sectionTitle} text-gray-800 mb-4`}>
+          <h2 className={`${styles?.sectionTitle ?? ""} text-gray-800 mb-4`}>
             Últimas <span className="text-[#F4731F]">Noticias</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-[#F4731F] to-orange-500 mx-auto rounded-full"></div>

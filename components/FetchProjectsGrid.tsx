@@ -6,8 +6,21 @@ const API_URL =
   process.env.NEXT_PUBLIC_API_URL_LOCAL ||
   "http://localhost:4000"
 
-export default function FetchProjectsGrid({ styles }: { styles: any }) {
-  const [projects, setProjects] = useState<any[]>([])
+type Project = {
+  id: string
+  title: string
+  // ...otros campos relevantes...
+}
+
+type FetchProjectsGridProps = {
+  styles?: {
+    cardStyle?: string
+    // ...otros estilos...
+  }
+}
+
+export default function FetchProjectsGrid({ styles }: FetchProjectsGridProps) {
+  const [projects, setProjects] = useState<Project[]>([])
   const [categories, setCategories] = useState<any[]>([])
 
   useEffect(() => {
@@ -31,5 +44,14 @@ export default function FetchProjectsGrid({ styles }: { styles: any }) {
       })
   }, [])
 
-  return <ProjectsGrid allProjects={projects} styles={styles} categories={categories} />
+  return (
+    <ProjectsGrid
+      allProjects={projects}
+      styles={{
+        sectionTitle: styles?.cardStyle ? "" : "",
+        cardStyle: styles?.cardStyle || ""
+      }}
+      categories={categories}
+    />
+  )
 }

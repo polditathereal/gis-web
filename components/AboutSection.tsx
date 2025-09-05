@@ -1,5 +1,6 @@
-import { Building2, HardHat, Ruler, ArrowRight, Sparkles, Construction } from "lucide-react"
+import { Building2, HardHat, Ruler, ArrowRight, Construction } from "lucide-react"
 import { IsoStack } from "@/components/IsoBadge"
+import Link from "next/link"
 
 interface AboutSectionProps {
   styles: { sectionTitle: string }
@@ -53,14 +54,14 @@ export default function AboutSection({ styles }: AboutSectionProps) {
           </div>
 
           <div className="flex flex-col sm:flex-row flex-wrap items-center gap-3 sm:gap-4 justify-center">
-            <a
+            <Link
               href="/proyectos"
               className="group inline-flex items-center gap-2 sm:gap-3 rounded-xl bg-gradient-to-r from-[#F4731F] to-orange-500 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-white hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-300 text-base sm:text-lg relative overflow-hidden w-full sm:w-auto justify-center"
             >
               <span className="relative z-10">Ver proyectos</span>
               <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform duration-300 relative z-10" />
               <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-            </a>
+            </Link>
             <a
               href="#footer"
               className="group inline-flex items-center gap-2 sm:gap-3 rounded-xl bg-white/10 border-2 border-white/30 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-white hover:bg-white/20 hover:border-white/50 transition-all duration-300 text-base sm:text-lg backdrop-blur-md"

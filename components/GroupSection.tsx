@@ -1,4 +1,13 @@
-export default function GroupSection() {
+import Image from "next/image"
+
+type GroupSectionProps = {
+  styles?: {
+    sectionTitle?: string
+    cardStyle?: string
+  }
+}
+
+export default function GroupSection({ styles }: GroupSectionProps) {
   const groupCompanies = [
     {
       name: "GIS Colombia",
@@ -31,7 +40,7 @@ export default function GroupSection() {
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+          <h2 className={`${styles?.sectionTitle ?? "text-4xl md:text-5xl font-bold"} text-gray-800 mb-4`}>
             Nuestro <span className="text-[#F4731F]">Grupo</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-[#F4731F] to-orange-500 mx-auto rounded-full mb-6"></div>
@@ -45,10 +54,13 @@ export default function GroupSection() {
         <div className="flex justify-center mb-16">
           <div className="bg-white rounded-3xl p-12 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:scale-105">
             <div className="h-32 w-80 flex items-center justify-center">
-              <img
+              <Image
                 src="/images/grupo/principal.png"
                 alt="Grupo Principal"
+                width={320}
+                height={128}
                 className="max-h-full max-w-full object-contain"
+                priority
               />
             </div>
           </div>
@@ -67,13 +79,16 @@ export default function GroupSection() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {groupCompanies.map((company, index) => (
             <div key={index} className="group">
-              <div className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 group-hover:scale-105 border-2 border-[#F4731F]/20 hover:border-[#F4731F]/40 relative overflow-hidden">
+              <div className={`bg-white rounded-2xl p-8 transition-all duration-300 group-hover:scale-105 relative overflow-hidden
+                ${styles?.cardStyle ?? "shadow-lg hover:shadow-2xl border-2 border-[#F4731F]/20 hover:border-[#F4731F]/40"}`}>
                 <div className="absolute top-0 right-0 w-8 h-8 bg-[#F4731F]/10 transform rotate-45 translate-x-4 -translate-y-4"></div>
 
                 <div className="h-20 flex items-center justify-center mb-6">
-                  <img
+                  <Image
                     src={company.logo || "/placeholder.svg"}
                     alt={company.name}
+                    width={80}
+                    height={80}
                     className="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
                   />
                 </div>

@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
+import Image from "next/image"
 
 interface HeaderProps {
   getHeaderClass: () => string
@@ -16,7 +17,7 @@ export default function Header({ getHeaderClass }: HeaderProps) {
         <nav className="flex justify-between items-center h-full">
           <div className="flex items-center space-x-3">
             <Link href="/">
-              <img
+              <Image
                 src="/images/gis-colombia-logo.png"
                 alt="GIS Colombia Logo"
                 width={70}

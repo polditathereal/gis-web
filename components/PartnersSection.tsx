@@ -1,4 +1,5 @@
 import Marquee from "react-fast-marquee"
+import Image from "next/image"
 
 interface PartnersSectionProps {
   styles: { sectionTitle: string }
@@ -42,9 +43,11 @@ export default function PartnersSection({ styles }: PartnersSectionProps) {
                 style={{ minWidth: "10rem", maxWidth: "12rem", flex: "0 0 180px" }}
               >
                 <div className="bg-white rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-110 border border-gray-100">
-                  <img
+                  <Image
                     src={encodeURI(partner.logo) || "/placeholder.svg"}
                     alt={partner.name}
+                    width={128}
+                    height={48}
                     className="h-12 w-32 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
                     style={{ display: "block" }}
                     onError={(e) => {

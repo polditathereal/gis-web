@@ -1,5 +1,4 @@
 import Image from "next/image"
-import { Shield, CheckCircle2, Award } from "lucide-react"
 
 type IsoBadgeProps = {
   code: "9001" | "14001" | "45001"
@@ -144,3 +143,4 @@ export function IsoStack({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
     </div>
   )
 }
+

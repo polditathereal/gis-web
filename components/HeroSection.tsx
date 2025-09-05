@@ -1,16 +1,13 @@
 // HeroSection.tsx
 "use client"
 
-import type React from "react"
-
 import Image from "next/image"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 import { Building2, HardHat, Ruler, ArrowRight, Construction } from "lucide-react"
 import { IsoBadge } from "@/components/IsoBadge"
 
 type Props = {
-  title?: string
-  subtitle?: string
   images?: string[]
 }
 
@@ -22,8 +19,6 @@ const DEFAULT_IMAGES = [
 ]
 
 export default function HeroConstructora({
-  title = "Construimos espacios que transforman ciudades",
-  subtitle = "Infraestructura y vivienda con calidad, cumplimiento y transparencia. Especialistas en licitaciones públicas y privadas.",
   images = DEFAULT_IMAGES,
 }: Props) {
   const [idx, setIdx] = useState(0)
@@ -140,14 +135,14 @@ export default function HeroConstructora({
               </div>
 
               <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
-                <a
+                <Link
                   href="/proyectos"
                   className="group relative inline-flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#F4731F] to-orange-500 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-bold text-white hover:from-orange-500 hover:to-[#F4731F] transition-all duration-300 text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105 w-full sm:w-auto"
                 >
                   <span>Ver proyectos</span>
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
                   <div className="absolute inset-0 rounded-xl sm:rounded-2xl bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </a>
+                </Link>
 
                 <a
                   href="#contacto"

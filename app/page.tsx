@@ -14,18 +14,21 @@ const API_URL =
   process.env.NEXT_PUBLIC_API_URL_LOCAL ||
   "http://localhost:4000"
 import PartnersSection from "@/components/PartnersSection"
-import { Settings, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Switch } from "@/components/ui/switch"
+
+type NewsItem = {
+  // Ajusta los campos según la estructura real de tus noticias
+  id: string
+  title: string
+  [key: string]: unknown
+}
 
 export default function GISColombiaPage() {
   const [currentSlide, setCurrentSlide] = useState(0)
-  const [showControlPanel, setShowControlPanel] = useState(false)
-  const [useGradientBg, setUseGradientBg] = useState(true)
-  const [headerSticky, setHeaderSticky] = useState(true)
-  const [headerFullWidth, setHeaderFullWidth] = useState(true)
-  const [version, setVersion] = useState("modern")
-  const [featuredNews, setFeaturedNews] = useState<any[]>([]);
+  const [useGradientBg] = useState(true)
+  const [headerSticky] = useState(true)
+  const [headerFullWidth] = useState(true)
+  const [version] = useState("modern")
+  const [featuredNews, setFeaturedNews] = useState<NewsItem[]>([]);
 
   useEffect(() => {
     fetch(`${API_URL}/news`)
@@ -109,12 +112,7 @@ export default function GISColombiaPage() {
   return (
     <div className={`min-h-screen pt-[80px] ${getBackgroundClass()}`}>
       <Header getHeaderClass={getHeaderClass} />
-      <HeroSection
-        title="GIS Colombia"
-        subtitle={
-          "Construimos el futuro de Bogotá: proyectos de infraestructura y vivienda con calidad, cumplimiento y transparencia.\nEspecialistas en licitaciones públicas y privadas."
-        }
-      />
+      <HeroSection />
       <AboutSection styles={styles} />
       <GroupSection styles={styles} />
       <NewsCarousel
