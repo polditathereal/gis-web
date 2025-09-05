@@ -2,11 +2,11 @@ import Image from "next/image"
 
 interface ProjectCardProps {
   project: {
-    id: number
+    id: string // <-- cambia de number a string para coincidir con ProyectoType
     title: string
     descripcion: string
-    fechaInicial: string | number
-    fechaFinal: string | number
+    fechaInicial?: string | number // <-- haz opcional para coincidir con ProyectoType
+    fechaFinal?: string | number   // <-- haz opcional para coincidir con ProyectoType
     image1?: string
     categoriaColor?: string
     categoriaNombre?: string

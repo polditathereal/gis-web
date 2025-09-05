@@ -23,10 +23,21 @@ function constructImageUrl(imagePath: string | undefined | null): string {
   return "/placeholder.jpg"
 }
 
+// Define los tipos correctos para noticia y fetch
+type NoticiaDetalle = {
+  id: string
+  title: string
+  description: string
+  date: string
+  image?: string
+  category: string
+  // agrega otros campos según tu modelo
+}
+
 export default function ClientNoticiaDetalle() {
   const params = useParams()
   const id = params?.id
-  const [noticia, setNoticia] = useState<any | null>(null)
+  const [noticia, setNoticia] = useState<NoticiaDetalle | null>(null)
   const [categories, setCategories] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -39,6 +50,12 @@ export default function ClientNoticiaDetalle() {
         setCategories(data.categories || [])
         setLoading(false)
       })
+  }, [id])
+
+  useEffect(() => {
+    fetch(`/api/noticias/${id}`)
+      .then((res) => res.json())
+      .then((data: { noticia: NoticiaDetalle }) => setNoticia(data.noticia))
   }, [id])
 
   if (loading)

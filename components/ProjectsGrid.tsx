@@ -71,7 +71,7 @@ export default function ProjectsGrid({ allProjects, styles, categories = [] }: P
               <Link key={index} href={`/proyectos/${project.id}`} className="block">
                 <ProjectCard
                   project={{
-                    id: Number(project.id),
+                    id: String(project.id), // <-- asegúrate de que sea string
                     title: project.title ?? "",
                     descripcion: project.descripcion ?? "",
                     fechaInicial: project.fechaInicial ?? "",

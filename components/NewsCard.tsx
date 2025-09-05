@@ -23,6 +23,7 @@ interface NewsCardProps {
     readTime?: string
     categoriaColor?: string // hex o tailwind
     featured?: boolean
+    categoryName?: string // <-- agrega esta línea
   }
 }
 
@@ -67,7 +68,7 @@ export default function NewsCard({ news }: NewsCardProps) {
           </div>
 
           {/* Pill categoría */}
-          {news.category && (
+          {(news.categoryName || news.category) && (
             <div className="ml-4">
               <span
                 className="text-white font-semibold text-sm px-4 py-2 rounded-full backdrop-blur-sm border border-white/20 shadow-lg hover:scale-105 transition-transform duration-200"
@@ -76,7 +77,7 @@ export default function NewsCard({ news }: NewsCardProps) {
                   boxShadow: `0 4px 12px 0 rgba(0,0,0,0.15)`,
                 }}
               >
-                {news.category}
+                {news.categoryName || news.category}
               </span>
             </div>
           )}

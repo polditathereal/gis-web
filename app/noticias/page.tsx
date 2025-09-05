@@ -10,10 +10,31 @@ import NewsCard from "@/components/NewsCard"
 
 const API_URL = "http://localhost:4000/news"
 
+// Agrega los tipos explícitos para las noticias y categorías
+type NoticiaType = {
+  id: string
+  title: string
+  description: string
+  date: string
+  image?: string
+  category: string
+  categoriaColor?: string
+  featured?: boolean
+  author?: string
+  readTime?: string
+  categoryName?: string // <-- agrega esta línea
+}
+
+type CategoriaType = {
+  id: string
+  name: string
+  color: string
+}
+
 export default function NoticiasPage() {
-  const [news, setNews] = useState<any[]>([])
-  const [filteredNews, setFilteredNews] = useState<any[]>([])
-  const [categories, setCategories] = useState<any[]>([])
+  const [news, setNews] = useState<NoticiaType[]>([])
+  const [filteredNews, setFilteredNews] = useState<NoticiaType[]>([])
+  const [categories, setCategories] = useState<CategoriaType[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
@@ -21,7 +42,7 @@ export default function NoticiasPage() {
   useEffect(() => {
     fetch(API_URL)
       .then((res) => res.json())
-      .then((data) => {
+      .then((data: { news: NoticiaType[]; categories: CategoriaType[] }) => {
         setNews(data.news || [])
         setFilteredNews(data.news || [])
         setCategories(data.categories || [])
@@ -49,7 +70,7 @@ export default function NoticiasPage() {
   }, [searchTerm, selectedCategory, news])
 
   const getCategoryColor = (categoryId: string) => {
-    const category = categories.find((cat: any) => cat.id === categoryId)
+    const category = categories.find((cat) => cat.id === categoryId)
     return category ? category.color : "bg-gray-500"
   }
 
@@ -94,7 +115,7 @@ export default function NoticiasPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todas</SelectItem>
-                  {categories.map((category: any) => (
+                  {categories.map((category) => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.name}
                     </SelectItem>
@@ -136,7 +157,7 @@ export default function NoticiasPage() {
                     </SelectTrigger>
                     <SelectContent className="bg-white/95 backdrop-blur-sm">
                       <SelectItem value="all">Todas las categorías</SelectItem>
-                      {categories.map((category: any) => (
+                      {categories.map((category) => (
                         <SelectItem key={category.id} value={category.id}>
                           {category.name}
                         </SelectItem>
@@ -220,7 +241,7 @@ export default function NoticiasPage() {
                               ...item,
                               image: item.image && item.image.startsWith("/images/") ? item.image : "/placeholder.jpg",
                               categoriaColor: getCategoryColor(item.category),
-                              categoryName: categories.find((cat: any) => cat.id === item.category)?.name ?? "",
+                              categoryName: categories.find((cat) => cat.id === item.category)?.name ?? "",
                             }}
                           />
                         </div>

@@ -17,14 +17,14 @@ type Field = {
   isImage?: boolean;
 };
 
-type SectionBaseProps = {
+interface SectionBaseProps {
   token: string;
   api: string;
   sectionLabel: string;
   itemLabel: string;
   fields: Field[];
   imageFields?: string[];
-};
+}
 
 function useFetch(api: string, token: string): [Data, () => void] {
   const [data, setData] = useState<Data>({ items: [], categories: [] });

@@ -57,7 +57,7 @@ export default function GISColombiaPage() {
   useEffect(() => {
     const interval = setInterval(nextSlide, 5000)
     return () => clearInterval(interval)
-  }, [featuredNews])
+  }, [featuredNews, nextSlide])
 
   const getBackgroundClass = () => {
     if (useGradientBg) {

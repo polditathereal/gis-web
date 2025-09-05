@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import SectionBase from './SectionBase';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../admin.module.css';
+import Image from 'next/image';
 
 const API =
   process.env.NEXT_PUBLIC_API_URL_PROD ||
@@ -27,14 +27,14 @@ type Data = {
 
 function useFetch(token: string): [Data, () => void] {
   const [data, setData] = useState<Data>({ news: [], categories: [] });
-  const refresh = () => {
+  const refresh = useCallback(() => {
     fetch(API, { headers: { Authorization: token } })
       .then(r => r.json())
       .then(json => setData(json));
-  };
+  }, [token]);
   useEffect(() => {
     refresh();
-  }, [token]);
+  }, [refresh]);
   return [data, refresh];
 }
 
@@ -262,7 +262,7 @@ function NewsForm({ initial, categories, onSave, onCancel, token, setError, setS
                 )}
                 <span className={styles.adminImageHint}>Arrastra una imagen aquí</span>
                 {imagePreview && (
-                  <img src={imagePreview} alt={field.label} style={{ maxWidth: 120, marginTop: 8, borderRadius: 8, boxShadow: '0 1px 6px #ffd699' }} />
+                  <Image src={imagePreview} alt={field.label} width={120} height={120} style={{ maxWidth: 120, marginTop: 8, borderRadius: 8, boxShadow: '0 1px 6px #ffd699' }} />
                 )}
               </div>
             </div>

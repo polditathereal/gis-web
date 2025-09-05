@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import SectionBase from './SectionBase';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../admin.module.css';
+import Image from "next/image";
 
 const API =
   process.env.NEXT_PUBLIC_API_URL_PROD ||
@@ -35,14 +35,14 @@ type Data = {
 
 function useFetch(token: string): [Data, () => void] {
   const [data, setData] = useState<Data>({ projects: [], categories: [] });
-  const refresh = () => {
+  const refresh = useCallback(() => {
     fetch(API, { headers: { Authorization: token } })
       .then(r => r.json())
       .then(json => setData(json));
-  };
+  }, [token]);
   useEffect(() => {
     refresh();
-  }, [token]);
+  }, [refresh]);
   return [data, refresh];
 }
 
@@ -335,8 +335,8 @@ function ProjectForm({ initial, categories, onSave, onCancel, token, setError, s
           );
         }
         if (field.isImage) {
-          let fileState = null;
-          let preview = null;
+          let fileState: File | null = null;
+          let preview: string | null = null;
           if (field.name === "imagenPrincipal") {
             fileState = imagenPrincipalFile;
             preview = imagenPrincipalPreview;
@@ -370,7 +370,7 @@ function ProjectForm({ initial, categories, onSave, onCancel, token, setError, s
                 )}
                 <span className={styles.adminImageHint}>Arrastra una imagen aquí</span>
                 {preview && (
-                  <img src={preview} alt={field.label} style={{ maxWidth: 120, marginTop: 8, borderRadius: 8, boxShadow: '0 1px 6px #ffd699' }} />
+                  <Image src={preview} alt={field.label} width={120} height={120} style={{ maxWidth: 120, marginTop: 8, borderRadius: 8, boxShadow: '0 1px 6px #ffd699' }} />
                 )}
               </div>
             </div>

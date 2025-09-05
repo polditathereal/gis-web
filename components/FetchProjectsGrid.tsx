@@ -6,10 +6,15 @@ const API_URL =
   process.env.NEXT_PUBLIC_API_URL_LOCAL ||
   "http://localhost:4000"
 
+// Define el tipo para los proyectos según tu modelo de datos
 type Project = {
   id: string
   title: string
-  // ...otros campos relevantes...
+  description: string
+  date: string
+  image?: string
+  category: string
+  // agrega otros campos relevantes
 }
 
 type FetchProjectsGridProps = {

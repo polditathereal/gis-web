@@ -1,6 +1,7 @@
 "use client"
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
+import Image from "next/image"
 
 const BUNNY_STORAGE_URL = process.env.NEXT_PUBLIC_BUNNY_STORAGE_API || "https://gis-web.b-cdn.net"
 
@@ -68,9 +69,11 @@ export default function NewsCarousel({
                 <div key={index} className="w-full flex-shrink-0">
                   <Link href={`/noticias/${news.id}`} passHref legacyBehavior>
                     <a className="block w-full h-96 relative cursor-pointer group overflow-hidden">
-                      <img
+                      <Image
                         src={constructImageUrl(news.image)}
                         alt={news.title}
+                        width={800}
+                        height={450}
                         className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         onError={(e) => {
                           ;(e.target as HTMLImageElement).src = "/placeholder.jpg"

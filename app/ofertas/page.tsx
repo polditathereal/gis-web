@@ -8,11 +8,22 @@ import JobCard from "@/components/JobCard"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
+// Actualiza el tipo OfertaType para incluir las propiedades adicionales:
+type OfertaType = {
+  id: number
+  title: string
+  description: string
+  category: string | number
+  categoriaNombre?: string
+  categoriaColor?: string
+  [key: string]: any
+}
+
 const API_URL = "http://localhost:4000/jobs"
 
 export default function OfertasPage() {
-  const [jobs, setJobs] = useState<any[]>([])
-  const [filteredJobs, setFilteredJobs] = useState<any[]>([])
+  const [jobs, setJobs] = useState<OfertaType[]>([])
+  const [filteredJobs, setFilteredJobs] = useState<OfertaType[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [sortOrder, setSortOrder] = useState("newest")
@@ -224,7 +235,7 @@ export default function OfertasPage() {
                     return (
                       <JobCard
                         key={`job-${job.id}`}
-                        job={{
+                        oferta={{
                           ...job,
                           categoriaNombre: cat ? cat.name : "",
                           categoriaColor: cat ? cat.color : "#BDBDBD",

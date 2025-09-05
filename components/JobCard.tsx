@@ -6,25 +6,21 @@ import { useState } from "react"
 import { MapPin, Mail, DollarSign, FileText, Building, X, Linkedin } from "lucide-react"
 
 interface JobCardProps {
-  job: {
-    id: string
+  oferta: {
+    id: number
     title: string
     description: string
-    date: string
-    category: string
+    category: string | number
     categoriaNombre?: string
     categoriaColor?: string
-    salary?: string
-    contractType?: string
-    requirements?: string[]
-    linkedin?: string // Changed to linkedin
+    [key: string]: any
   }
-  viewMode?: "grid" | "list"
+  viewMode: "grid" | "list"
 }
 
-export default function JobCard({ job, viewMode = "grid" }: JobCardProps) {
+export default function JobCard({ oferta, viewMode }: JobCardProps) {
   const [isModalOpen, setIsModalOpen] = useState(false)
-  const color = job.categoriaColor || "#F4731F"
+  const color = oferta.categoriaColor || "#F4731F"
 
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -50,7 +46,7 @@ export default function JobCard({ job, viewMode = "grid" }: JobCardProps) {
           <div className="flex items-start justify-between relative z-10 mb-2">
             <div className="flex-1 pr-2">
               <div className="text-xl font-bold text-[#F4731F] group-hover:text-orange-600 transition-colors line-clamp-2 mb-3">
-                {job.title}
+                {oferta.title}
               </div>
               <div className="flex items-center gap-2 text-sm text-gray-600 mb-3">
                 <MapPin className="w-4 h-4" />
@@ -59,7 +55,7 @@ export default function JobCard({ job, viewMode = "grid" }: JobCardProps) {
             </div>
 
             {/* Category Badge */}
-            {job.categoriaNombre && (
+            {oferta.categoriaNombre && (
               <div className="ml-2 flex-shrink-0">
                 <span
                   className="text-white font-semibold text-xs px-3 py-2 rounded-full backdrop-blur-sm border border-white/20 shadow-lg whitespace-nowrap"
@@ -68,16 +64,16 @@ export default function JobCard({ job, viewMode = "grid" }: JobCardProps) {
                     boxShadow: `0 4px 12px 0 rgba(0,0,0,0.15)`,
                   }}
                 >
-                  {job.categoriaNombre}
+                  {oferta.categoriaNombre}
                 </span>
               </div>
             )}
           </div>
 
           <div className="mt-auto pt-2 relative z-10">
-            {job.linkedin && (
+            {oferta.linkedin && (
               <a
-                href={job.linkedin}
+                href={oferta.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={handleLinkedInClick}
@@ -106,7 +102,6 @@ export default function JobCard({ job, viewMode = "grid" }: JobCardProps) {
             >
               <X className="w-5 h-5 text-gray-600" />
             </button>
-
             <div className="p-8 space-y-6">
               {/* Header with GIS Logo Style */}
               <div className="text-center border-b border-orange-200 pb-4">
@@ -117,7 +112,7 @@ export default function JobCard({ job, viewMode = "grid" }: JobCardProps) {
                   className="text-2xl font-bold text-white px-6 py-3 rounded-lg mx-auto inline-block"
                   style={{ backgroundColor: color }}
                 >
-                  {job.title}
+                  {oferta.title}
                 </div>
               </div>
 
@@ -128,30 +123,30 @@ export default function JobCard({ job, viewMode = "grid" }: JobCardProps) {
                     <FileText className="w-5 h-5 text-[#F4731F]" />
                     PERFIL
                   </h3>
-                  <div className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">{job.description}</div>
+                  <div className="text-gray-700 text-sm leading-relaxed whitespace-pre-line">{oferta.description}</div>
                 </div>
 
                 {/* Job Details Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {/* Salary */}
-                  {job.salary && (
+                  {oferta.salary && (
                     <div className="bg-white/80 rounded-xl p-4 border border-orange-200/30">
                       <div className="flex items-center gap-2 mb-2">
                         <DollarSign className="w-5 h-5 text-[#F4731F]" />
                         <span className="font-bold text-gray-800">Salario:</span>
                       </div>
-                      <div className="text-gray-700 text-sm">{job.salary}</div>
+                      <div className="text-gray-700 text-sm">{oferta.salary}</div>
                     </div>
                   )}
 
                   {/* Contract Type */}
-                  {job.contractType && (
+                  {oferta.contractType && (
                     <div className="bg-white/80 rounded-xl p-4 border border-orange-200/30">
                       <div className="flex items-center gap-2 mb-2">
                         <FileText className="w-5 h-5 text-[#F4731F]" />
                         <span className="font-bold text-gray-800">Tipo de Contrato:</span>
                       </div>
-                      <div className="text-gray-700 text-sm">{job.contractType}</div>
+                      <div className="text-gray-700 text-sm">{oferta.contractType}</div>
                     </div>
                   )}
 
@@ -165,13 +160,13 @@ export default function JobCard({ job, viewMode = "grid" }: JobCardProps) {
                   </div>
 
                   {/* Category */}
-                  {job.categoriaNombre && (
+                  {oferta.categoriaNombre && (
                     <div className="bg-white/80 rounded-xl p-4 border border-orange-200/30">
                       <div className="flex items-center gap-2 mb-2">
                         <Building className="w-5 h-5 text-[#F4731F]" />
                         <span className="font-bold text-gray-800">Área:</span>
                       </div>
-                      <div className="text-gray-700 text-sm">{job.categoriaNombre}</div>
+                      <div className="text-gray-700 text-sm">{oferta.categoriaNombre}</div>
                     </div>
                   )}
                 </div>
@@ -190,9 +185,9 @@ export default function JobCard({ job, viewMode = "grid" }: JobCardProps) {
                   </div>
 
                   {/* LinkedIn Button */}
-                  {job.linkedin && (
+                  {oferta.linkedin && (
                     <a
-                      href={job.linkedin}
+                      href={oferta.linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="flex-1 bg-[#0077B5] hover:bg-[#005885] text-white font-bold py-4 rounded-xl transition-colors duration-200 flex items-center justify-center gap-2"

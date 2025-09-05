@@ -23,11 +23,31 @@ function constructImageUrl(imagePath: string | undefined | null): string {
   return "/placeholder.jpg"
 }
 
+// Define el tipo para ProyectoDetalle según tu modelo de datos
+type ProyectoDetalle = {
+  id: string
+  title: string
+  description: string
+  date: string
+  image?: string
+  category: string
+  objeto?: string
+  imagenPrincipal?: string
+  image1?: string
+  image2?: string
+  fechaInicial?: string
+  fechaFinal?: string
+  consorcio?: string
+  descripcion?: string
+  // agrega aquí cualquier otro campo que uses en el componente
+}
+
 export default function ClientProyectoDetalle() {
   const params = useParams()
   const id = params?.id
-  const [project, setProject] = useState<any | null>(null)
-  const [categories, setCategories] = useState<any[]>([])
+  // Cambia los useState y fetch para usar el tipo correcto en vez de any
+  const [proyecto, setProyecto] = useState<ProyectoDetalle | null>(null)
+  const [categories, setCategories] = useState<{ id: string, name: string, color: string }[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -35,7 +55,7 @@ export default function ClientProyectoDetalle() {
       .then((res) => res.json())
       .then((data) => {
         const found = (data.projects || []).find((p: any) => p.id === id)
-        setProject(found || null)
+        setProyecto(found || null)
         setCategories(data.categories || [])
         setLoading(false)
       })
@@ -51,14 +71,14 @@ export default function ClientProyectoDetalle() {
       </div>
     )
 
-  if (!project) return notFound()
+  if (!proyecto) return notFound()
 
-  const cat = categories.find((c) => c.id === project.category || c.name === project.category)
+  const cat = categories.find((c) => c.id === proyecto.category || c.name === proyecto.category)
   const catColor = cat?.color || "#6b7280"
-  const catName = cat?.name || project.category || "Sin categoría"
+  const catName = cat?.name || proyecto.category || "Sin categoría"
 
-  const mainImage = constructImageUrl(project.imagenPrincipal)
-  const secondaryImages = [project.image1, project.image2]
+  const mainImage = constructImageUrl(proyecto.imagenPrincipal)
+  const secondaryImages = [proyecto.image1, proyecto.image2]
     .filter((img) => !!img && img.trim() !== "")
     .map(img => constructImageUrl(img))
 
@@ -107,7 +127,7 @@ export default function ClientProyectoDetalle() {
                   </div>
 
                   <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight text-balance">
-                    {project.title}
+                    {proyecto.title}
                   </h1>
                 </div>
 
@@ -118,7 +138,7 @@ export default function ClientProyectoDetalle() {
                     <div className="relative bg-white rounded-2xl p-4 shadow-lg">
                       <Image
                         src={mainImage || "/placeholder.svg"}
-                        alt={project.title || "Proyecto"}
+                        alt={proyecto.title || "Proyecto"}
                         width={600}
                         height={400}
                         className="rounded-xl object-cover w-full h-auto max-h-[400px] shadow-md"
@@ -126,46 +146,46 @@ export default function ClientProyectoDetalle() {
                     </div>
                   </div>
 
-                  {project.objeto && (
+                  {proyecto.objeto && (
                     <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 border border-orange-200/50 flex flex-col h-full">
                       <h2 className="text-lg font-semibold text-gray-800 mb-3 flex items-center gap-2">
                         <Building2 className="w-5 h-5 text-[#F4731F]" />
                         Objeto del proyecto
                       </h2>
-                      <p className="text-gray-800 leading-relaxed flex-1 text-xl">{project.objeto}</p>
+                      <p className="text-gray-800 leading-relaxed flex-1 text-xl">{proyecto.objeto}</p>
                     </div>
                   )}
                 </div>
 
                 {/* Dates and Consortium section - sharing width */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {project.fechaInicial && (
+                  {proyecto.fechaInicial && (
                     <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
                       <div className="flex items-center gap-2 text-[#F4731F] mb-2">
                         <Calendar className="w-4 h-4" />
                         <span className="font-semibold text-sm">Fecha de inicio</span>
                       </div>
-                      <p className="text-gray-800 font-medium text-xl">{project.fechaInicial}</p>
+                      <p className="text-gray-800 font-medium text-xl">{proyecto.fechaInicial}</p>
                     </div>
                   )}
 
-                  {project.fechaFinal && (
+                  {proyecto.fechaFinal && (
                     <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
                       <div className="flex items-center gap-2 text-[#F4731F] mb-2">
                         <Clock className="w-4 h-4" />
                         <span className="font-semibold text-sm">Fecha de finalización</span>
                       </div>
-                      <p className="text-gray-800 font-medium text-xl">{project.fechaFinal}</p>
+                      <p className="text-gray-800 font-medium text-xl">{proyecto.fechaFinal}</p>
                     </div>
                   )}
 
-                  {project.consorcio && (
+                  {proyecto.consorcio && (
                     <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
                       <div className="flex items-center gap-2 text-[#F4731F] mb-2">
                         <Users className="w-4 h-4" />
                         <span className="font-semibold text-sm">Consorcio</span>
                       </div>
-                      <p className="text-gray-800 font-medium text-xl">{project.consorcio}</p>
+                      <p className="text-gray-800 font-medium text-xl">{proyecto.consorcio}</p>
                     </div>
                   )}
                 </div>
@@ -178,7 +198,7 @@ export default function ClientProyectoDetalle() {
                   </h2>
                   <div className="bg-gray-50/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
                     <div className="text-xl text-gray-700 leading-relaxed whitespace-pre-line">
-                      {project.descripcion || "Sin descripción"}
+                      {proyecto.descripcion || "Sin descripción"}
                     </div>
                   </div>
                 </div>
@@ -187,7 +207,8 @@ export default function ClientProyectoDetalle() {
                 {secondaryImages.length > 0 && (
                   <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                      <Image className="w-6 h-6 text-[#F4731F]" />
+                      {/* Corrige el uso de <Image />: agrega un src válido */}
+                      <Image src="/images/gallery-icon.svg" width={24} height={24} className="w-6 h-6 text-[#F4731F]" alt="Galería" />
                       Galería del proyecto
                     </h2>
 

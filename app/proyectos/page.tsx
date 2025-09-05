@@ -13,9 +13,33 @@ const API_URL =
   process.env.NEXT_PUBLIC_API_URL_LOCAL ||
   "http://localhost:4000"
 
+// Define los tipos explícitos para proyectos y categorías
+type ProyectoType = {
+  id: string
+  title: string
+  description: string
+  date: string
+  image?: string
+  category: string
+  imagenPrincipal?: string
+  image1?: string
+  image2?: string
+  fechaInicial?: string
+  fechaFinal?: string
+  consorcio?: string
+  descripcion?: string
+  // agrega aquí cualquier otro campo relevante que uses en ProjectCard o en este archivo
+}
+
+type CategoriaType = {
+  id: string
+  name: string
+  color: string
+}
+
 export default function ProyectosPage() {
-  const [projects, setProjects] = useState<any[]>([])
-  const [filteredProjects, setFilteredProjects] = useState<any[]>([])
+  const [proyectos, setProyectos] = useState<ProyectoType[]>([])
+  const [filteredProyectos, setFilteredProyectos] = useState<ProyectoType[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedCategory, setSelectedCategory] = useState("all")
   const [sortOrder, setSortOrder] = useState("newest")
@@ -26,13 +50,13 @@ export default function ProyectosPage() {
       .then((res) => res.json())
       .then((data) => {
         const loadedProjects = data.projects || []
-        setProjects(loadedProjects)
-        setFilteredProjects(loadedProjects)
+        setProyectos(loadedProjects)
+        setFilteredProyectos(loadedProjects)
       })
   }, [])
 
   useEffect(() => {
-    let filtered = projects
+    let filtered = proyectos
     if (searchTerm) {
       filtered = filtered.filter(
         (project) =>
@@ -48,26 +72,22 @@ export default function ProyectosPage() {
       filtered = filtered.filter((project) => project.category === selectedCategory)
     }
     filtered = filtered.sort((a, b) => {
-      const dateA = new Date(a.fechaInicial)
-      const dateB = new Date(b.fechaFinal)
+      // Asegura que nunca pases undefined a new Date()
+      const dateA = a.fechaInicial ? new Date(a.fechaInicial) : new Date(0)
+      const dateB = b.fechaFinal ? new Date(b.fechaFinal) : new Date(0)
       return sortOrder === "newest" ? dateB.getTime() - dateA.getTime() : dateA.getTime() - dateB.getTime()
     })
-    setFilteredProjects(filtered)
-  }, [searchTerm, selectedCategory, sortOrder, projects])
+    setFilteredProyectos(filtered)
+  }, [searchTerm, selectedCategory, sortOrder, proyectos])
 
-  const [categories, setCategories] = useState<any[]>([])
+  const [categorias, setCategorias] = useState<CategoriaType[]>([])
   useEffect(() => {
     fetch(`${API_URL}/projects`)
       .then((res) => res.json())
       .then((data) => {
-        setCategories(data.categories || [])
+        setCategorias(data.categories || [])
       })
   }, [])
-
-  const getCategoryColor = (categoryId: string) => {
-    const category = categories.find((cat) => cat.id === categoryId)
-    return category ? category.color : "bg-gray-500"
-  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-orange-100">
@@ -108,7 +128,7 @@ export default function ProyectosPage() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="all">Todas</SelectItem>
-                  {categories.map((category: any) => (
+                  {categorias.map((category: CategoriaType) => (
                     <SelectItem key={category.id} value={category.id}>
                       {category.name}
                     </SelectItem>
@@ -160,7 +180,7 @@ export default function ProyectosPage() {
                     </SelectTrigger>
                     <SelectContent className="bg-white/95 backdrop-blur-sm">
                       <SelectItem value="all">Todas las categorías</SelectItem>
-                      {categories.map((category: any) => (
+                      {categorias.map((category: CategoriaType) => (
                         <SelectItem key={category.id} value={category.id}>
                           {category.name}
                         </SelectItem>
@@ -185,9 +205,9 @@ export default function ProyectosPage() {
                 <div className="pt-6 border-t border-orange-200/50">
                   <div className="bg-gradient-to-r from-[#F4731F]/10 to-orange-200/20 rounded-lg p-4">
                     <p className="text-sm font-medium text-gray-700 text-center">
-                      <span className="text-[#F4731F] font-bold text-lg">{filteredProjects.length}</span>
+                      <span className="text-[#F4731F] font-bold text-lg">{filteredProyectos.length}</span>
                       <br />
-                      {filteredProjects.length === 1 ? "proyecto encontrado" : "proyectos encontrados"}
+                      {filteredProyectos.length === 1 ? "proyecto encontrado" : "proyectos encontrados"}
                     </p>
                   </div>
                 </div>
@@ -237,7 +257,7 @@ export default function ProyectosPage() {
                   <div className="lg:hidden">
                     <div className="bg-white/80 backdrop-blur-sm rounded-lg px-3 py-2 border border-orange-200/50">
                       <span className="text-sm font-medium text-gray-700">
-                        <span className="text-[#F4731F] font-bold">{filteredProjects.length}</span> proyectos
+                        <span className="text-[#F4731F] font-bold">{filteredProyectos.length}</span> proyectos
                       </span>
                     </div>
                   </div>
@@ -248,8 +268,8 @@ export default function ProyectosPage() {
                     viewMode === "grid" ? "grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4" : "grid-cols-1"
                   }`}
                 >
-                  {filteredProjects.map((project) => {
-                    const cat = categories.find((c) => c.name === project.category || c.id === project.category)
+                  {filteredProyectos.map((project) => {
+                    const cat = categorias.find((c) => c.name === project.category || c.id === project.category)
                     return (
                       <a key={project.id} href={`/proyectos/${project.id}`} className="block group">
                         <div className="transform transition-all duration-300 group-hover:scale-105 group-hover:shadow-2xl">
@@ -269,7 +289,7 @@ export default function ProyectosPage() {
                   })}
                 </div>
 
-                {filteredProjects.length === 0 && (
+                {filteredProyectos.length === 0 && (
                   <div className="text-center py-20">
                     <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-12 border border-orange-200/50 max-w-md mx-auto">
                       <div className="text-gray-400 mb-6">

@@ -2,11 +2,14 @@ import { Building2, HardHat, Ruler, ArrowRight, Construction } from "lucide-reac
 import { IsoStack } from "@/components/IsoBadge"
 import Link from "next/link"
 
-interface AboutSectionProps {
-  styles: { sectionTitle: string }
+type AboutSectionProps = {
+  styles?: {
+    sectionTitle?: string
+    cardStyle?: string
+  }
 }
 
-export default function AboutSection({ styles }: AboutSectionProps) {
+export default function AboutSection({ styles }: AboutSectionProps = {}) {
   return (
     <section id="aboutsection" className="py-12 md:py-16 lg:hidden relative overflow-hidden">
       <div className="absolute inset-0 overflow-hidden">
@@ -19,7 +22,7 @@ export default function AboutSection({ styles }: AboutSectionProps) {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="max-w-sm sm:max-w-md md:max-w-lg lg:max-w-xl mx-auto text-center bg-white/90 backdrop-blur-xl p-6 sm:p-8 md:p-10 lg:p-12 rounded-2xl border border-[#F4731F]/20 shadow-2xl space-y-6 sm:space-y-8 lg:space-y-10 hover:shadow-3xl transition-all duration-500">
           <div className="relative">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-extrabold">
+            <h2 className={styles?.sectionTitle ?? "text-3xl sm:text-4xl md:text-5xl font-extrabold"}>
               <span className="font-OPTIEdgar-Extended text-[#F4731F] drop-shadow-lg relative">
                 GIS
                 <Construction className="absolute -top-1 sm:-top-2 -right-1 sm:-right-2 w-3 h-3 sm:w-4 sm:h-4 text-orange-400 animate-pulse" />
@@ -41,7 +44,7 @@ export default function AboutSection({ styles }: AboutSectionProps) {
               { icon: Building2, text: "Infraestructura y vivienda", color: "from-green-500 to-emerald-500" },
             ].map((service, index) => (
               <div key={index} className="group relative overflow-hidden">
-                <div className="flex items-center gap-3 sm:gap-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 px-4 sm:px-6 py-4 sm:py-5 justify-center hover:bg-white hover:shadow-lg hover:scale-105 transition-all duration-300">
+                <div className={`flex items-center gap-3 sm:gap-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 px-4 sm:px-6 py-4 sm:py-5 justify-center hover:bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${styles?.cardStyle ?? ""}`}>
                   <div className={`p-1.5 sm:p-2 rounded-lg bg-gradient-to-r ${service.color} shadow-lg`}>
                     <service.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                   </div>

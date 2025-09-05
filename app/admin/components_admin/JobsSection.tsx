@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import SectionBase from './SectionBase';
+import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../admin.module.css';
 
 const API =
@@ -24,14 +23,14 @@ type Data = {
 
 function useFetch(token: string): [Data, () => void] {
   const [data, setData] = useState<Data>({ jobs: [], categories: [] });
-  const refresh = () => {
+  const refresh = useCallback(() => {
     fetch(API, { headers: { Authorization: token } })
       .then(r => r.json())
       .then(json => setData(json));
-  };
+  }, [token]);
   useEffect(() => {
     refresh();
-  }, [token]);
+  }, [refresh]);
   return [data, refresh];
 }
 
@@ -124,7 +123,7 @@ function CategoryForm({ initial, onSave, onCancel }: {
 function JobForm({ initial, categories, onSave, onCancel, token, setError, setSuccess }: {
   initial?: Job | null;
   categories: Category[];
-  onSave: (job: any) => void;
+  onSave: (job: Job) => void;
   onCancel: () => void;
   token: string;
   setError: (msg: string) => void;
@@ -147,7 +146,8 @@ function JobForm({ initial, categories, onSave, onCancel, token, setError, setSu
       body: JSON.stringify(fieldsState),
     })
       .then(async r => {
-        const res = await r.json();
+        type ApiResponse = { error?: string }
+        const res: ApiResponse = await r.json();
         if (!r.ok || res.error) {
           setError(res.error || 'Error guardando oferta');
         } else {

@@ -61,7 +61,7 @@ export default function AdminPage() {
             key={opt.key}
             className={`${styles.adminBtn} ${selectedSection === opt.key ? styles.adminBtnPrimary : styles.adminBtnSecondary}`}
             style={selectedSection === opt.key ? { fontWeight: 700 } : {}}
-            onClick={() => setSelectedSection(opt.key as any)}
+            onClick={() => setSelectedSection(opt.key as 'projects' | 'news' | 'jobs')}
           >
             {opt.label}
           </button>
@@ -76,3 +76,4 @@ export default function AdminPage() {
     </div>
   );
 }
+          
