@@ -31,10 +31,18 @@ export default function GISColombiaPage() {
   const [featuredNews, setFeaturedNews] = useState<NewsItem[]>([]);
 
   useEffect(() => {
+    // Si ves ERR_CONNECTION_REFUSED, el backend en http://localhost:4000 no está corriendo o no es accesible.
+    // Solución: 
+    // 1. Asegúrate de que el backend esté iniciado: node server.js (en tu carpeta gis-back)
+    // 2. Si usas Vercel o un entorno remoto, asegúrate de que API_URL apunte al backend correcto.
     fetch(`${API_URL}/news`)
-      .then(res => res.json())
-      .then(data => {
+      .then((res) => res.json())
+      .then((data) => {
         setFeaturedNews(Array.isArray(data.news) ? data.news : []);
+      })
+      .catch((err) => {
+        // Opcional: muestra un mensaje de error en la UI si el fetch falla
+        console.error("No se pudo conectar al backend:", err);
       });
   }, []);
 

@@ -8,9 +8,8 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectTrigger, SelectContent, SelectItem, SelectValue } from "@/components/ui/select"
 import NewsCard from "@/components/NewsCard"
 
-const API_URL = "http://localhost:4000/news"
+const API_URL = process.env.NEXT_PUBLIC_API_URL_PROD || process.env.NEXT_PUBLIC_API_URL_LOCAL || "http://localhost:4000"
 
-// Agrega los tipos explícitos para las noticias y categorías
 type NoticiaType = {
   id: string
   title: string
@@ -22,7 +21,7 @@ type NoticiaType = {
   featured?: boolean
   author?: string
   readTime?: string
-  categoryName?: string // <-- agrega esta línea
+  categoryName?: string
 }
 
 type CategoriaType = {
@@ -40,7 +39,7 @@ export default function NoticiasPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
   useEffect(() => {
-    fetch(API_URL)
+    fetch(`${API_URL}/news`)
       .then((res) => res.json())
       .then((data: { news: NoticiaType[]; categories: CategoriaType[] }) => {
         setNews(data.news || [])
