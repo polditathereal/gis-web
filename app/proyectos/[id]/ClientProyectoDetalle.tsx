@@ -207,8 +207,10 @@ export default function ClientProyectoDetalle() {
                 {secondaryImages.length > 0 && (
                   <div className="space-y-4">
                     <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                      {/* Corrige el uso de <Image />: agrega un src válido */}
-                      <Image src="/images/gallery-icon.svg" width={24} height={24} className="w-6 h-6 text-[#F4731F]" alt="Galería" />
+                      {/* Usa un icono de Lucide en vez de una imagen que no existe */}
+                      <span className="w-6 h-6 text-[#F4731F] flex items-center justify-center">
+                        <Building2 className="w-6 h-6 text-[#F4731F]" />
+                      </span>
                       Galería del proyecto
                     </h2>
 
