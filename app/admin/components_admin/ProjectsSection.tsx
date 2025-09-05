@@ -2,10 +2,10 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../admin.module.css';
 import Image from "next/image";
 
-const API =
+const API_URL =
   process.env.NEXT_PUBLIC_API_URL_PROD ||
   process.env.NEXT_PUBLIC_API_URL_LOCAL ||
-  "http://localhost:4000/projects";
+  "http://localhost:4000"
 
 type Category = { id: string; name: string; color: string };
 type Project = {
@@ -34,16 +34,17 @@ type Data = {
 };
 
 function useFetch(token: string): [Data, () => void] {
-  const [data, setData] = useState<Data>({ projects: [], categories: [] });
+  const [data, setData] = useState<Data>({ projects: [], categories: [] })
   const refresh = useCallback(() => {
-    fetch(API, { headers: { Authorization: token } })
+    // Asegúrate de que el fetch apunte a un endpoint válido, no a la raíz
+    fetch(`${API_URL}/projects`, { headers: { Authorization: token } })
       .then(r => r.json())
-      .then(json => setData(json));
-  }, [token]);
+      .then(json => setData(json))
+  }, [token])
   useEffect(() => {
-    refresh();
-  }, [refresh]);
-  return [data, refresh];
+    refresh()
+  }, [refresh])
+  return [data, refresh]
 }
 
 function CategoryList({ categories, onEdit, onDelete }: {
@@ -272,7 +273,7 @@ function ProjectForm({ initial, categories, onSave, onCancel, token, setError, s
       if (image2File) formData.append('image2', image2File);
     }
     const method = form.id ? 'PUT' : 'POST';
-    const url = form.id ? `${API}/${form.id}` : API;
+    const url = form.id ? `${API_URL}/projects/${form.id}` : `${API_URL}/projects`;
     fetch(url, {
       method,
       headers: { Authorization: token },
@@ -409,7 +410,7 @@ export default function ProjectsSection({ token, setError, setSuccess }: { token
 
   function handleDelete(id: string) {
     setError('');
-    fetch(`${API}/${id}`, { method: 'DELETE', headers: { Authorization: token } })
+    fetch(`${API_URL}/projects/${id}`, { method: 'DELETE', headers: { Authorization: token } })
       .then(r => r.json())
       .then(res => {
         if (res.error) setError(res.error);
@@ -419,7 +420,7 @@ export default function ProjectsSection({ token, setError, setSuccess }: { token
   }
   function handleCatDelete(id: string) {
     setError('');
-    fetch(`${API}/categories/${id}`, { method: 'DELETE', headers: { Authorization: token } })
+    fetch(`${API_URL}/categories/${id}`, { method: 'DELETE', headers: { Authorization: token } })
       .then(r => r.json())
       .then(res => {
         if (res.error) setError(res.error);
@@ -486,7 +487,7 @@ export default function ProjectsSection({ token, setError, setSuccess }: { token
         <CategoryForm
           initial={catEditing}
           onSave={cat => {
-            const url = catEditing?.id ? `${API}/categories/${catEditing.id}` : `${API}/categories`;
+            const url = catEditing?.id ? `${API_URL}/categories/${catEditing.id}` : `${API_URL}/categories`;
             const body = catEditing?.id
               ? { id: cat.name, name: cat.name, color: cat.color }
               : { name: cat.name, color: cat.color };

@@ -24,7 +24,6 @@ export default function Footer() {
                 className="h-16 w-auto hover:scale-105 transition-transform duration-300"
                 style={{ objectFit: "contain" }}
               />
-
             </div>
 
             <p className="text-gray-300 leading-relaxed">
@@ -32,20 +31,37 @@ export default function Footer() {
             </p>
 
             <div className="space-y-4">
-              {[
-                { icon: Mail, text: "contacto@giscolombia.com", href: "mailto:contacto@giscolombia.com" },
-                { icon: Phone, text: "+57 1 234 5678", href: "tel:+5712345678" },
-                { icon: Linkedin, text: "LinkedIn", href: "#" },
-              ].map((contact, index) => (
-                <a
-                  key={index}
-                  href={contact.href}
-                  className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-[#F4731F]/30 transition-all duration-300 group"
+              <a
+                href="mailto:goc@grupogiscolombia.com"
+                className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-[#F4731F]/30 transition-all duration-300 group"
+              >
+                <Mail className="w-5 h-5 text-[#F4731F] group-hover:scale-110 transition-transform duration-300" />
+                <span className="group-hover:text-[#F4731F] transition-colors duration-300">goc@grupogiscolombia.com</span>
+              </a>
+              <a
+                href="tel:+573122991694"
+                className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-[#F4731F]/30 transition-all duration-300 group"
+              >
+                <Phone className="w-5 h-5 text-[#F4731F] group-hover:scale-110 transition-transform duration-300" />
+                <span className="group-hover:text-[#F4731F] transition-colors duration-300">+57 312 299 1694</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/grupo-gis-colombia/?originalSubdomain=co"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-3 p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 hover:border-[#F4731F]/30 transition-all duration-300 group"
+              >
+                <Linkedin className="w-5 h-5 text-[#F4731F] group-hover:scale-110 transition-transform duration-300" />
+                <span className="group-hover:text-[#F4731F] transition-colors duration-300">LinkedIn</span>
+              </a>
+              <div>
+                <button
+                  className="mt-4 px-6 py-3 rounded-xl bg-gradient-to-r from-[#F4731F] to-orange-500 text-white font-bold shadow-lg hover:scale-105 transition-all duration-300"
+                  onClick={() => window.open("https://www.gis-omicron.com/", "_blank")}
                 >
-                  <contact.icon className="w-5 h-5 text-[#F4731F] group-hover:scale-110 transition-transform duration-300" />
-                  <span className="group-hover:text-[#F4731F] transition-colors duration-300">{contact.text}</span>
-                </a>
-              ))}
+                  Ir a GIS España
+                </button>
+              </div>
             </div>
           </div>
 
@@ -59,19 +75,22 @@ export default function Footer() {
               <div className="flex items-start space-x-3 p-3 rounded-lg bg-white/5 backdrop-blur-sm border border-white/10">
                 <MapPin className="w-5 h-5 text-[#F4731F] mt-1" />
                 <div>
-                  <span className="text-white font-medium">Bogotá, Colombia</span>
-                  <p className="text-gray-400 text-sm mt-1">Sede principal</p>
+                  <span className="text-white font-medium">Av. El Dorado No. 69-63, Ac. 26 #26 Bogotá</span>
+                  <p className="text-gray-400 text-sm mt-1">Edificio Torre 26 - Oficina 408</p>
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl p-6 h-48 flex items-center justify-center border border-[#F4731F]/20 hover:border-[#F4731F]/40 transition-all duration-300">
-                <div className="text-center">
-                  <div className="w-16 h-16 bg-[#F4731F]/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <MapPin className="w-8 h-8 text-[#F4731F]" />
-                  </div>
-                  <p className="text-gray-300 font-medium">Mapa de Bogotá</p>
-                  <p className="text-sm text-gray-400 mt-1">Ubicación de nuestra oficina</p>
-                </div>
+              <div className="bg-gradient-to-br from-gray-800 to-gray-700 rounded-2xl p-0 h-64 flex items-center justify-center border border-[#F4731F]/20 hover:border-[#F4731F]/40 transition-all duration-300 overflow-hidden">
+                <iframe
+                  title="Ubicación GIS Colombia"
+                  src="https://www.google.com/maps?q=Av.+El+Dorado+No.+69-63,+Ac.+26+%2326,+Bogot%C3%A1,+Edificio+Torre+26+-+Oficina+408&output=embed"
+                  width="100%"
+                  height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                ></iframe>
               </div>
             </div>
           </div>

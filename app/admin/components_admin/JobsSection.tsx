@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../admin.module.css';
 
-const API =
+const API_URL =
   process.env.NEXT_PUBLIC_API_URL_PROD ||
   process.env.NEXT_PUBLIC_API_URL_LOCAL ||
-  "http://localhost:4000/jobs";
+  "http://localhost:4000"
+
+const API = `${API_URL}/jobs`;
 
 type Category = { id: string; name: string; color: string };
 type Job = {

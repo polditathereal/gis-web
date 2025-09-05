@@ -19,7 +19,12 @@ type OfertaType = {
   [key: string]: any
 }
 
-const API_URL = "http://localhost:4000/jobs"
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL_PROD ||
+  process.env.NEXT_PUBLIC_API_URL_LOCAL ||
+  "http://localhost:4000"
+
+const API = `${API_URL}/jobs`
 
 export default function OfertasPage() {
   const [jobs, setJobs] = useState<OfertaType[]>([])
@@ -31,7 +36,7 @@ export default function OfertasPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
   useEffect(() => {
-    fetch(API_URL)
+    fetch(API)
       .then((res) => res.json())
       .then((data) => {
         const allJobs = data.jobs || []

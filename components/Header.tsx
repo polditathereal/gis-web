@@ -31,7 +31,7 @@ export default function Header({ getHeaderClass }: HeaderProps) {
           </div>
 
           {/* Desktop menu */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden lg:flex items-center space-x-8">
             {[
               { href: "/#inicio", label: "Inicio" },
               { href: "/#nosotros", label: "Nosotros" },
@@ -53,7 +53,7 @@ export default function Header({ getHeaderClass }: HeaderProps) {
           </div>
 
           <button
-            className="md:hidden flex flex-col justify-center items-center w-12 h-12 bg-white/90 backdrop-blur-sm border-2 border-[#F4731F]/30 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200"
+            className="flex lg:hidden flex-col justify-center items-center w-12 h-12 bg-white/90 backdrop-blur-sm border-2 border-[#F4731F]/30 rounded-xl shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200"
             aria-label="Abrir menú"
             onClick={() => setMobileMenuOpen((open) => !open)}
             style={{ zIndex: 100 }}
@@ -71,7 +71,7 @@ export default function Header({ getHeaderClass }: HeaderProps) {
         </nav>
 
         {mobileMenuOpen && (
-          <div className="md:hidden absolute left-4 right-4 top-full mt-2 bg-white/95 backdrop-blur-xl border border-[#F4731F]/20 rounded-2xl shadow-2xl p-6 flex flex-col space-y-4 z-50 animate-in slide-in-from-top-2 duration-200">
+          <div className="lg:hidden absolute left-4 right-4 top-full mt-2 bg-white/95 backdrop-blur-xl border border-[#F4731F]/20 rounded-2xl shadow-2xl p-6 flex flex-col space-y-4 z-50 animate-in slide-in-from-top-2 duration-200">
             {[
               { href: "/#inicio", label: "Inicio" },
               { href: "/#nosotros", label: "Nosotros" },

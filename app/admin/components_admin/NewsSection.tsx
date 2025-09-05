@@ -2,10 +2,12 @@ import React, { useState, useEffect, useCallback } from 'react';
 import styles from '../admin.module.css';
 import Image from 'next/image';
 
-const API =
+const API_URL =
   process.env.NEXT_PUBLIC_API_URL_PROD ||
   process.env.NEXT_PUBLIC_API_URL_LOCAL ||
-  "http://localhost:4000/news";
+  "http://localhost:4000"
+
+const API = `${API_URL}/news`;
 
 type Category = { id: string; name: string; color: string };
 type News = {
