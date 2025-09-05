@@ -7,7 +7,21 @@ import { useParams } from "next/navigation"
 import Image from "next/image"
 import { Calendar, Tag, ArrowLeft, Share2 } from "lucide-react"
 
-const API_URL = "http://localhost:4000/news"
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL_PROD ||
+  process.env.NEXT_PUBLIC_API_URL_LOCAL ||
+  "http://localhost:4000"
+const NEWS_API = `${API_URL}/news`
+const BUNNY_STORAGE_URL = process.env.NEXT_PUBLIC_BUNNY_STORAGE_API || "https://gis-web.b-cdn.net"
+
+function constructImageUrl(imagePath: string | undefined | null): string {
+  if (!imagePath || imagePath.trim() === "") return "/placeholder.jpg"
+  if (imagePath.startsWith("http")) return imagePath
+  if (imagePath.startsWith("/images/")) {
+    return `${BUNNY_STORAGE_URL}${imagePath}`
+  }
+  return "/placeholder.jpg"
+}
 
 export default function ClientNoticiaDetalle() {
   const params = useParams()
@@ -17,7 +31,7 @@ export default function ClientNoticiaDetalle() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(API_URL)
+    fetch(NEWS_API)
       .then((res) => res.json())
       .then((data) => {
         const found = (data.news || []).find((n: any) => n.id === id)
@@ -43,10 +57,7 @@ export default function ClientNoticiaDetalle() {
   const catColor = cat?.color || "#6b7280"
   const catName = cat?.name || noticia.category || "Sin categoría"
 
-  const imageUrl =
-    noticia.image && noticia.image.startsWith("/images/")
-      ? `http://localhost:4000${noticia.image}`
-      : noticia.image || "/placeholder.svg"
+  const imageUrl = constructImageUrl(noticia.image)
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-orange-100 relative overflow-hidden">

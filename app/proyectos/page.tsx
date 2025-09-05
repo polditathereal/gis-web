@@ -8,7 +8,10 @@ import ProjectCard from "@/components/ProjectCard"
 import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
-const API_URL = "http://localhost:4000/projects"
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL_PROD ||
+  process.env.NEXT_PUBLIC_API_URL_LOCAL ||
+  "http://localhost:4000"
 
 export default function ProyectosPage() {
   const [projects, setProjects] = useState<any[]>([])
@@ -19,7 +22,7 @@ export default function ProyectosPage() {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid")
 
   useEffect(() => {
-    fetch(API_URL)
+    fetch(`${API_URL}/projects`)
       .then((res) => res.json())
       .then((data) => {
         const loadedProjects = data.projects || []
@@ -54,7 +57,7 @@ export default function ProyectosPage() {
 
   const [categories, setCategories] = useState<any[]>([])
   useEffect(() => {
-    fetch(API_URL)
+    fetch(`${API_URL}/projects`)
       .then((res) => res.json())
       .then((data) => {
         setCategories(data.categories || [])
@@ -253,6 +256,8 @@ export default function ProyectosPage() {
                           <ProjectCard
                             project={{
                               ...project,
+                              // Forzar que la imagen principal sea la que se use en la card
+                              image1: project.imagenPrincipal,
                               descripcion: project.descripcion ?? "",
                               categoriaNombre: cat ? cat.name : "",
                               categoriaColor: cat ? cat.color : "#BDBDBD",

@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react';
 import SectionBase from './SectionBase';
 import styles from '../admin.module.css';
 
-const API = 'http://localhost:4000/projects';
+const API =
+  process.env.NEXT_PUBLIC_API_URL_PROD ||
+  process.env.NEXT_PUBLIC_API_URL_LOCAL ||
+  "http://localhost:4000/projects";
 
 type Category = { id: string; name: string; color: string };
 type Project = {

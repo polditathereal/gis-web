@@ -13,6 +13,17 @@ interface ProjectCardProps {
   }
 }
 
+const BUNNY_STORAGE_URL = process.env.NEXT_PUBLIC_BUNNY_STORAGE_API || "https://gis-web.b-cdn.net"
+
+function constructImageUrl(imagePath: string | undefined | null): string {
+  if (!imagePath || imagePath.trim() === "") return "/placeholder.jpg"
+  if (imagePath.startsWith("http")) return imagePath
+  if (imagePath.startsWith("/images/")) {
+    return `${BUNNY_STORAGE_URL}${imagePath}`
+  }
+  return "/placeholder.jpg"
+}
+
 export default function ProjectCard({ project }: ProjectCardProps) {
   const color = project.categoriaColor || "#F4731F"
 
@@ -44,11 +55,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     <div className="group bg-white/90 backdrop-blur-xl border border-[#F4731F]/20 hover:shadow-2xl hover:-translate-y-4 hover:scale-[1.02] transition-all duration-500 cursor-pointer overflow-hidden flex flex-col rounded-2xl">
       <div className="w-full h-48 relative overflow-hidden bg-gray-100">
         <Image
-          src={
-            project.image1 && project.image1.startsWith("/images/")
-              ? `http://localhost:4000${project.image1}`
-              : "/construction-project-placeholder.png"
-          }
+          src={constructImageUrl(project.image1)}
           alt={project.title}
           fill
           className="object-cover rounded-t-2xl group-hover:scale-110 transition-transform duration-700"

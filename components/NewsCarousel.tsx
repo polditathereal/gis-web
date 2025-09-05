@@ -2,6 +2,17 @@
 import Link from "next/link"
 import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
 
+const BUNNY_STORAGE_URL = process.env.NEXT_PUBLIC_BUNNY_STORAGE_API || "https://gis-web.b-cdn.net"
+
+function constructImageUrl(imagePath: string | undefined | null): string {
+  if (!imagePath || imagePath.trim() === "") return "/placeholder.jpg"
+  if (imagePath.startsWith("http")) return imagePath
+  if (imagePath.startsWith("/images/")) {
+    return `${BUNNY_STORAGE_URL}${imagePath}`
+  }
+  return "/placeholder.jpg"
+}
+
 interface NewsCarouselProps {
   featuredNews: { title: string; image?: string; description?: string; [key: string]: any }[]
   currentSlide: number
@@ -48,11 +59,7 @@ export default function NewsCarousel({
                   <Link href={`/noticias/${news.id}`} passHref legacyBehavior>
                     <a className="block w-full h-96 relative cursor-pointer group overflow-hidden">
                       <img
-                        src={
-                          news.image && news.image.startsWith("/images/")
-                            ? `http://localhost:4000${news.image}`
-                            : news.image || "../placeholder.jpg"
-                        }
+                        src={constructImageUrl(news.image)}
                         alt={news.title}
                         className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                         onError={(e) => {

@@ -1,5 +1,16 @@
 import Image from "next/image"
 
+const BUNNY_STORAGE_URL = process.env.NEXT_PUBLIC_BUNNY_STORAGE_API || "https://gis-web.b-cdn.net"
+
+function constructImageUrl(imagePath: string | undefined | null): string {
+  if (!imagePath || imagePath.trim() === "") return "/placeholder.jpg"
+  if (imagePath.startsWith("http")) return imagePath
+  if (imagePath.startsWith("/images/")) {
+    return `${BUNNY_STORAGE_URL}${imagePath}`
+  }
+  return "/placeholder.jpg"
+}
+
 interface NewsCardProps {
   news: {
     id: string
@@ -33,11 +44,7 @@ export default function NewsCard({ news }: NewsCardProps) {
       {/* Main Image */}
       <div className="w-full h-48 relative overflow-hidden bg-gray-100">
         <Image
-          src={
-            news.image && news.image.startsWith("/images/")
-              ? `http://localhost:4000${news.image}`
-              : "/news-placeholder.png"
-          }
+          src={constructImageUrl(news.image)}
           alt={news.title}
           fill
           className="object-cover rounded-t-2xl group-hover:scale-110 transition-transform duration-500"
@@ -83,3 +90,4 @@ export default function NewsCard({ news }: NewsCardProps) {
     </div>
   )
 }
+

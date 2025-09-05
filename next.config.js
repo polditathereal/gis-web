@@ -2,16 +2,17 @@
 
 const nextConfig = {
   images: {
-    domains: ['localhost'],
     remotePatterns: [
       {
-        protocol: 'http',
-        hostname: 'localhost',
-        port: '4000',
-        pathname: '/images/**',
-      },
+        protocol: 'https',
+        hostname: 'gis-web.b-cdn.net',
+        port: '',
+        pathname: '/**',
+      }
     ],
   },
-};
+}
 
-module.exports = nextConfig;
+
+
+module.exports = nextConfig

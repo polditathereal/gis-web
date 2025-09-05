@@ -7,7 +7,21 @@ import { useParams } from "next/navigation"
 import Image from "next/image"
 import { Calendar, Building2, Users, ArrowLeft, Share2, Tag, Clock } from "lucide-react"
 
-const API_URL = "http://localhost:4000/projects"
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL_PROD ||
+  process.env.NEXT_PUBLIC_API_URL_LOCAL ||
+  "http://localhost:4000"
+const PROJECTS_API = `${API_URL}/projects`
+const BUNNY_STORAGE_URL = process.env.NEXT_PUBLIC_BUNNY_STORAGE_API || "https://gis-web.b-cdn.net"
+
+function constructImageUrl(imagePath: string | undefined | null): string {
+  if (!imagePath || imagePath.trim() === "") return "/placeholder.jpg"
+  if (imagePath.startsWith("http")) return imagePath
+  if (imagePath.startsWith("/images/")) {
+    return `${BUNNY_STORAGE_URL}${imagePath}`
+  }
+  return "/placeholder.jpg"
+}
 
 export default function ClientProyectoDetalle() {
   const params = useParams()
@@ -17,7 +31,7 @@ export default function ClientProyectoDetalle() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(API_URL)
+    fetch(PROJECTS_API)
       .then((res) => res.json())
       .then((data) => {
         const found = (data.projects || []).find((p: any) => p.id === id)
@@ -43,12 +57,10 @@ export default function ClientProyectoDetalle() {
   const catColor = cat?.color || "#6b7280"
   const catName = cat?.name || project.category || "Sin categoría"
 
-  const mainImage =
-    project.imagenPrincipal && project.imagenPrincipal.startsWith("/images/")
-      ? `http://localhost:4000${project.imagenPrincipal}`
-      : project.imagenPrincipal || "/placeholder.jpg"
-
-  const secondaryImages = [project.image1, project.image2].filter((img) => !!img)
+  const mainImage = constructImageUrl(project.imagenPrincipal)
+  const secondaryImages = [project.image1, project.image2]
+    .filter((img) => !!img && img.trim() !== "")
+    .map(img => constructImageUrl(img))
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-orange-100 relative overflow-hidden">
@@ -184,11 +196,7 @@ export default function ClientProyectoDetalle() {
                         <div className="absolute inset-0 bg-gradient-to-r from-[#F4731F]/10 to-orange-300/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                         <div className="relative bg-white rounded-2xl p-4 shadow-lg">
                           <Image
-                            src={
-                              secondaryImages[0] && secondaryImages[0].startsWith("/images/")
-                                ? `http://localhost:4000${secondaryImages[0]}`
-                                : secondaryImages[0] || "/placeholder.jpg"
-                            }
+                            src={secondaryImages[0]}
                             alt={`Imagen del proyecto`}
                             width={800}
                             height={400}
@@ -205,11 +213,7 @@ export default function ClientProyectoDetalle() {
                             <div className="absolute inset-0 bg-gradient-to-r from-[#F4731F]/10 to-orange-300/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                             <div className="relative bg-white rounded-2xl p-4 shadow-lg">
                               <Image
-                                src={
-                                  img && img.startsWith("/images/")
-                                    ? `http://localhost:4000${img}`
-                                    : img || "/placeholder.jpg"
-                                }
+                                src={img}
                                 alt={`Imagen del proyecto ${idx + 1}`}
                                 width={400}
                                 height={300}
@@ -231,3 +235,4 @@ export default function ClientProyectoDetalle() {
     </div>
   )
 }
+

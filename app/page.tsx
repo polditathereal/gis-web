@@ -9,7 +9,10 @@ import AboutSection from "@/components/AboutSection"
 import GroupSection from "@/components/GroupSection"
 import NewsCarousel from "@/components/NewsCarousel"
 import FetchProjectsGrid from "@/components/FetchProjectsGrid"
-const API_URL = "http://localhost:4000/projects"
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL_PROD ||
+  process.env.NEXT_PUBLIC_API_URL_LOCAL ||
+  "http://localhost:4000"
 import PartnersSection from "@/components/PartnersSection"
 import { Settings, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
@@ -25,7 +28,7 @@ export default function GISColombiaPage() {
   const [featuredNews, setFeaturedNews] = useState<any[]>([]);
 
   useEffect(() => {
-    fetch("http://localhost:4000/news")
+    fetch(`${API_URL}/news`)
       .then(res => res.json())
       .then(data => {
         setFeaturedNews(Array.isArray(data.news) ? data.news : []);
