@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build",
+    "dev": "NEXT_DISABLE_TURBOPACK=true NEXT_PRIVATE_TURBOPACK=0 next dev",
+    "build": "NEXT_DISABLE_TURBOPACK=true NEXT_PRIVATE_TURBOPACK=0 next build",
+    "prestart": "rm -rf .next && npm run build",
     "start": "next start",
     "lint": "next lint"
   },

@@ -30,7 +30,7 @@ export default function HeroConstructora({
   }, [images.length])
 
   useEffect(() => {
-    const target = { exp: 12, proyectos: 140, clientes: 80 }
+    const target = { exp: 50, proyectos: 800, clientes: 300 }
     const duration = 900
     const steps = Math.round(duration / 30)
     let frame = 0
@@ -134,10 +134,10 @@ export default function HeroConstructora({
                 />
               </div>
 
-              <div className="flex flex-col sm:flex-row items-center gap-4 sm:gap-6">
+              <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
                 <Link
                   href="/proyectos"
-                  className="group relative inline-flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#F4731F] to-orange-500 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-bold text-white hover:from-orange-500 hover:to-[#F4731F] transition-all duration-300 text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105 w-full sm:w-auto"
+                  className="group relative inline-flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#F4731F] to-orange-500 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-bold text-white hover:from-orange-500 hover:to-[#F4731F] transition-all duration-300 text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105"
                 >
                   <span>Ver proyectos</span>
                   <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
@@ -146,7 +146,7 @@ export default function HeroConstructora({
 
                 <a
                   href="#contacto"
-                  className="hidden sm:inline-flex group items-center gap-3 rounded-2xl border-2 border-white/30 bg-white/10 px-8 lg:px-10 py-4 lg:py-5 font-semibold text-white hover:bg-white/20 hover:border-white/50 transition-all duration-300 text-base sm:text-lg backdrop-blur-md"
+                  className="group flex items-center gap-3 rounded-2xl border-2 border-white/30 bg-white/10 px-8 lg:px-10 py-4 lg:py-5 font-semibold text-white hover:bg-white/20 hover:border-white/50 transition-all duration-300 text-base sm:text-lg backdrop-blur-md"
                 >
                   <span>Contactar</span>
                   <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
@@ -162,7 +162,7 @@ export default function HeroConstructora({
           </div>
         </div>
 
-        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 right-4 sm:right-6 lg:right-8 z-20">
+        <div className="absolute bottom-4 sm:bottom-6 lg:bottom-8 right-4 sm:right-6 lg:right-8 z-20 hidden lg:block">
           <div className="bg-black/20 rounded-2xl sm:rounded-3xl border border-white/20 p-3 sm:p-4 lg:p-6 backdrop-blur-xl shadow-2xl">
             <div className="flex flex-col gap-2 sm:gap-3">
               <IsoBadge code="9001" size="sm" className="sm:hidden" />
