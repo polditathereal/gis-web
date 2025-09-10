@@ -79,11 +79,11 @@ export default function GroupSection({ styles }: GroupSectionProps) {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
           {groupCompanies.map((company, index) => (
             <div key={index} className="group">
-              <div className={`bg-white rounded-2xl p-8 transition-all duration-300 group-hover:scale-105 relative overflow-hidden
+              <div className={`bg-white rounded-2xl p-4 sm:p-8 min-h-[0] transition-all duration-300 group-hover:scale-105 relative overflow-hidden
                 ${styles?.cardStyle ?? "shadow-lg hover:shadow-2xl border-2 border-[#F4731F]/20 hover:border-[#F4731F]/40"}`}>
                 <div className="absolute top-0 right-0 w-8 h-8 bg-[#F4731F]/10 transform rotate-45 translate-x-4 -translate-y-4"></div>
 
-                <div className="h-20 flex items-center justify-center mb-6">
+                <div className="h-16 sm:h-20 flex items-center justify-center mb-3 sm:mb-6">
                   <Image
                     src={company.logo || "/placeholder.svg"}
                     alt={company.name}
@@ -92,8 +92,8 @@ export default function GroupSection({ styles }: GroupSectionProps) {
                     className="max-h-full max-w-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
                   />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-800 mb-3 text-center">{company.name}</h3>
-                <p className="text-gray-600 text-center text-sm leading-relaxed">{company.description}</p>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2 sm:mb-3 text-center min-h-[32px]">{company.name}</h3>
+                <p className="text-gray-600 text-center text-sm leading-relaxed min-h-[48px]">{company.description}</p>
               </div>
             </div>
           ))}

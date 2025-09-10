@@ -70,17 +70,17 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         <div className="absolute bottom-0 left-0 w-16 h-16 bg-black/10 rounded-full translate-y-8 -translate-x-8"></div>
 
         <div className="flex items-center justify-between relative z-10">
-          <div className="flex-1">
-            <div className="text-xl font-bold text-white group-hover:text-orange-100 transition-colors line-clamp-2 mb-2">
+          <div className="flex-1 flex flex-col gap-1">
+            <div className="text-xl font-bold text-white group-hover:text-orange-100 transition-colors line-clamp-2 mb-2 min-h-[48px]">
               {project.title}
             </div>
-            <div className="text-sm text-orange-100 font-medium">
+            <div className="text-sm text-orange-100 font-medium min-h-[40px]">
               {fechaInicial} {fechaInicial && fechaFinal ? " - " : ""} {fechaFinal}
             </div>
           </div>
 
           {project.categoriaNombre && (
-            <div className="ml-4">
+            <div className="ml-4 min-h-[40px] flex items-center">
               <span
                 className="text-white font-semibold text-sm px-4 py-2 rounded-full backdrop-blur-sm border border-white/20 shadow-lg hover:scale-105 transition-transform duration-200"
                 style={{

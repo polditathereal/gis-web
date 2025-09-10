@@ -60,16 +60,16 @@ export default function NewsCard({ news }: NewsCardProps) {
 
         {/* CardHeader */}
         <div className="flex items-center justify-between relative z-10">
-          <div className="flex-1">
-            <div className="text-xl font-bold text-white group-hover:text-orange-100 transition-colors line-clamp-2 mb-2">
+          <div className="flex-1 flex flex-col gap-1">
+            <div className="text-xl font-bold text-white group-hover:text-orange-100 transition-colors line-clamp-2 mb-2 min-h-[48px]">
               {news.title}
             </div>
-            <div className="text-sm text-orange-100 font-medium">{fecha}</div>
+            <div className="text-sm text-orange-100 font-medium min-h-[40px]">{fecha}</div>
           </div>
 
           {/* Pill categoría */}
           {(news.categoryName || news.category) && (
-            <div className="ml-4">
+            <div className="ml-4 min-h-[40px] flex items-center">
               <span
                 className="text-white font-semibold text-sm px-4 py-2 rounded-full backdrop-blur-sm border border-white/20 shadow-lg hover:scale-105 transition-transform duration-200"
                 style={{
