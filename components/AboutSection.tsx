@@ -37,14 +37,14 @@ export default function AboutSection({ styles }: AboutSectionProps = {}) {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4 max-w-2xl mx-auto">
+          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 max-w-2xl mx-auto">
             {[
               { icon: HardHat, text: "Seguridad y cumplimiento", color: "from-red-500 to-orange-500" },
               { icon: Ruler, text: "Diseño y control de calidad", color: "from-blue-500 to-cyan-500" },
               { icon: Building2, text: "Infraestructura y vivienda", color: "from-green-500 to-emerald-500" },
             ].map((service, index) => (
-              <div key={index} className="group relative overflow-hidden">
-                <div className={`flex items-center gap-3 sm:gap-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 px-4 sm:px-6 py-4 sm:py-5 justify-center hover:bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 ${styles?.cardStyle ?? ""}`}>
+              <div key={index} className="group relative overflow-hidden w-full sm:w-1/2 lg:w-full flex justify-center">
+                <div className={`flex items-center gap-3 sm:gap-4 bg-white/80 backdrop-blur-sm rounded-xl border border-gray-200/50 px-4 sm:px-6 py-4 sm:py-5 justify-center hover:bg-white hover:shadow-lg hover:scale-105 transition-all duration-300 min-h-[64px] sm:min-h-[72px] ${styles?.cardStyle ?? ""}`}>
                   <div className={`p-1.5 sm:p-2 rounded-lg bg-gradient-to-r ${service.color} shadow-lg`}>
                     <service.icon className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                   </div>
@@ -66,11 +66,11 @@ export default function AboutSection({ styles }: AboutSectionProps = {}) {
               <div className="absolute inset-0 bg-gradient-to-r from-orange-600 to-red-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </Link>
             <a
-              href="#footer"
-              className="group inline-flex items-center gap-2 sm:gap-3 rounded-xl bg-white/10 border-2 border-white/30 px-6 sm:px-8 py-3 sm:py-4 font-semibold text-white hover:bg-white/20 hover:border-white/50 transition-all duration-300 text-base sm:text-lg backdrop-blur-md"
+              href="#contacto"
+              className="group inline-flex items-center gap-2 sm:gap-3 rounded-xl border-2 border-[#F4731F] bg-white px-6 sm:px-8 py-3 sm:py-4 font-semibold text-[#F4731F] hover:bg-orange-50 hover:border-orange-500 transition-all duration-300 text-base sm:text-lg shadow-sm"
             >
               <span>Contactar</span>
-              <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
             </a>
           </div>
 
