@@ -144,26 +144,76 @@ function NewsForm({ initial, categories, onSave, onCancel, token, setError, setS
   function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
     setFieldsState({ ...fieldsState, [e.target.name]: e.target.value });
   }
-  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+
+  async function fileToWebp(file: File): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const img = new window.Image();
+      img.onload = async () => {
+        let width = img.width;
+        let height = img.height;
+        let quality = 0.9;
+        let webpFile: File | null = null;
+        let attempts = 0;
+        do {
+          const canvas = document.createElement('canvas');
+          if (width > 1920) {
+            height = Math.round(height * (1920 / width));
+            width = 1920;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          const blob: Blob | null = await new Promise(res => canvas.toBlob(res, 'image/webp', quality));
+          if (blob) {
+            webpFile = new File([blob], file.name.replace(/\.[^.]+$/, '.webp'), { type: 'image/webp' });
+            if (webpFile.size < 4 * 1024 * 1024) {
+              resolve(webpFile);
+              return;
+            }
+            quality -= 0.1;
+            width = Math.round(width * 0.8);
+            height = Math.round(height * 0.8);
+            attempts++;
+          } else {
+            reject(new Error('No se pudo convertir a webp'));
+            return;
+          }
+        } while (webpFile && webpFile.size >= 4 * 1024 * 1024 && attempts < 6);
+        if (webpFile && webpFile.size < 4 * 1024 * 1024) {
+          resolve(webpFile);
+        } else {
+          reject(new Error('No se pudo reducir la imagen por debajo de 4MB.'));
+        }
+      };
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  async function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { files } = e.target;
     if (files && files[0]) {
       const file = files[0];
-      setImageFile(file);
-      setImagePreview(null); // Elimina preview anterior
-      const reader = new FileReader();
-      reader.onload = () => setImagePreview(reader.result as string);
-      reader.readAsDataURL(file);
-    }
-  }
-  function handleImageDrop(e: React.DragEvent<HTMLDivElement>) {
-    e.preventDefault();
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      const file = e.dataTransfer.files[0];
-      setImageFile(file);
+      const webpFile = await fileToWebp(file);
+      setImageFile(webpFile);
       setImagePreview(null);
       const reader = new FileReader();
       reader.onload = () => setImagePreview(reader.result as string);
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(webpFile);
+    }
+  }
+
+  async function handleImageDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
+      const file = e.dataTransfer.files[0];
+      const webpFile = await fileToWebp(file);
+      setImageFile(webpFile);
+      setImagePreview(null);
+      const reader = new FileReader();
+      reader.onload = () => setImagePreview(reader.result as string);
+      reader.readAsDataURL(webpFile);
     }
   }
   function handleSubmit(e: React.FormEvent) {

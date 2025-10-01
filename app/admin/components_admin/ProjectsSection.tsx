@@ -537,7 +537,7 @@ export default function ProjectsSection({ token, setError, setSuccess }: { token
         <CategoryForm
           initial={catEditing}
           onSave={cat => {
-            const url = catEditing?.id ? `${API_URL}/categories/${catEditing.id}` : `${API_URL}/categories`;
+            const url = catEditing?.id ? `${API_URL}/projects/categories/${catEditing.id}` : `${API_URL}/projects/categories`;
             const body = catEditing?.id
               ? { id: cat.name, name: cat.name, color: cat.color }
               : { name: cat.name, color: cat.color };
