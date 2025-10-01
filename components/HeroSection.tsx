@@ -13,9 +13,30 @@ type Props = {
 
 const DEFAULT_IMAGES = [
   "/images/hero/11.jpg",
+  "/images/hero/DJI_0873.JPG",
+  "/images/hero/GIS-BBY-020.jpg",
+  "/images/hero/GIS-BBY-023.jpg",
+  "/images/hero/GIS-BBY-024.JPG",
+  "/images/hero/GIS-BBY-078.jpg",
+  "/images/hero/GIS-BBY-104.jpg",
+  "/images/hero/GIS-BBY-117.JPG",
+  "/images/hero/GIS-BBY-120.jpg",
+  "/images/hero/GIS-BBY-121.JPG",
+  "/images/hero/GIS-BBY-123.JPG",
+  "/images/hero/GIS-BBY-125.jpg",
   "/images/hero/img_0600.jpg",
+  "/images/hero/IMG_0618.JPG",
+  "/images/hero/IMG_0640.JPG",
+  "/images/hero/IMG_0642.JPG",
+  "/images/hero/IMG_0667.JPG",
+  "/images/hero/IMG_20190829_112035831_HDR copy.jpg",
   "/images/hero/IMG_20190829_112035831_HDR.jpg",
+  "/images/hero/IMG_20190829_122611486_HDR.jpg",
+  "/images/hero/IMG_20190829_135556396_HDR.jpg",
   "/images/hero/IMG_20190829_142523673_HDR-1.jpg",
+  "/images/hero/IMG_20190829_142523673_HDR-2.jpg",
+  "/images/hero/UF5-VIADUCTO LA PELIGROSA (2).JPG",
+  "/images/hero/WhatsApp Image 2023-02-15 at 12.13.07 PM (2).jpeg",
 ]
 
 export default function HeroConstructora({
@@ -68,9 +89,9 @@ export default function HeroConstructora({
             }`}
           />
         ))}
-        <div className="absolute inset-0 bg-gradient-to-br from-black/80 via-black/50 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-br from-black/40 via-black/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-transparent" />
       </div>
 
       {/* Content */}
@@ -134,7 +155,7 @@ export default function HeroConstructora({
                 />
               </div>
 
-              <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-6">
+              <div className="flex flex-col items-start sm:items-start gap-4 sm:flex-row sm:gap-6">
                 <Link
                   href="/proyectos"
                   className="group relative inline-flex items-center gap-2 sm:gap-3 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#F4731F] to-orange-500 px-6 sm:px-8 lg:px-10 py-3 sm:py-4 lg:py-5 font-bold text-white hover:from-orange-500 hover:to-[#F4731F] transition-all duration-300 text-base sm:text-lg shadow-xl hover:shadow-2xl hover:scale-105"

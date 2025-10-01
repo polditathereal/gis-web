@@ -55,7 +55,7 @@ export default function GroupSection({ styles }: GroupSectionProps) {
           <div className="bg-white rounded-3xl p-12 shadow-xl border border-gray-100 hover:shadow-2xl transition-all duration-300 hover:scale-105">
             <div className="h-32 w-80 flex items-center justify-center">
               <Image
-                src="/images/grupo/principal.png"
+                src="/images/grupo/principal.jpeg"
                 alt="Grupo Principal"
                 width={320}
                 height={128}
