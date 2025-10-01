@@ -65,7 +65,7 @@ export default function Footer() {
               <div>
                 <button
                   className="mt-2 px-6 py-3 rounded-xl bg-gradient-to-r from-orange-500 to-[#F4731F] text-white font-bold shadow-lg hover:scale-105 transition-all duration-300"
-                  onClick={() => window.open('/brochure.pdf', '_blank')}
+                  onClick={() => window.open('/Brochure.pdf', '_blank')}
                 >
                   Descargar Brochure
                 </button>
