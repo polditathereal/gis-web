@@ -191,58 +191,108 @@ function ProjectForm({ initial, categories, onSave, onCancel, token, setError, s
     setForm(f => ({ ...f, [name]: value }));
   }
 
-  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>, field: string) {
+  async function fileToWebp(file: File): Promise<File> {
+    return new Promise((resolve, reject) => {
+      const img = new window.Image();
+      img.onload = async () => {
+        let width = img.width;
+        let height = img.height;
+        let quality = 0.9;
+        let webpFile: File | null = null;
+        let attempts = 0;
+        do {
+          const canvas = document.createElement('canvas');
+          // Reduce resolución si el archivo es muy grande
+          if (width > 1920) {
+            height = Math.round(height * (1920 / width));
+            width = 1920;
+          }
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          const blob: Blob | null = await new Promise(res => canvas.toBlob(res, 'image/webp', quality));
+          if (blob) {
+            webpFile = new File([blob], file.name.replace(/\.[^.]+$/, '.webp'), { type: 'image/webp' });
+            if (webpFile.size < 4 * 1024 * 1024) {
+              resolve(webpFile);
+              return;
+            }
+            // Si sigue siendo grande, baja la calidad y resolución
+            quality -= 0.1;
+            width = Math.round(width * 0.8);
+            height = Math.round(height * 0.8);
+            attempts++;
+          } else {
+            reject(new Error('No se pudo convertir a webp'));
+            return;
+          }
+        } while (webpFile && webpFile.size >= 4 * 1024 * 1024 && attempts < 6);
+        if (webpFile && webpFile.size < 4 * 1024 * 1024) {
+          resolve(webpFile);
+        } else {
+          reject(new Error('No se pudo reducir la imagen por debajo de 4MB.'));
+        }
+      };
+      img.onerror = reject;
+      img.src = URL.createObjectURL(file);
+    });
+  }
+
+  async function handleImageChange(e: React.ChangeEvent<HTMLInputElement>, field: string) {
     const { files } = e.target;
     if (files && files[0]) {
       const file = files[0];
+      const webpFile = await fileToWebp(file);
       if (field === "imagenPrincipal") {
-        setImagenPrincipalFile(file);
-        setImagenPrincipalPreview(null); // Elimina preview anterior
+        setImagenPrincipalFile(webpFile);
+        setImagenPrincipalPreview(null);
         const reader = new FileReader();
         reader.onload = () => setImagenPrincipalPreview(reader.result as string);
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(webpFile);
       }
       if (field === "image1") {
-        setImage1File(file);
+        setImage1File(webpFile);
         setImage1Preview(null);
         const reader = new FileReader();
         reader.onload = () => setImage1Preview(reader.result as string);
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(webpFile);
       }
       if (field === "image2") {
-        setImage2File(file);
+        setImage2File(webpFile);
         setImage2Preview(null);
         const reader = new FileReader();
         reader.onload = () => setImage2Preview(reader.result as string);
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(webpFile);
       }
     }
   }
 
-  function handleImageDrop(e: React.DragEvent<HTMLDivElement>, field: string) {
+  async function handleImageDrop(e: React.DragEvent<HTMLDivElement>, field: string) {
     e.preventDefault();
     if (e.dataTransfer.files && e.dataTransfer.files[0]) {
       const file = e.dataTransfer.files[0];
+      const webpFile = await fileToWebp(file);
       if (field === "imagenPrincipal") {
-        setImagenPrincipalFile(file);
+        setImagenPrincipalFile(webpFile);
         setImagenPrincipalPreview(null);
         const reader = new FileReader();
         reader.onload = () => setImagenPrincipalPreview(reader.result as string);
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(webpFile);
       }
       if (field === "image1") {
-        setImage1File(file);
+        setImage1File(webpFile);
         setImage1Preview(null);
         const reader = new FileReader();
         reader.onload = () => setImage1Preview(reader.result as string);
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(webpFile);
       }
       if (field === "image2") {
-        setImage2File(file);
+        setImage2File(webpFile);
         setImage2Preview(null);
         const reader = new FileReader();
         reader.onload = () => setImage2Preview(reader.result as string);
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(webpFile);
       }
     }
   }
