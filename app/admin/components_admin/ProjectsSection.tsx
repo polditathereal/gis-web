@@ -470,7 +470,7 @@ export default function ProjectsSection({ token, setError, setSuccess }: { token
   }
   function handleCatDelete(id: string) {
     setError('');
-    fetch(`${API_URL}/categories/${id}`, { method: 'DELETE', headers: { Authorization: token } })
+    fetch(`${API_URL}/projects/categories/${id}`, { method: 'DELETE', headers: { Authorization: token } })
       .then(r => r.json())
       .then(res => {
         if (res.error) setError(res.error);

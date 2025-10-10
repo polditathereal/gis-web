@@ -33,13 +33,12 @@ export default function Header({ getHeaderClass }: HeaderProps) {
           {/* Desktop menu */}
           <div className="hidden lg:flex items-center space-x-8">
             {[
-              { href: "/#inicio", label: "Inicio" },
-              { href: "/#nosotros", label: "Nosotros" },
+              { href: "/", label: "Inicio" },
               { href: "/#proyectos", label: "Proyectos" },
               { href: "/#noticias", label: "Noticias" },
               { href: "/#socios", label: "Socios" },
               { href: "/#contacto", label: "Contacto" },
-              { href: "/ofertas", label: "Ofertas" }, // <-- Añadido
+              { href: "/ofertas", label: "Ofertas" },
             ].map((item) => (
               <Link
                 key={item.href}
@@ -73,13 +72,12 @@ export default function Header({ getHeaderClass }: HeaderProps) {
         {mobileMenuOpen && (
           <div className="lg:hidden absolute left-4 right-4 top-full mt-2 bg-white/95 backdrop-blur-xl border border-[#F4731F]/20 rounded-2xl shadow-2xl p-6 flex flex-col space-y-4 z-50 animate-in slide-in-from-top-2 duration-200">
             {[
-              { href: "/#inicio", label: "Inicio" },
-              { href: "/#nosotros", label: "Nosotros" },
+              { href: "/", label: "Inicio" },
               { href: "/#proyectos", label: "Proyectos" },
               { href: "/#noticias", label: "Noticias" },
               { href: "/#socios", label: "Socios" },
               { href: "/#contacto", label: "Contacto" },
-              { href: "/ofertas", label: "Ofertas" }, // <-- Añadido
+              { href: "/ofertas", label: "Ofertas" },
             ].map((item) => (
               <Link
                 key={item.href}

@@ -7,10 +7,7 @@ import { useParams } from "next/navigation"
 import Image from "next/image"
 import { Calendar, Building2, Users, ArrowLeft, Share2, Tag, Clock } from "lucide-react"
 
-const API_URL =
-  process.env.NEXT_PUBLIC_API_URL_PROD ||
-  process.env.NEXT_PUBLIC_API_URL_LOCAL ||
-  "http://localhost:4000"
+const API_URL = process.env.NEXT_PUBLIC_API_URL_PROD || process.env.NEXT_PUBLIC_API_URL_LOCAL || "http://localhost:4000"
 const PROJECTS_API = `${API_URL}/projects`
 const BUNNY_STORAGE_URL = process.env.NEXT_PUBLIC_BUNNY_STORAGE_API || "https://gis-web.b-cdn.net"
 
@@ -21,6 +18,26 @@ function constructImageUrl(imagePath: string | undefined | null): string {
     return `${BUNNY_STORAGE_URL}${imagePath}`
   }
   return "/placeholder.jpg"
+}
+
+function formatDateToSpanish(dateString: string | undefined): string {
+  if (!dateString) return ""
+
+  // Try to parse the date (handles both American MM/DD/YYYY and other formats)
+  const date = new Date(dateString)
+
+  // Check if date is valid
+  if (isNaN(date.getTime())) {
+    // If it's already in DD/MM/YYYY format, return as is
+    return dateString
+  }
+
+  // Format to Spanish format: DD/MM/YYYY
+  const day = String(date.getDate()).padStart(2, "0")
+  const month = String(date.getMonth() + 1).padStart(2, "0")
+  const year = date.getFullYear()
+
+  return `${day}/${month}/${year}`
 }
 
 // Define el tipo para ProyectoDetalle según tu modelo de datos
@@ -47,7 +64,7 @@ export default function ClientProyectoDetalle() {
   const id = params?.id
   // Cambia los useState y fetch para usar el tipo correcto en vez de any
   const [proyecto, setProyecto] = useState<ProyectoDetalle | null>(null)
-  const [categories, setCategories] = useState<{ id: string, name: string, color: string }[]>([])
+  const [categories, setCategories] = useState<{ id: string; name: string; color: string }[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -80,7 +97,7 @@ export default function ClientProyectoDetalle() {
   const mainImage = constructImageUrl(proyecto.imagenPrincipal)
   const secondaryImages = [proyecto.image1, proyecto.image2]
     .filter((img) => !!img && img.trim() !== "")
-    .map(img => constructImageUrl(img))
+    .map((img) => constructImageUrl(img))
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 via-red-50 to-orange-100 relative overflow-hidden">
@@ -157,69 +174,59 @@ export default function ClientProyectoDetalle() {
                   )}
                 </div>
 
-                {/* Dates and Consortium section - sharing width */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  {proyecto.fechaInicial && (
-                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
-                      <div className="flex items-center gap-2 text-[#F4731F] mb-2">
-                        <Calendar className="w-4 h-4" />
-                        <span className="font-semibold text-sm">Fecha de inicio</span>
-                      </div>
-                      <p className="text-gray-800 font-medium text-xl">{proyecto.fechaInicial}</p>
-                    </div>
-                  )}
-
-                  {proyecto.fechaFinal && (
-                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
-                      <div className="flex items-center gap-2 text-[#F4731F] mb-2">
-                        <Clock className="w-4 h-4" />
-                        <span className="font-semibold text-sm">Fecha de finalización</span>
-                      </div>
-                      <p className="text-gray-800 font-medium text-xl">{proyecto.fechaFinal}</p>
-                    </div>
-                  )}
-
-                  {proyecto.consorcio && (
-                    <div className="bg-white/80 backdrop-blur-sm rounded-lg p-4 border border-orange-200/50">
-                      <div className="flex items-center gap-2 text-[#F4731F] mb-2">
-                        <Users className="w-4 h-4" />
-                        <span className="font-semibold text-sm">Consorcio</span>
-                      </div>
-                      <p className="text-gray-800 font-medium text-xl">{proyecto.consorcio}</p>
-                    </div>
-                  )}
-                </div>
-
-                {/* Description section */}
                 <div className="prose prose-lg max-w-none">
                   <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
                     <Building2 className="w-6 h-6 text-[#F4731F]" />
-                    Descripción del proyecto
+                    Alcance
                   </h2>
+
                   <div className="bg-gray-50/80 backdrop-blur-sm rounded-xl p-6 border border-gray-200/50">
+                    {/* Fechas dentro del recuadro de alcance */}
+                    {(proyecto.fechaInicial || proyecto.fechaFinal) && (
+                      <div className="flex flex-wrap items-center gap-6 mb-4 pb-4 border-b border-gray-300/50">
+                        {proyecto.fechaInicial && (
+                          <div className="flex items-center gap-2">
+                            <Calendar className="w-4 h-4 text-[#F4731F]" />
+                            <span className="text-sm text-gray-600">Inicio:</span>
+                            <span className="text-base font-medium text-gray-800">{formatDateToSpanish(proyecto.fechaInicial)}</span>
+                          </div>
+                        )}
+
+                        {proyecto.fechaFinal && (
+                          <div className="flex items-center gap-2">
+                            <Clock className="w-4 h-4 text-[#F4731F]" />
+                            <span className="text-sm text-gray-600">Finalización:</span>
+                            <span className="text-base font-medium text-gray-800">{formatDateToSpanish(proyecto.fechaFinal)}</span>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
                     <div className="text-xl text-gray-700 leading-relaxed whitespace-pre-line">
                       {proyecto.descripcion || "Sin descripción"}
                     </div>
                   </div>
                 </div>
 
-                {/* Gallery section */}
+                {/* Consorcio ocupa todo el ancho */}
+                {proyecto.consorcio && (
+                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 border border-orange-200/50">
+                    <div className="flex items-center gap-2 text-gray-600 mb-3">
+                      <Users className="w-5 h-5" />
+                      <span className="text-lg font-semibold">Consorcio</span>
+                    </div>
+                    <p className="text-gray-800 text-xl">{proyecto.consorcio}</p>
+                  </div>
+                )}
+
                 {secondaryImages.length > 0 && (
                   <div className="space-y-4">
-                    <h2 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
-                      {/* Usa un icono de Lucide en vez de una imagen que no existe */}
-                      <span className="w-6 h-6 text-[#F4731F] flex items-center justify-center">
-                        <Building2 className="w-6 h-6 text-[#F4731F]" />
-                      </span>
-                      Galería del proyecto
-                    </h2>
-
                     {secondaryImages.length === 1 && (
                       <div className="relative group">
                         <div className="absolute inset-0 bg-gradient-to-r from-[#F4731F]/10 to-orange-300/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                         <div className="relative bg-white rounded-2xl p-4 shadow-lg">
                           <Image
-                            src={secondaryImages[0]}
+                            src={secondaryImages[0] || "/placeholder.svg"}
                             alt={`Imagen del proyecto`}
                             width={800}
                             height={400}
@@ -236,7 +243,7 @@ export default function ClientProyectoDetalle() {
                             <div className="absolute inset-0 bg-gradient-to-r from-[#F4731F]/10 to-orange-300/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all duration-300"></div>
                             <div className="relative bg-white rounded-2xl p-4 shadow-lg">
                               <Image
-                                src={img}
+                                src={img || "/placeholder.svg"}
                                 alt={`Imagen del proyecto ${idx + 1}`}
                                 width={400}
                                 height={300}
@@ -258,4 +265,3 @@ export default function ClientProyectoDetalle() {
     </div>
   )
 }
-

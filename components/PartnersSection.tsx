@@ -1,5 +1,5 @@
 import Marquee from "react-fast-marquee"
-import Image from "next/image"
+ import Image from "next/image"
 
 interface PartnersSectionProps {
   styles: { sectionTitle: string }
@@ -26,7 +26,7 @@ export default function PartnersSection({ styles }: PartnersSectionProps) {
       <div className="container mx-auto px-4 relative z-10 flex flex-col items-center">
         <div className="text-center mb-16">
           <h2 className={`${styles.sectionTitle} text-gray-800 mb-4`}>
-            Nuestros <span className="text-[#F4731F]">Socios</span>
+            Nuestros <span className="text-[#F4731F]">Clientes</span>
           </h2>
           <div className="w-24 h-1 bg-gradient-to-r from-[#F4731F] to-orange-500 mx-auto rounded-full"></div>
           <p className="text-gray-600 mt-4 max-w-2xl mx-auto">
@@ -34,21 +34,21 @@ export default function PartnersSection({ styles }: PartnersSectionProps) {
           </p>
         </div>
 
-        <div className="w-full overflow-hidden bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F4731F]/10 shadow-lg py-8">
-          <Marquee gradient={false} speed={50} pauseOnHover={true}>
+        <div className="w-full overflow-hidden bg-white/80 backdrop-blur-sm rounded-2xl border border-[#F4731F]/10 shadow-lg py-12">
+          <Marquee gradient={false} speed={40} pauseOnHover={true}>
             {partners.map((partner, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center h-20 mx-8 group"
-                style={{ minWidth: "10rem", maxWidth: "12rem", flex: "0 0 180px" }}
+                className="flex items-center justify-center h-32 mx-12 group"
+                style={{ minWidth: "16rem", maxWidth: "18rem", flex: "0 0 280px" }}
               >
-                <div className="bg-white rounded-xl p-4 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-110 border border-gray-100">
+                <div className="bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-300 group-hover:scale-110 border border-gray-100">
                   <Image
                     src={encodeURI(partner.logo) || "/placeholder.svg"}
                     alt={partner.name}
-                    width={128}
-                    height={48}
-                    className="h-12 w-32 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
+                    width={200}
+                    height={80}
+                    className="h-20 w-48 object-contain filter grayscale group-hover:grayscale-0 transition-all duration-300"
                     style={{ display: "block" }}
                     onError={(e) => {
                       ;(e.target as HTMLImageElement).src = "/placeholder-logo.png"
